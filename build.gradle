@@ -1,0 +1,38 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+
+
+def jdkVersion = 1.9
+sourceCompatibility = jdkVersion
+targetCompatibility = jdkVersion
+
+group = 'com.happinesea.lib'
+version = '0.0.1'
+
+
+
+dependencies {
+	compile 'org.apache.commons:commons-email:1.4'
+
+
+	testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+	testCompile 'junit:junit:4.12'
+}
+
+eclipse.classpath.file {
+	whenMerged { classpath ->
+		classpath.entries.findAll { entry -> entry.kind == 'output' }*.path = 'build/bin'
+	}
+}
+eclipseJdt << {
+	File f = file('.settings/org.eclipse.core.resources.prefs')
+	f.write('eclipse.preferences.version=1\n')
+	f.append('encoding/<project>=utf-8')
+}
+
+eclipse {
+	project { name = 'rws-lib' }
+}
+
+repositories { mavenCentral() }
