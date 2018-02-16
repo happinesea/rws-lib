@@ -1,7 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
-apply plugin: 'cobertura'
 
 
 def jdkVersion = 1.9
@@ -63,6 +62,7 @@ sourceSets {
 	}
 }
 
+apply plugin: 'cobertura'
 cobertura {
     format = 'xml'
     includes = ['**/*.java', '**/*.groovy']
