@@ -1,7 +1,4 @@
 version: 2
-checkout:
-  post:
-    - chmod +x ./gradlew
 jobs:
   build:
     docker:
@@ -10,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Starting build
-          command: ./gradlew build
+          command: chmod +x ./gradlew;./gradlew build
       - run:
           name: Starting unit test.
-          command: ./gradlew test
+          command: chmod +x ./gradlew;./gradlew test
