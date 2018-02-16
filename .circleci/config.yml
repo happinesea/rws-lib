@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Starting build
-          command: ./gradle build
+          command: ./gradlew build
       - run:
           name: Starting unit test.
-          command: ./gradle test
+          command: ./gradlew test
