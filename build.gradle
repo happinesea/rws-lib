@@ -2,6 +2,16 @@ apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.eriwen:gradle-cobertura-plugin:1.1.1'
+    }
+}
+apply plugin: 'cobertura'
+
 
 def jdkVersion = 1.9
 sourceCompatibility = jdkVersion
@@ -17,10 +27,7 @@ dependencies {
 	compile 'org.codehaus.groovy:groovy-all:2.4.12'
 	compile 'org.apache.commons:commons-email:1.4'
 	//compile 'org.apache.httpcomponents:httpclient:4.5.5'
-	compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
-	compile 'com.eriwen:gradle-cobertura-plugin:1.1.1'
-	
-	
+	compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'	
 	
 
 	compile localGroovy()
@@ -62,7 +69,6 @@ sourceSets {
 	}
 }
 
-apply plugin: 'cobertura'
 cobertura {
     format = 'xml'
     includes = ['**/*.java', '**/*.groovy']
