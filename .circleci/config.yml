@@ -1,4 +1,7 @@
 version: 2
+checkout:
+  post:
+    - chmod +x ./gradlew
 jobs:
   build:
     docker:
