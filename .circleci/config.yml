@@ -4,6 +4,7 @@ jobs:
     docker:
       - image: circleci/openjdk:10-ea-jdk-browsers
     steps:
+      - checkout
       - run:
           name: Starting build
           command: mkdir -p /home/circleci/project/build/cobertura/main
