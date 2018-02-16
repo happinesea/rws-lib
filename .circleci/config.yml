@@ -5,6 +5,7 @@ jobs:
       - image: circleci/openjdk:10-ea-jdk-browsers
     steps:
       - checkout
+          command: mkdir -p /home/circleci/project/build/cobertura/main;touch /home/circleci/project/build/cobertura/main/cobertura-test.ser
       - run:
           name: Starting build
           command: chmod +x ./gradlew;./gradlew clean build
