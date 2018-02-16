@@ -2,12 +2,12 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: circleci/openjdk:10-ea-jdk-browsers
     steps:
       - checkout
       - run:
           name: Starting build
-          command: gradle build
+          command: ./gradle build
       - run:
           name: Starting unit test.
-          command: gradle test
+          command: ./gradle test
