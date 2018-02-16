@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Starting build
-          command: chmod +x ./gradlew;./gradlew build
+          command: chmod +x ./gradlew;./gradlew clean build
       - run:
           name: Starting unit test.
-          command: chmod +x ./gradlew;./gradlew test
+          command: chmod +x ./gradlew;./gradlew clean test
