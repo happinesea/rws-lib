@@ -13,8 +13,10 @@ Groovyで開発しているので、Javaをフルサポートです。
 </dl>
 
 ## About support
-rws-libのバグをお見つけた場合、issuesの起票をお願いします。
+rws-libのバグをお見つけた場合、issuesの起票をお願いします。<br>
 公的な場で共有できない情報を含む場合、直接<a href="https://github.com/happinesea">happinesea</a>の開発者へメールをしてください。
+
+それ以外のお問い合わせなどありましたら、お気軽にお問い合わせください。
 
 ## 関連リンク
 <li>
