@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
+apply plugin: 'cobertura'
 
 
 def jdkVersion = 1.9
@@ -18,6 +19,7 @@ dependencies {
 	compile 'org.apache.commons:commons-email:1.4'
 	//compile 'org.apache.httpcomponents:httpclient:4.5.5'
 	compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+	compile 'com.eriwen:gradle-cobertura-plugin:1.1.1'
 	
 	
 	
@@ -59,4 +61,10 @@ sourceSets {
 			srcDirs = ['test/test/groovy']
 		}
 	}
+}
+
+cobertura {
+    format = 'xml'
+    includes = ['**/*.java', '**/*.groovy']
+    //excludes = ['com/thirdparty/**/*.*']
 }
