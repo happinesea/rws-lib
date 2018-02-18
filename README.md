@@ -1,5 +1,5 @@
 # rws-lib
-rws-libはRWS(RMS WEB SERVICE)の楽天ペイAPI(RakutenPayOrderAPI)で通信するデータをGroovy/Javaから使いやすい形に変換するライブラリです。
+rws-libは、楽天ペイAPI(RakutenPayOrderAPI)を含めて、RWS(RMS WEB SERVICE)で通信するデータをGroovy/Javaから使いやすい形に変換するライブラリです。
 
 Groovyで開発しているので、Javaをフルサポートです。
 
