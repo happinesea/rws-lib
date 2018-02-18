@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 
-def serFile="${project.buildDir}/cobertura.ser"
+//def serFile="${project.buildDir}/cobertura.ser"
 
 buildscript {
     repositories {
@@ -12,7 +12,7 @@ buildscript {
         classpath 'com.eriwen:gradle-cobertura-plugin:1.1.1'
     }
 }
-apply plugin: 'cobertura'
+//apply plugin: 'cobertura'
 
 
 def jdkVersion = 1.9
@@ -71,8 +71,8 @@ sourceSets {
 	}
 }
 
-cobertura {
-    format = 'xml'
-    includes = ['**/*.java', '**/*.groovy']
-    //excludes = ['com/thirdparty/**/*.*']
-}
+//cobertura {
+//    format = 'xml'
+//    includes = ['**/*.java', '**/*.groovy']
+//    excludes = ['com/thirdparty/**/*.*']
+//}
