@@ -15,3 +15,27 @@ jobs:
           command: mkdir -p /home/circleci/project/build/cobertura/main
           command: ln -s  /home/circleci/project/build/cobertura/main/cobertura.ser /home/circleci/project/build/cobertura/main/cobertura-test.ser
           command: chmod +x ./gradlew;./gradlew clean test
+  docs:
+    docker:
+      - image: circleci/openjdk:10-ea-jdk-browsers
+    steps:
+      - checkout
+      -run:
+         command: |
+            echo "Start generate documetions."
+            chmod +x ./gradlew;./gradlew clean groovydoc
+            mkdir -p /tmp/docs
+            rm -rf /tmp/docs/*
+            cd /tmp/docs 
+            git clone -b gh-pages https://github.com/happinesea/lab.git
+            mv build/docs/groovydoc/* /tmp/docs/assets/docs/rws-lib/.
+            cd /tmp/docs/assets/docs/rws-lib/
+            git add *
+            git commit -m "generate documetions"
+            git push
+      
+workflows:
+    version: 2
+     build-test-and-deploy:
+        jobs:
+          - docs
