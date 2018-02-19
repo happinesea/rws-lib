@@ -34,3 +34,6 @@
 
 # "temporary" build files
 /target
+
+.gradle/
+local.properties
