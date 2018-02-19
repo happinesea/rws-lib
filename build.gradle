@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
@@ -22,6 +24,9 @@ targetCompatibility = jdkVersion
 group = 'com.happinesea.lib'
 version = '0.0.1'
 
+def d    = new Date()
+def time = new SimpleDateFormat( "HH:mm '(GMT'Z')'" ).format( d )
+def date = new SimpleDateFormat( 'MMMM dd, yyyy' ).format( d )
 
 
 dependencies {
@@ -76,3 +81,15 @@ sourceSets {
 //    includes = ['**/*.java', '**/*.groovy']
 //    excludes = ['com/thirdparty/**/*.*']
 //}
+
+groovydoc{
+	use=true
+	source = sourceSets.main.groovy
+	groovyClasspath = configurations.compile // http://issues.gradle.org/browse/GRADLE-1391
+	windowTitle = 'happinesea rws-lib groovy docs'
+	docTitle = "rws-lib API(v-${version})"
+	header = '<a href="http://lab.happinesea.com" target="_blank">happinsea</a>'
+	footer = '<a href="http://lab.happinesea.com" target="_blank">happinsea</a> API documentation was generated at ' + "$time on $date."
+	link 'http://download.oracle.com/javase/7/docs/api/', 'java.'
+	link 'http://docs.groovy-lang.org/latest/html/gapi/', 'groovy.', 'org.codehaus.groovy.'
+}
