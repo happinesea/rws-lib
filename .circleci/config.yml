@@ -15,16 +15,5 @@ jobs:
           command: mkdir -p /home/circleci/project/build/cobertura/main
           command: ln -s  /home/circleci/project/build/cobertura/main/cobertura.ser /home/circleci/project/build/cobertura/main/cobertura-test.ser
           command: chmod +x ./gradlew;./gradlew clean test
-      - run:
-         name: generate documetions.
-         command: chmod +x ./gradlew;./gradlew clean groovydoc
-         command: mkdir -p /tmp/docs
-         command:  rm -rf /tmp/docs/*
-         command:  cd /tmp/docs 
-         command:    git clone -b gh-pages https://github.com/happinesea/lab.git
-         command:  mv build/docs/groovydoc/* /tmp/docs/assets/docs/rws-lib/.
-         command: cd /tmp/docs/assets/docs/rws-lib/
-         command:  git add *
-         command: git commit -m "generate documetions"
-         command: git push
+      
       
