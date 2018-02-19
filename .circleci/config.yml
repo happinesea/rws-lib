@@ -19,8 +19,8 @@ jobs:
     docker:
       - image: circleci/openjdk:10-ea-jdk-browsers
     steps:
-      - checkout
-      -run:
+       - checkout
+      - run:
          command: |
             echo "Start generate documetions."
             chmod +x ./gradlew;./gradlew clean groovydoc
@@ -34,8 +34,8 @@ jobs:
             git commit -m "generate documetions"
             git push
       
-workflows:
-    version: 2
-     build-test-and-deploy:
-        jobs:
-          - docs
+#workflows:
+#    version: 2
+#     build-test-and-deploy:
+#        jobs:
+#          - build
