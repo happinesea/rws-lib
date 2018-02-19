@@ -17,16 +17,14 @@ jobs:
           command: chmod +x ./gradlew;./gradlew clean test
       - run:
          name: generate documetions.
-         command: |
-            echo "Start generate documetions."
-            chmod +x ./gradlew;./gradlew clean groovydoc
-            mkdir -p /tmp/docs
-            rm -rf /tmp/docs/*
-            cd /tmp/docs 
-            git clone -b gh-pages https://github.com/happinesea/lab.git
-            mv build/docs/groovydoc/* /tmp/docs/assets/docs/rws-lib/.
-            cd /tmp/docs/assets/docs/rws-lib/
-            git add *
-            git commit -m "generate documetions"
-            git push
+         command: chmod +x ./gradlew;./gradlew clean groovydoc
+         command: mkdir -p /tmp/docs
+         command:  rm -rf /tmp/docs/*
+         command:  cd /tmp/docs 
+         command:    git clone -b gh-pages https://github.com/happinesea/lab.git
+         command:  mv build/docs/groovydoc/* /tmp/docs/assets/docs/rws-lib/.
+         command: cd /tmp/docs/assets/docs/rws-lib/
+         command:  git add *
+         command: git commit -m "generate documetions"
+         command: git push
       
