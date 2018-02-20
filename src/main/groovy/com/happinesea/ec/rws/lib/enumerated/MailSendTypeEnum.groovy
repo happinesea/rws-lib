@@ -679,7 +679,7 @@
 /**
  * 
  */
-package com.happinesea.ec.rws.lib;
+package com.happinesea.ec.rws.lib.enumerated;
 
 /**
  * @author loveapple

@@ -676,33 +676,78 @@
  * 
  * author http://lab.happinesea.com
  */
-/**
- * 
- */
 package com.happinesea.ec.rws.lib.bean
 
+import com.happinesea.ec.rws.lib.enumerated.SortKeyItemEnum
+import com.happinesea.ec.rws.lib.enumerated.SortOrderItemEnum
+
 /**
- * RWS(RMS WEB SERVICE) WEB API リクエストヘッダー
- * 
  * @author loveapple
  *
  */
-class RwsRequestHeaderBean {
-    String serviceSecret
-    String licenseKey
-    String contentType
+class RwsItemApiSearchParamter extends RwsItemApiGetParamter implements RwsRestParameter {
+    /**
+     * 商品名
+     */
+    String itemName
+    /**
+     * PC用キャッチコピー
+     */
+    String catchcopy
+    /**
+     *カタログID
+     */
+    String catalogId
+    /**
+     *全商品ディレクトリID
+     */
+    int genreId
+    /**
+     *価格下限
+     */
+    int itemPriceFrom
+    /**
+     *価格上限
+     */
+    int itemPriceTo
+    /**
+     *倉庫フラグ
+     */
+    int depotFlg
+    /**
+     *商品モバイルフラグ
+     */
+    int itemMobileFlg
+    /**
+     *闇市フラグ
+     */
+    int limitedFlg
+    /**
+     *送料別フラグ
+     */
+    int postageFlg
+    /**
+     *検索結果取得開始位置
+     */
+    int offset
+    /**
+     *検索結果取得上限数
+     */
+    int limit
+    /**
+     *ソートキー
+     */
+    SortKeyItemEnum sortKey
+    /**
+     *ソート
+     */
+    SortOrderItemEnum sortOrder
 
     /**
-     * Authorization「ESA Base64({@linkplain #serviceSecret}:{@linkplain #licenseKey})」を取得する
-     * 
-     * @return 「ESA Base64({@linkplain #serviceSecret}:{@linkplain #licenseKey})」を戻す<br>
-     * {@linkplain #serviceSecret}と{@linkplain #licenseKey}、何れ空の場合、<code>null</code>を戻す、
+     * RMS WEB SERVICE : item.getのURL
      */
-    String getAuthorization() {
-	if(!serviceSecret?.trim() || !licenseKey?.trim()) {
-	    return null;
-	}
-
-	return "ESA " + (serviceSecret+":"+licenseKey).bytes.encodeBase64().toString()
+    @Override
+    public String getRequestUrl() {
+	return 'https://api.rms.rakuten.co.jp/es/1.0/item/get'
     }
 }

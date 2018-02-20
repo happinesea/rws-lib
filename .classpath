@@ -36,6 +36,11 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry sourcepath="C:/Users/chunl/.gradle/caches/modules-2/files-2.1/org.apache.axis/axis/1.4/442ab1fe3e66b6d5c916ae3f203fbfa618515f1c/axis-1.4-sources.jar" kind="lib" path="C:/Users/chunl/.gradle/caches/modules-2/files-2.1/org.apache.axis/axis/1.4/94a9ce681a42d0352b3ad22659f67835e560d107/axis-1.4.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry sourcepath="C:/Users/chunl/.gradle/caches/modules-2/files-2.1/com.sun.mail/javax.mail/1.5.2/e63057a5d10d5f48ce5baf942edccc402bb7560/javax.mail-1.5.2-sources.jar" kind="lib" path="C:/Users/chunl/.gradle/caches/modules-2/files-2.1/com.sun.mail/javax.mail/1.5.2/ad1027a3d832bb7f34b4b9afeed760ca8eaa12f/javax.mail-1.5.2.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
@@ -126,7 +131,7 @@
 			<attribute name="gradle_used_by_scope" value="test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/chunl/.sdkman/candidates/gradle/current/lib/groovy-all-2.4.12.jar">
+	<classpathentry kind="lib" path="C:/Users/chunl/.gradle/wrapper/dists/gradle-4.5.1-bin/a5vbgfvpwtoqz8v2cdivxz28k/gradle-4.5.1/lib/groovy-all-2.4.12.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>

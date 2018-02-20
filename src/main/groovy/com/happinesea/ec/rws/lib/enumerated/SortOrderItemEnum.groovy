@@ -676,33 +676,16 @@
  * 
  * author http://lab.happinesea.com
  */
-/**
- * 
- */
-package com.happinesea.ec.rws.lib.bean
+package com.happinesea.ec.rws.lib.enumerated;
 
 /**
- * RWS(RMS WEB SERVICE) WEB API リクエストヘッダー
- * 
  * @author loveapple
  *
  */
-class RwsRequestHeaderBean {
-    String serviceSecret
-    String licenseKey
-    String contentType
+public enum SortOrderItemEnum{
+    ASC('asc', '昇順（小さい順、古い順）'),  DESC('desc', '降順（大きい順、新しい順）')
 
-    /**
-     * Authorization「ESA Base64({@linkplain #serviceSecret}:{@linkplain #licenseKey})」を取得する
-     * 
-     * @return 「ESA Base64({@linkplain #serviceSecret}:{@linkplain #licenseKey})」を戻す<br>
-     * {@linkplain #serviceSecret}と{@linkplain #licenseKey}、何れ空の場合、<code>null</code>を戻す、
-     */
-    String getAuthorization() {
-	if(!serviceSecret?.trim() || !licenseKey?.trim()) {
-	    return null;
-	}
 
-	return "ESA " + (serviceSecret+":"+licenseKey).bytes.encodeBase64().toString()
-    }
+    String id
+    String description
 }

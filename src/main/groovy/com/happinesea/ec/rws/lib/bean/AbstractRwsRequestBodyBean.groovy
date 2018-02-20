@@ -687,5 +687,5 @@ package com.happinesea.ec.rws.lib.bean
  * @author loveapple
  *
  */
-abstract class AbastractRwsRequestParameter {
+class AbastractRwsRequestParameter {
 }
