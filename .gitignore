@@ -37,3 +37,6 @@
 
 .gradle/
 local.properties
+
+# Ignore built Java stuff
+build/
