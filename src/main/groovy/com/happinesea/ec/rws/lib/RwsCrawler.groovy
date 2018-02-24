@@ -678,11 +678,31 @@
  */
 package com.happinesea.ec.rws.lib
 
+import com.happinesea.HappineseaConfig
+
 /**
+ * RWSクローラー
+ * 
+ * 
  * @author loveapple
  *
  */
 class RwsCrawler {
+    /**
+     * 設定情報
+     */
+    private HappineseaConfig config
+
+    /**
+     * クローラーの初期化を行う
+     * 
+     * @return 自分自身のインスタンスを戻す
+     */
     def init() {
+	config = HappineseaConfig.getInstance()
+
+	return this
     }
+
+    def getApiRequest()
 }
