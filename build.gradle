@@ -7,12 +7,8 @@ apply plugin: 'eclipse'
 //def serFile="${project.buildDir}/cobertura.ser"
 
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.eriwen:gradle-cobertura-plugin:1.1.1'
-    }
+    repositories { mavenCentral() }
+    dependencies { classpath 'com.eriwen:gradle-cobertura-plugin:1.1.1' }
 }
 //apply plugin: 'cobertura'
 
@@ -22,7 +18,9 @@ sourceCompatibility = jdkVersion
 targetCompatibility = jdkVersion
 
 group = 'com.happinesea.lib'
-version = '0.0.1'
+def currentFile = new File(".").getAbsoluteFile()
+def config = new ConfigSlurper().parse(new File(currentFile.getParentFile(), 'src/main/resources/com/happinesea/happinesea.config').toURI().toURL())
+version = config.happinesea.ec.rws.tool.version
 
 def d    = new Date()
 def time = new SimpleDateFormat( "HH:mm '(GMT'Z')'" ).format( d )
@@ -30,51 +28,45 @@ def date = new SimpleDateFormat( 'MMMM dd, yyyy' ).format( d )
 
 
 dependencies {
-	//compile 'org.codehaus.groovy:groovy-all:3.0.0-alpha-1'
-	compile 'org.codehaus.groovy:groovy-all:2.4.12'
-	compile 'org.apache.commons:commons-email:1.4'
-	//compile 'org.apache.httpcomponents:httpclient:4.5.5'
-	compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'	
-	compile 'org.apache.axis:axis:1.4'	
-	
+    //compile 'org.codehaus.groovy:groovy-all:3.0.0-alpha-1'
+    compile 'org.codehaus.groovy:groovy-all:2.4.12'
+    compile 'org.apache.commons:commons-email:1.4'
+    //compile 'org.apache.httpcomponents:httpclient:4.5.5'
+    compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+    compile 'org.springframework:spring-context:5.0.4.RELEASE'
 
-	compile localGroovy()
-	
 
-	testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
-	testCompile 'junit:junit:4.12'
+    compile localGroovy()
+
+
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testCompile 'junit:junit:4.12'
 }
 
 
 eclipse.classpath.file {
-	whenMerged { classpath ->
-		classpath.entries.findAll { entry -> entry.kind == 'output' }*.path = 'build/bin'
-	}
+    whenMerged { classpath ->
+	classpath.entries.findAll { entry -> entry.kind == 'output' }*.path = 'build/bin'
+    }
 }
 eclipseJdt << {
-	File f = file('.settings/org.eclipse.core.resources.prefs')
-	f.write('eclipse.preferences.version=1\n')
-	f.append('encoding/<project>=utf-8')
+    File f = file('.settings/org.eclipse.core.resources.prefs')
+    f.write('eclipse.preferences.version=1\n')
+    f.append('encoding/<project>=utf-8')
 }
 
-eclipse {
-	project { name = 'rws-lib' }
-}
+eclipse { project { name = 'rws-lib' } }
 
 repositories { mavenCentral() }
 
 sourceSets {
-	main {
-		groovy {
-			srcDirs = ['src/main/groovy']
-		}
-	}
+    main {
+	groovy { srcDirs = ['src/main/groovy'] }
+    }
 
-	test {
-		groovy {
-			srcDirs = ['test/test/groovy']
-		}
-	}
+    test {
+	groovy { srcDirs = ['test/test/groovy'] }
+    }
 }
 
 //cobertura {
@@ -84,13 +76,13 @@ sourceSets {
 //}
 
 groovydoc{
-	use=true
-	source = sourceSets.main.groovy
-	groovyClasspath = configurations.compile
-	windowTitle = 'happinesea rws-lib groovy docs'
-	docTitle = "rws-lib API(v-${version})"
-	header = '<a href="http://lab.happinesea.com" target="_blank">happinsea</a>'
-	footer = '<a href="http://lab.happinesea.com" target="_blank">happinsea</a> API documentation was generated at ' + "$time on $date."
-	link 'http://download.oracle.com/javase/7/docs/api/', 'java.'
-	link 'http://docs.groovy-lang.org/latest/html/gapi/', 'groovy.', 'org.codehaus.groovy.'
+    use=true
+    source = sourceSets.main.groovy
+    groovyClasspath = configurations.compile
+    windowTitle = 'happinesea rws-lib groovy docs'
+    docTitle = "rws-lib API(v-${version})"
+    header = '<a href="http://lab.happinesea.com" target="_blank">happinsea</a>'
+    footer = '<a href="http://lab.happinesea.com" target="_blank">happinsea</a> API documentation was generated at ' + "$time on $date."
+    link 'http://download.oracle.com/javase/7/docs/api/', 'java.'
+    link 'http://docs.groovy-lang.org/latest/html/gapi/', 'groovy.', 'org.codehaus.groovy.'
 }
