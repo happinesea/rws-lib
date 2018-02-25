@@ -747,7 +747,7 @@ class RwsItemApiSearchParamter extends RwsItemApiGetParamter implements RwsRestP
      * RMS WEB SERVICE : item.getのURL
      */
     @Override
-    public String getRequestUrl() {
+    public String getRequestUri() {
 	return 'https://api.rms.rakuten.co.jp/es/1.0/item/get'
     }
 }

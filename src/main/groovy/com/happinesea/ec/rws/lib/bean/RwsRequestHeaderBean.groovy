@@ -691,6 +691,7 @@ class RwsRequestHeaderBean {
     String serviceSecret
     String licenseKey
     String contentType
+    String acceptCharset
 
     /**
      * Authorization「ESA Base64({@linkplain #serviceSecret}:{@linkplain #licenseKey})」を取得する

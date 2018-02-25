@@ -678,7 +678,17 @@
  */
 package com.happinesea.ec.rws.lib
 
+import static groovyx.net.http.ContentType.*
+import static groovyx.net.http.Method.*
+
+import org.apache.commons.beanutils.BeanUtils
+
 import com.happinesea.HappineseaConfig
+import com.happinesea.ec.rws.lib.bean.AbstractRwsParameter
+import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
+import com.happinesea.ec.rws.lib.bean.RwsResponseBody
+
+import groovyx.net.http.HTTPBuilder
 
 /**
  * RWSクローラー
@@ -687,7 +697,7 @@ import com.happinesea.HappineseaConfig
  * @author loveapple
  *
  */
-class RwsCrawler {
+abstract class AbstractRwsCrawler {
     /**
      * 設定情報
      */
@@ -704,5 +714,46 @@ class RwsCrawler {
 	return this
     }
 
-    def getApiRequest()
+    /**
+     * 
+     * @param httpBuilder
+     * @param parameter
+     * @return
+     */
+    RwsResponseBody getApiRequest(HTTPBuilder httpBuilder, AbstractRwsParameter parameter) {
+	if(httpBuilder == null || parameter == null || parameter.getHeader() == null) {
+	    throw new IllegalArgumentException('invalide request info.')
+	}
+
+	Map headerMap = BeanUtils.describe(parameter.getHeader());
+	headerMap.put(key: key, value: value)
+
+	httpBuilder.request(parameter.getRequestUri(), GET, parameter.getHeader().getContentType()) {
+	    uri.path = parameter.path ? parameter.path : ''
+	    requestContentType = URLENC
+
+	    def paginationReqestModel = [requestRecordsAmount:30,requestPage:1]
+
+	    headers = getRequestHeaderStr(parameter.getHeader())
+
+	    response.success = { resp, json ->
+		println prettyPrint(toJson(json))
+	    }
+	}
+    }
+
+    /**
+     * 
+     * @param bean
+     * @return
+     */
+    private Map getRequestHeaderStr(RwsRequestHeaderBean bean) {
+	Map headers = null;
+
+	headers.'Authorization' = bean.getAuthorization()
+	headers.'Content-Type' = bean.getContentType()
+	headers.'Accept-Charset' = bean.getAcceptCharset()
+
+	return headers
+    }
 }

@@ -685,13 +685,23 @@ package com.happinesea.ec.rws.lib.bean
  *
  */
 abstract class AbstractRwsParameter {
+    /**
+     * リクエストヘッダー
+     */
     RwsRequestHeaderBean header
 
     /**
-     * RWS通信のAPI/機能ごとにパラメータクラスを定義し、<br>
-     * 対象となるAPI/機能のURLを返す。
-     * 
-     * @return 対象となるAPI/機能のURLを戻す
+     * リクエストパス
      */
-    abstract String getRequestUrl()
+    String path
+
+    /**
+     * RWS通信のAPI/機能ごとにパラメータクラスを定義し、<br>
+     * 対象となるAPI/機能のURIを返す。
+     * 
+     * @see #path URLのパス
+     * 
+     * @return 対象となるAPI/機能のURIを戻す
+     */
+    abstract String getRequestUri()
 }
