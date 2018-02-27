@@ -725,19 +725,19 @@ abstract class AbstractRwsCrawler {
 	    throw new IllegalArgumentException('invalide request info.')
 	}
 
-	Map headerMap = BeanUtils.describe(parameter.getHeader());
-	headerMap.put(key: key, value: value)
+	Map headerMap = BeanUtils.describe(parameter.getHeader())
 
-	httpBuilder.request(parameter.getRequestUri(), GET, parameter.getHeader().getContentType()) {
-	    uri.path = parameter.path ? parameter.path : ''
+	httpBuilder.request(parameter.getRequestUri(), GET, parameter.header.contentType) {
+	    uri.path = parameter.getPath() ? parameter.getPath() : ''
 	    requestContentType = URLENC
 
 	    def paginationReqestModel = [requestRecordsAmount:30,requestPage:1]
 
-	    headers = getRequestHeaderStr(parameter.getHeader())
+	    headers = this.getRequestHeaderStr(parameter.header)
 
-	    response.success = { resp, json ->
-		println prettyPrint(toJson(json))
+	    response.success = { resp, xml ->
+		println xml
+		println resp
 	    }
 	}
     }
@@ -747,12 +747,18 @@ abstract class AbstractRwsCrawler {
      * @param bean
      * @return
      */
-    private Map getRequestHeaderStr(RwsRequestHeaderBean bean) {
-	Map headers = null;
+    public Map getRequestHeaderStr(RwsRequestHeaderBean bean) {
+	Map headers = new HashMap()
 
-	headers.'Authorization' = bean.getAuthorization()
-	headers.'Content-Type' = bean.getContentType()
-	headers.'Accept-Charset' = bean.getAcceptCharset()
+	if(bean.getAuthorization()) {
+	    headers.'Authorization' = bean.getAuthorization()
+	}
+	if(bean.getContentType()) {
+	    headers.'Content-Type' = bean.getContentType()
+	}
+	if(bean.getAcceptCharset()) {
+	    headers.'Accept-Charset' = bean.getAcceptCharset()
+	}
 
 	return headers
     }

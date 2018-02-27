@@ -693,7 +693,9 @@ abstract class AbstractRwsParameter {
     /**
      * リクエストパス
      */
-    String path
+    String getPath() {
+	return ''
+    }
 
     /**
      * RWS通信のAPI/機能ごとにパラメータクラスを定義し、<br>

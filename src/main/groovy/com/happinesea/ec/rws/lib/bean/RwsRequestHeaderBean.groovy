@@ -681,6 +681,8 @@
  */
 package com.happinesea.ec.rws.lib.bean
 
+import groovyx.net.http.ContentType
+
 /**
  * RWS(RMS WEB SERVICE) WEB API リクエストヘッダー
  * 
@@ -690,7 +692,7 @@ package com.happinesea.ec.rws.lib.bean
 class RwsRequestHeaderBean {
     String serviceSecret
     String licenseKey
-    String contentType
+    ContentType contentType
     String acceptCharset
 
     /**
