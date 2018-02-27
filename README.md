@@ -1,4 +1,8 @@
 # rws-lib
+
+[![Build Status](https://circleci.com/gh/happinesea/rws-lib/tree/master.png?circle-token=d72dbc6c6c9905c4c73e9d25c6dc501ac99ae01a)](https://circleci.com/gh/happinesea/rws-lib)
+-[![Build Status](https://travis-ci.org/kamiya54/rms_web_service.svg)](https://travis-ci.org/kamiya54/rms_web_service)	+[![Code Climate](https://codeclimate.com/github/happinesea/rws-lib/badges/gpa.svg)](https://codeclimate.com/github/happinesea/rws-lib)
+
 rws-libは、楽天ペイAPI(RakutenPayOrderAPI)を含めて、RWS(RMS WEB SERVICE)で通信するデータをGroovy/Javaから使いやすい形に変換するライブラリです。
 
 Groovyで開発しているので、Javaをフルサポートです。
