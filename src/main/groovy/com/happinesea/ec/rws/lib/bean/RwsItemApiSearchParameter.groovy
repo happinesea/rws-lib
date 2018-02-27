@@ -682,16 +682,18 @@ package com.happinesea.ec.rws.lib.bean
  * @author loveapple
  *
  */
-class RwsItemApiGetParamter extends AbstractRwsParameter implements RwsRestParameter {
-    /**
-     * 商品管理番号
-     */
-    String itemUrl
+class RwsItemApiSearchParameter extends RwsItemApiGetParameter implements RwsRestParameter {
+
     /**
      * RMS WEB SERVICE : item.getのURL
      */
     @Override
     public String getRequestUri() {
-	return 'https://api.rms.rakuten.co.jp/es/1.0/item/get'
+	return 'https://api.rms.rakuten.co.jp'
+    }
+
+    @Override
+    public String getPath() {
+	return '/es/1.0/item/search'
     }
 }

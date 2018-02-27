@@ -676,94 +676,22 @@
  * 
  * author http://lab.happinesea.com
  */
-package com.happinesea.ec.rws.lib
-
-import static groovyx.net.http.ContentType.*
-import static groovyx.net.http.Method.*
-
-import org.apache.commons.beanutils.BeanUtils
-
-import com.happinesea.HappineseaConfig
-import com.happinesea.ec.rws.lib.bean.RwsParameter
-import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
-import com.happinesea.ec.rws.lib.bean.RwsResponseBody
-
-import groovyx.net.http.HTTPBuilder
+package com.happinesea.ec.rws.lib.bean
 
 /**
- * RWSクローラー
- * 
- * 
  * @author loveapple
  *
  */
-abstract class AbstractRwsCrawler {
+class RwsItemApiGetParameter extends RwsParameter implements RwsRestParameter {
     /**
-     * 設定情報
+     * 商品管理番号
      */
-    private HappineseaConfig config
-
+    String itemUrl
     /**
-     * クローラーの初期化を行う
-     * 
-     * @return 自分自身のインスタンスを戻す
+     * RMS WEB SERVICE : item.getのURL
      */
-    def init() {
-	config = HappineseaConfig.getInstance()
-
-	return this
-    }
-
-    /**
-     * 
-     * @param httpBuilder
-     * @param parameter
-     * @return
-     */
-    RwsResponseBody getApiRequest(HTTPBuilder httpBuilder, RwsParameter parameter) {
-	if(httpBuilder == null || parameter == null || parameter.getHeader() == null) {
-	    throw new IllegalArgumentException('invalide request info.')
-	}
-
-	Map headerMap = BeanUtils.describe(parameter.getHeader())
-
-	httpBuilder.setUri(parameter.getRequestUri())
-	httpBuilder.setContentType(parameter.header.contentType)
-	httpBuilder.get(args: args)
-
-	httpBuilder.request(parameter.getRequestUri(), GET, parameter.header.contentType) {
-	    uri.path = parameter.getPath() ? parameter.getPath() : ''
-	    requestContentType = URLENC
-
-	    def paginationReqestModel = [requestRecordsAmount:30,requestPage:1]
-
-	    headers = this.getRequestHeaderStr(parameter.header)
-
-	    response.success = { resp, xml ->
-		println xml
-		println resp
-	    }
-	}
-    }
-
-    /**
-     * 
-     * @param bean
-     * @return
-     */
-    public Map getRequestHeaderStr(RwsRequestHeaderBean bean) {
-	Map headers = new HashMap()
-
-	if(bean.getAuthorization()) {
-	    headers.'Authorization' = bean.getAuthorization()
-	}
-	if(bean.getContentType()) {
-	    headers.'Content-Type' = bean.getContentType()
-	}
-	if(bean.getAcceptCharset()) {
-	    headers.'Accept-Charset' = bean.getAcceptCharset()
-	}
-
-	return headers
+    @Override
+    public String getRequestUri() {
+	return 'https://api.rms.rakuten.co.jp/es/1.0/item/get'
     }
 }

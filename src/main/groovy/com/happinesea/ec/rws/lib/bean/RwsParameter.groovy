@@ -678,81 +678,57 @@
  */
 package com.happinesea.ec.rws.lib.bean
 
-import com.happinesea.ec.rws.lib.enumerated.SortKeyItemEnum
-import com.happinesea.ec.rws.lib.enumerated.SortOrderItemEnum
+import com.happinesea.ec.rws.lib.request.form.AbstractRwsForm
 
 /**
+ * リクエストパラメータを格納する
+ * 
  * @author loveapple
  *
+ * @param <F>
  */
-class RwsItemApiSearchParamter extends RwsItemApiGetParamter implements RwsRestParameter {
+abstract class RwsParameter<F> {
     /**
-     * 商品名
+     * リクエストヘッダー
      */
-    String itemName
-    /**
-     * PC用キャッチコピー
-     */
-    String catchcopy
-    /**
-     *カタログID
-     */
-    String catalogId
-    /**
-     *全商品ディレクトリID
-     */
-    int genreId
-    /**
-     *価格下限
-     */
-    int itemPriceFrom
-    /**
-     *価格上限
-     */
-    int itemPriceTo
-    /**
-     *倉庫フラグ
-     */
-    int depotFlg
-    /**
-     *商品モバイルフラグ
-     */
-    int itemMobileFlg
-    /**
-     *闇市フラグ
-     */
-    int limitedFlg
-    /**
-     *送料別フラグ
-     */
-    int postageFlg
-    /**
-     *検索結果取得開始位置
-     */
-    int offset
-    /**
-     *検索結果取得上限数
-     */
-    int limit
-    /**
-     *ソートキー
-     */
-    SortKeyItemEnum sortKey
-    /**
-     *ソート
-     */
-    SortOrderItemEnum sortOrder
+    RwsRequestHeaderBean header
 
     /**
-     * RMS WEB SERVICE : item.getのURL
+     * リクエストパス<br>デフォルト：空文字
      */
-    @Override
-    public String getRequestUri() {
-	return 'https://api.rms.rakuten.co.jp'
+    String path = ''
+
+    private AbstractRwsForm form
+
+    /**
+     * RWS通信のAPI/機能ごとにパラメータクラスを定義し、<br>
+     * 対象となるAPI/機能のURIを返す。
+     * 
+     * @see #path URLのパス
+     * 
+     * @return 対象となるAPI/機能のURIを戻す
+     */
+    abstract String getRequestUri()
+
+    /**
+     * リクエストフォームを設定する
+     */
+    void setForm(F form) {
+	if(form == null) {
+	    return
+	}
+	if(form instanceof AbstractRwsForm) {
+	    this.form = form
+	}
+
+	throw new IllegalArgumentException('Illegal parameter type to form.')
     }
 
-    @Override
-    public String getPath() {
-	return '/es/1.0/item/search'
+    /**
+     * フォームを取得数r
+     * @return
+     */
+    F getForm(){
+	return form
     }
 }
