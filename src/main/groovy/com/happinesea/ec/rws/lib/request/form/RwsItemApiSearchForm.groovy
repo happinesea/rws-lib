@@ -685,7 +685,7 @@ import com.happinesea.ec.rws.lib.enumerated.SortOrderItemEnum
  * @author loveapple
  *
  */
-class RwsItemApiSearchForm extends AbstractRwsForm{
+class RwsItemApiSearchForm extends RwsItemApiGetForm{
 
     /**
      * 商品名

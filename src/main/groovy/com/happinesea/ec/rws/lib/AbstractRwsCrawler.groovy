@@ -681,7 +681,14 @@ package com.happinesea.ec.rws.lib
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 
-import org.apache.commons.beanutils.BeanUtils
+import org.apache.http.Header
+import org.apache.http.HttpEntity
+import org.apache.http.HttpResponse
+import org.apache.http.client.HttpClient
+import org.apache.http.client.config.RequestConfig
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.impl.client.HttpClientBuilder
+import org.apache.http.message.BasicHeader
 
 import com.happinesea.HappineseaConfig
 import com.happinesea.ec.rws.lib.bean.RwsParameter
@@ -725,25 +732,27 @@ abstract class AbstractRwsCrawler {
 	    throw new IllegalArgumentException('invalide request info.')
 	}
 
-	Map headerMap = BeanUtils.describe(parameter.getHeader())
+	// RequestConfig
+	RequestConfig requestConfig = RequestConfig.custom()
+		.setConnectTimeout(config.connectionTimeout)
+		.setSocketTimeout(config.socketTimeout).build()
 
-	httpBuilder.setUri(parameter.getRequestUri())
-	httpBuilder.setContentType(parameter.header.contentType)
-	httpBuilder.get(args: args)
+	// HttpClient
+	HttpClient httpClient = HttpClientBuilder.create()
+		.setDefaultRequestConfig(requestConfig)
+		.setDefaultHeaders(getRequestHeaderStr(parameter.header)).build();
 
-	httpBuilder.request(parameter.getRequestUri(), GET, parameter.header.contentType) {
-	    uri.path = parameter.getPath() ? parameter.getPath() : ''
-	    requestContentType = URLENC
+	HttpGet httpGet = new HttpGet(parameter.getRequestUri() + parameter.getPath() + "?" + parameter.getQueryString());
 
-	    def paginationReqestModel = [requestRecordsAmount:30,requestPage:1]
 
-	    headers = this.getRequestHeaderStr(parameter.header)
+	HttpResponse result= httpClient.execute(httpGet);
 
-	    response.success = { resp, xml ->
-		println xml
-		println resp
-	    }
-	}
+	HttpEntity entity = result.entity
+	println parameter.getQueryString()
+	println entity.getContent().getText()
+
+	//todo
+	return null
     }
 
     /**
@@ -751,18 +760,12 @@ abstract class AbstractRwsCrawler {
      * @param bean
      * @return
      */
-    public Map getRequestHeaderStr(RwsRequestHeaderBean bean) {
-	Map headers = new HashMap()
+    public List<Header> getRequestHeaderStr(RwsRequestHeaderBean bean) {
 
-	if(bean.getAuthorization()) {
-	    headers.'Authorization' = bean.getAuthorization()
-	}
-	if(bean.getContentType()) {
-	    headers.'Content-Type' = bean.getContentType()
-	}
-	if(bean.getAcceptCharset()) {
-	    headers.'Accept-Charset' = bean.getAcceptCharset()
-	}
+	List<Header> headers = new ArrayList<Header>()
+	headers.add(new BasicHeader('Authorization', bean.getAuthorization()))
+	headers.add(new BasicHeader('Content-Type', bean.getContentType().toString()))
+	headers.add(new BasicHeader('Accept-Charset', bean.getAcceptCharset()))
 
 	return headers
     }

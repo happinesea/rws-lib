@@ -679,10 +679,12 @@
 package com.happinesea.ec.rws.lib.request.form
 
 /**
- * RWSリクエストフォームのAbstractクラス
- * 
  * @author loveapple
  *
  */
-abstract class AbstractRwsForm {
+class RwsItemApiGetForm extends AbstractRwsForm{
+    /**
+     * 商品管理番号
+     */
+    String itemUrl
 }

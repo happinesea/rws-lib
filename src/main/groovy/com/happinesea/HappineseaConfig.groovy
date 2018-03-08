@@ -703,6 +703,16 @@ class HappineseaConfig {
     def httpClientAgent
 
     /**
+     * ソケットタイムアウト
+     */
+    def socketTimeout
+
+    /**
+     * コネクションタイムアウト
+     */
+    def connectionTimeout
+
+    /**
      * 設定情報を取り込み、インスタンス化を行う
      */
     private HappineseaConfig() {
@@ -710,6 +720,8 @@ class HappineseaConfig {
 	ConfigObject conf = new ConfigSlurper().parse(loaderUrls);
 	version = conf.happinesea.ec.rws.tool.version
 	httpClientAgent = conf.happinesea.ec.rws.tool.agent
+	socketTimeout = conf.happinesea.ec.rws.tool.socket.timeout
+	connectionTimeout = conf.happinesea.ec.rws.tool.connection.timeout
     }
 
     /**
