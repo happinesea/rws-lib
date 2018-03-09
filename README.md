@@ -18,6 +18,10 @@ Groovyで開発しているので、Javaをフルサポートです。
 
 </dl>
 
+## Documentation
+[Groovy docs](https://github.com/happinesea/rws-lib/)(作成中)<br>
+[Guides and Tutorials](https://github.com/happinesea/rws-lib/)(作成中)
+
 ## About support
 rws-libのバグをお見つけた場合、issuesの起票をお願いします。<br>
 公的な場で共有できない情報を含む場合、直接<a href="https://github.com/happinesea">happinesea</a>の開発者へメールをしてください。
