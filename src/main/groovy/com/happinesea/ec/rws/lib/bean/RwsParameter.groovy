@@ -70,14 +70,13 @@ class RwsParameter<F extends AbstractRwsForm> {
 	}
 	Map params = requestForm.properties
 	params.each { k,v->
-	    if(k) {
+	    if(k && k != 'class') {
 		String kStr = URLEncoder.encode(k.toString(), StandardCharsets.UTF_8.toString()) + '='
 		resultStr += kStr
 		if(v) {
 		    resultStr += URLEncoder.encode(v.toString(), StandardCharsets.UTF_8.toString())
 		}
 		resultStr += '&'
-		println resultStr
 	    }
 	}
 
