@@ -6,6 +6,7 @@ import static groovyx.net.http.Method.*
 import org.apache.http.Header
 import org.apache.http.HttpEntity
 import org.apache.http.HttpResponse
+import org.apache.http.client.ClientProtocolException
 import org.apache.http.client.HttpClient
 import org.apache.http.client.config.RequestConfig
 import org.apache.http.client.methods.HttpGet
@@ -17,6 +18,7 @@ import com.happinesea.ec.rws.lib.bean.RwsParameter
 import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.RwsResponseBody
 
+import groovy.util.logging.Log4j2
 import groovyx.net.http.HTTPBuilder
 
 /**
@@ -26,6 +28,7 @@ import groovyx.net.http.HTTPBuilder
  * @author loveapple
  *
  */
+@Log4j2
 abstract class AbstractRwsCrawler {
     /**
      * 設定情報
@@ -67,12 +70,23 @@ abstract class AbstractRwsCrawler {
 	HttpGet httpGet = new HttpGet(parameter.getRequestUri() + parameter.getPath() + "?" + parameter.getQueryString());
 
 
-	HttpResponse result= httpClient.execute(httpGet);
+	try {
+	    HttpResponse result= httpClient.execute(httpGet);
 
-	HttpEntity entity = result.entity
-	println parameter.getQueryString()
-	println entity.getContent().getText()
+	    HttpEntity entity = result.entity
 
+	    if(log.isDebugEnabled()) {
+		log.debug('Request parameter: [{}]', parameter.getQueryString())
+		log.debug('Response content: [{}]', entity.getContent().getText())
+	    }
+
+	}catch(IOException e) {
+
+	}catch(ClientProtocolException e) {
+
+	}catch(Exception e) {
+
+	}
 	//todo
 	return null
     }
