@@ -19,7 +19,6 @@ import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.RwsResponseBody
 
 import groovy.util.logging.Log4j2
-import groovyx.net.http.HTTPBuilder
 
 /**
  * RWSクローラー
@@ -52,8 +51,8 @@ abstract class AbstractRwsCrawler {
      * @param parameter
      * @return
      */
-    RwsResponseBody getApiRequest(HTTPBuilder httpBuilder, RwsParameter parameter) {
-	if(httpBuilder == null || parameter == null || parameter.getHeader() == null) {
+    public <R extends RwsResponseBody> R getApiRequest(RwsParameter parameter, RwsResponseParser<R> parser) {
+	if(parameter == null || parameter.getHeader() == null) {
 	    throw new IllegalArgumentException('invalide request info.')
 	}
 
@@ -69,7 +68,7 @@ abstract class AbstractRwsCrawler {
 
 	HttpGet httpGet = new HttpGet(parameter.getRequestUri() + parameter.getPath() + "?" + parameter.getQueryString());
 
-
+	RwsResponseBody response = new R()
 	try {
 	    HttpResponse result= httpClient.execute(httpGet);
 
@@ -80,15 +79,20 @@ abstract class AbstractRwsCrawler {
 		log.debug('Response content: [{}]', entity.getContent().getText())
 	    }
 
-	}catch(IOException e) {
+	    def rootNode = new XmlParser().parseText(entity.getContent())
 
+
+	}catch(IOException e) {
+	    response.thro = e;
 	}catch(ClientProtocolException e) {
+	    response.thro = e;
 
 	}catch(Exception e) {
+	    response.thro = e;
 
 	}
-	//todo
-	return null
+
+	return response
     }
 
     /**
