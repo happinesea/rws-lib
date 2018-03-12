@@ -1,6 +1,8 @@
 package com.happinesea.ec.rws.lib;
 
-import com.happinesea.ec.rws.lib.bean.RwsResponseBody;
+import com.happinesea.ec.rws.lib.bean.RwsResponseResult
+import com.happinesea.ec.rws.lib.bean.RwsResponseResult.Status
+import com.happinesea.ec.rws.lib.enumerated.SystemStatusElementEnum
 
 import groovy.util.logging.Log4j2
 
@@ -9,7 +11,7 @@ import groovy.util.logging.Log4j2
  *
  */
 @Log4j2
-public class RwsResponseXmlParser<R extends RwsResponseBody> implements RwsResponseParser<R> {
+public class RwsResponseXmlParser<R extends RwsResponseResult> implements RwsResponseParser<R> {
     /**
      * ルートノード
      */
@@ -25,10 +27,33 @@ public class RwsResponseXmlParser<R extends RwsResponseBody> implements RwsRespo
 	}
 	root = new XmlParser().parse(is)
 
+	R result = new R()
+	result.status = parseStatus(root)
+
 	if(log.isDebugEnabled()) {
 	    log.debug('root node: {}', root)
 	}
 
-	return null;
+	return result;
+    }
+
+    Status parseStatus(Node root) {
+	Status status = new Status()
+	Node s = root.status
+	if(s == null) {
+	    return s
+	}
+
+
+	status.interfaceId = s.interfaceId
+	status.systemStatus = s.systemStatus
+	// TODO
+	if(SystemStatusElementEnum.OK.getId() == s.systemStatus) {
+	    status.systemStatus = SystemStatusElementEnum.OK
+	}else {
+	    status.systemStatus = SystemStatusElementEnum.NG
+	}
+	status.message = s.message
+	status.requestId = s.requestId
     }
 }

@@ -8,7 +8,7 @@ class RwsResponseXmlParserTest {
     def packagePath = 'com/happinesea/ec/rws/lib/'
 
     @Test
-    public void testParse() {
+    public void testParseItemSearch() {
 	def path = this.getClass().getClassLoader().getResource(packagePath + "item.search.xml").getPath()
 	File xml = new File(path)
 	assertTrue(xml.exists())

@@ -1,6 +1,6 @@
 package com.happinesea.ec.rws.lib
 
-import com.happinesea.ec.rws.lib.bean.RwsResponseBody
+import com.happinesea.ec.rws.lib.bean.RwsResponseResult
 
 /**
  * RWS responseパーサーのマーカーIF
@@ -8,6 +8,6 @@ import com.happinesea.ec.rws.lib.bean.RwsResponseBody
  * @author loveapple
  *
  */
-interface RwsResponseParser<R extends RwsResponseBody> {
+interface RwsResponseParser<R extends RwsResponseResult> {
     R parse(java.io.InputStream is)
 }
