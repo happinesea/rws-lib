@@ -9,7 +9,7 @@ import com.happinesea.ec.rws.lib.enumerated.SystemStatusElementEnum
  * @author loveapple
  *
  */
-class RwsResponseResult {
+class RwsResponseResult implements ApiResponseNode {
 
     /**
      * XMLのレスポンスstatus
@@ -22,7 +22,7 @@ class RwsResponseResult {
      * @author loveapple
      *
      */
-    class Status{
+    class Status implements ApiResponseNode{
 	def interfaceId
 	SystemStatusElementEnum systemStatus
 	MessageElementEnum message

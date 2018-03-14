@@ -6,7 +6,7 @@ package com.happinesea.ec.rws.lib.bean
  * @author loveapple
  *
  */
-class RwsResponseBody {
+class RwsResponseBody implements ApiResponseNode {
     /**
      * XML:result
      */

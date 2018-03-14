@@ -4,13 +4,18 @@ import static org.junit.Assert.*
 
 import org.junit.Test
 
+import com.happinesea.ec.rws.lib.bean.RwsItemResponseResult
+
 class RwsResponseXmlParserTest {
     def packagePath = 'com/happinesea/ec/rws/lib/'
-
+    List a
     @Test
     public void testParseItemSearch() {
 	def path = this.getClass().getClassLoader().getResource(packagePath + "item.search.xml").getPath()
 	File xml = new File(path)
 	assertTrue(xml.exists())
+
+	RwsResponseXmlParser<RwsItemResponseResult> parser = new RwsResponseXmlParser<RwsItemResponseResult>();
+	RwsItemResponseResult result = parser.parse(new FileInputStream(xml), RwsItemResponseResult.class)
     }
 }

@@ -4,7 +4,7 @@ package com.happinesea.ec.rws.lib.bean
  * @author loveapple
  *
  */
-class RwsResponseItem {
+class RwsResponseItem implements ApiResponseNode {
     def itemUrl
     def itemNumber
     def itemName

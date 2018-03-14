@@ -1,8 +1,8 @@
 package com.happinesea.ec.rws.lib.bean
 
-class RwsItemSearchResult {
-    def code
-    def numFound
+class RwsItemSearchResult implements ApiResponseNode {
+    String code
+    String numFound
     RwsResponseItem item
 }
 ;

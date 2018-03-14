@@ -17,6 +17,7 @@ import com.happinesea.HappineseaConfig
 import com.happinesea.ec.rws.lib.bean.RwsParameter
 import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.RwsResponseBody
+import com.happinesea.ec.rws.lib.bean.RwsResponseResult
 
 import groovy.util.logging.Log4j2
 
@@ -51,7 +52,7 @@ abstract class AbstractRwsCrawler {
      * @param parameter
      * @return
      */
-    public <R extends RwsResponseBody> R getApiRequest(RwsParameter parameter, RwsResponseParser<R> parser) {
+    public <R extends RwsResponseResult> R getApiRequest(RwsParameter parameter, RwsResponseParser parser) {
 	if(parameter == null || parameter.getHeader() == null) {
 	    throw new IllegalArgumentException('invalide request info.')
 	}
