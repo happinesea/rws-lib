@@ -7,13 +7,9 @@ jobs:
       - checkout
       - run:
           name: Starting build
-          command: mkdir -p /home/circleci/project/build/cobertura/main
-          command: ln -s  /home/circleci/project/build/cobertura/main/cobertura.ser /home/circleci/project/build/cobertura/main/cobertura-test.ser
           command: chmod +x ./gradlew;./gradlew clean build
       - run:
           name: Starting unit test.
-          command: mkdir -p /home/circleci/project/build/cobertura/main
-          command: ln -s  /home/circleci/project/build/cobertura/main/cobertura.ser /home/circleci/project/build/cobertura/main/cobertura-test.ser
           command: chmod +x ./gradlew;./gradlew clean test
       
       
