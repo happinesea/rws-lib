@@ -18,7 +18,7 @@ import groovy.util.logging.Log4j2
 public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 
     /**
-     * 親クラスの定義を含めて、{@linkplain ApiResponse}型の{@linkplain Field}を結果に戻す。
+     * 親クラスの定義を含めて、再帰的に{@linkplain ApiResponse}型の{@linkplain Field}を結果に戻す。
      * 
      * @param clz 対象クラス
      * @return {@linkplain Field}の配列を戻す。{@linkplain ApiResponse}型がない場合、空の配列を戻す
