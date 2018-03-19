@@ -64,30 +64,30 @@ class RwsResponseItem implements ApiResponseNode {
     def textLargeId
     def registDate
 
-    class Image{
+    static class Image{
 	def imageUrl
 	def imageAlt
     }
-    class Option{
+    static class Option{
 	def optionName
 	def optionStyle
 	List<OptionValues> optionValues
-	class OptionValues{
+	static class OptionValues{
 	    OptionValue optionValue
-	    class OptionValue{
+	    static class OptionValue{
 		def value
 	    }
 	}
     }
-    class TagId{
+    static class TagId{
 	def tagId
     }
-    class Point{
+    static class Point{
 	def pointRate
 	def pointRateStart
 	def pointRateEnd
     }
-    class ItemInventory{
+    static class ItemInventory{
 	def inventoryType
 	def inventories
 	Inventory inventory
@@ -96,7 +96,7 @@ class RwsResponseItem implements ApiResponseNode {
 	def inventoryQuantityFlag
 	def inventoryDisplayFlag
 
-	class Inventory{
+	static class Inventory{
 	    def inventoryCount
 	    def childNoVertical
 	    def childNoHorizontal
@@ -111,11 +111,11 @@ class RwsResponseItem implements ApiResponseNode {
 	    List<TagId> tagIds
 	}
     }
-    class Medicine{
+    static class Medicine{
 	def medCaption
 	def medAttention
     }
-    class CategoryInfo{
+    static class CategoryInfo{
 	def categorySetManageNumber
 	def categoryId
 	def isPluralItemPage

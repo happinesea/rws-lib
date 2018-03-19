@@ -22,7 +22,7 @@ class RwsResponseResult implements ApiResponseNode {
      * @author loveapple
      *
      */
-    class Status implements ApiResponseNode{
+    static class Status implements ApiResponseNode{
 	def interfaceId
 	SystemStatusElementEnum systemStatus
 	MessageElementEnum message

@@ -33,11 +33,20 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	Field[] result = []
 
 	for(Field field : fields) {
-	    if(ArrayUtils.contains(field.getType().getInterfaces(), ApiResponseNode.class)) {
 
-		if(log.isDebugEnabled()) {
-		    log.debug('Field type : {} -> field: {} -> interfaces: {}', field.getType(), field.getName(), field.getType().getInterfaces())
-		}
+	    if(log.isDebugEnabled()) {
+		log.debug('Field type : {} -> field: {} -> interfaces: {}',
+			field.getType(),
+			field.getName(),
+			String.valueOf(field.getType()))
+	    }
+	    if(!
+	    String.valueOf(field.getType()).toUpperCase().endsWith('ENUM') &&
+
+	    ArrayUtils.contains(
+	    field.getType().getInterfaces(),
+	    ApiResponseNode.class)) {
+
 
 		result = ArrayUtils.add(result, field)
 	    }

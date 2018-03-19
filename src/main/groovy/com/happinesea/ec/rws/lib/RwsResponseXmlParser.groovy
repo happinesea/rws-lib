@@ -2,7 +2,10 @@ package com.happinesea.ec.rws.lib;
 
 import java.lang.reflect.Field
 
+import com.happinesea.ec.rws.lib.util.ClassUtils
+
 import groovy.util.logging.Log4j2
+import groovy.util.slurpersupport.GPathResult
 
 /**
  * @author loveapple
@@ -52,29 +55,54 @@ public class RwsResponseXmlParser implements RwsResponseParser {
 	}
 	rootNode = new XmlSlurper().parse(is)
 
-	List<Node> children = rootNode.getDirectChildren()
-	R result = new R()
+	return parse(rootNode, clz)
+    }
+
+    public <R> R parse(GPathResult node, Class<R> clz) {
 	if(log.isDebugEnabled()) {
-	    for(Field field: clz.getDeclaredFields()) {
-		field.setAccessible(true)
-		log.debug('fields -> {}/{}', field.getName(),field.getType().getName())
+	    log.debug('clz type: {}', clz)
+	}
+	def result = clz.getDeclaredConstructor().newInstance()
+
+	Field[] fs = ClassUtils.getFieldsApiResponse(clz)
+	Map<String, Field> fieldMap = new HashMap()
+
+	for(Field f: fs) {
+	    fieldMap.put(f.getName(), f)
+	}
+
+	if(log.isDebugEnabled()) {
+	    log.debug('fieldMap->{}', fieldMap)
+	    log.debug('node name: {}', node.name())
+	}
+
+	node.children().each{ v->
+	    Field f = fieldMap[v.name()]
+
+	    if(log.isDebugEnabled()) {
+		log.debug('-> child: {}', v.name())
+		log.debug('-> target field: {}', f?.getName())
 	    }
-	    log.debug('xml root name-> {}', rootNode.name())
-	    log.debug('xml root result-> {}', children)
-	    log.debug('result type: {}', R.class)
-	    log.debug('result properties: {}', result.getClass())
+
+	    if(f== null) {
+		return
+	    }
+
+
+	    f.setAccessible(true)
+	    if(f.getType().isPrimitive()) {
+		if(log.isDebugEnabled()) {
+		    log.debug('Set element: {}', v.name())
+		}
+		f.set(result, v.text())
+	    }else {
+		if(log.isDebugEnabled()) {
+		    log.debug('Recursive element: {}', v.name())
+		}
+		f.set(result, parse(v, f.getType()))
+	    }
 	}
 
-
-	if(!children) {
-	    return result
-	}
-
-	result = parseRoot(children, result)
-
-	if(log.isDebugEnabled()) {
-	    log.debug('root node: {}', rootNode.get('result'))
-	}
 
 	return result;
     }
