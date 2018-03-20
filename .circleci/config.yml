@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Starting build
-          command: chmod +x ./gradlew;./gradlew clean build -X test
+          command: chmod +x ./gradlew;./gradlew clean build -x test
       - run:
           name: Starting unit test.
           command: chmod +x ./gradlew;./gradlew --info clean test jacocoTestReport coveralls
