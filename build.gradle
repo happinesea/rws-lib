@@ -7,11 +7,26 @@ apply plugin: 'eclipse'
 //def serFile="${project.buildDir}/cobertura.ser"
 
 buildscript {
-    repositories { mavenCentral() }
-    dependencies { classpath 'com.eriwen:gradle-cobertura-plugin:1.1.1' }
+    //repositories { mavenCentral() }
+    repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.com.palantir:jacoco-coverage:0.4.0"
+  }
+    
 }
-//apply plugin: 'cobertura'
 
+apply plugin: "com.palantir.jacoco-coverage"
+jacocoCoverage {
+    // Enforce minimum code coverage of 50% for every Java file.
+    fileThreshold 0.5
+
+    // Whitelist files named MyClass.java from coverage requirements.
+    fileThreshold 0.0, "*.groovy"
+}
 
 def jdkVersion = 1.9
 sourceCompatibility = jdkVersion
@@ -51,10 +66,12 @@ eclipse.classpath.file {
 	classpath.entries.findAll { entry -> entry.kind == 'output' }*.path = 'build/bin'
     }
 }
-eclipseJdt << {
-    File f = file('.settings/org.eclipse.core.resources.prefs')
-    f.write('eclipse.preferences.version=1\n')
-    f.append('encoding/<project>=utf-8')
+eclipseJdt  {
+	doLast{
+		File f = file('.settings/org.eclipse.core.resources.prefs')
+		f.write('eclipse.preferences.version=1\n')
+		f.append('encoding/<project>=utf-8')
+	}
 }
 
 eclipse { project { name = 'rws-lib' } }
@@ -67,15 +84,10 @@ sourceSets {
     }
 
     test {
-	groovy { srcDirs = ['test/test/groovy'] }
+	groovy { srcDirs = ['src/test/groovy'] }
     }
 }
 
-//cobertura {
-//    format = 'xml'
-//    includes = ['**/*.java', '**/*.groovy']
-//    excludes = ['com/thirdparty/**/*.*']
-//}
 
 groovydoc{
     use=true
