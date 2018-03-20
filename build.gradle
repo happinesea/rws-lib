@@ -15,11 +15,13 @@ buildscript {
   }
   dependencies {
     classpath "gradle.plugin.com.palantir:jacoco-coverage:0.4.0"
+    classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2"
   }
     
 }
 
 apply plugin: "com.palantir.jacoco-coverage"
+apply plugin: "com.github.kt3k.coveralls"
 jacocoCoverage {
     // Enforce minimum code coverage of 50% for every Java file.
     fileThreshold 0.5
