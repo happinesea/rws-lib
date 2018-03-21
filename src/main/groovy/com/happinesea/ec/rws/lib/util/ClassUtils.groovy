@@ -17,8 +17,10 @@ import groovy.util.logging.Log4j2
 @Log4j2
 public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 
+    private static final String NO_TARGET_METHOD_FIX = '_'
+
     /**
-     * 親クラスの定義を含めて、再帰的に{@linkplain ApiResponse}型の{@linkplain Field}を結果に戻す。
+     * 親クラスの定義を含めて、{@linkplain ApiResponse}型、および、プリミティブ型の{@linkplain Field}を結果に戻す。
      * 
      * @param clz 対象クラス
      * @return {@linkplain Field}の配列を戻す。{@linkplain ApiResponse}型がない場合、空の配列を戻す
@@ -35,19 +37,25 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	for(Field field : fields) {
 
 	    if(log.isDebugEnabled()) {
-		log.debug('Field type : {} -> field: {} -> interfaces: {}',
+		log.debug('Field type : {} -> field: {}',
 			field.getType(),
-			field.getName(),
-			String.valueOf(field.getType()))
+			field.getName())
 	    }
-	    if(!
-	    String.valueOf(field.getType()).toUpperCase().endsWith('ENUM') &&
 
-	    ArrayUtils.contains(
-	    field.getType().getInterfaces(),
-	    ApiResponseNode.class)) {
-
-
+	    if(String.valueOf(field.getType()).toUpperCase().endsWith('ENUM')) {
+		if(log.isDebugEnabled()) {
+		    log.debug('add enum [{}] to result.', field)
+		}
+		result = ArrayUtils.add(result, field)
+	    }else if(ArrayUtils.contains(field.getType().getInterfaces(), ApiResponseNode.class)) {
+		if(log.isDebugEnabled()) {
+		    log.debug('add api response node [{}] to result.', field)
+		}
+		result = ArrayUtils.add(result, field)
+	    }else if((field.getType().isPrimitive() || String.class == field.getType() ) && !field.getName().startsWith(NO_TARGET_METHOD_FIX)) {
+		if(log.isDebugEnabled()) {
+		    log.debug('add primitive(and String) [{}] to result.', field)
+		}
 		result = ArrayUtils.add(result, field)
 	    }
 	}

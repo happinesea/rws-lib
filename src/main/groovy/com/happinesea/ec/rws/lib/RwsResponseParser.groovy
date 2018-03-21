@@ -7,5 +7,5 @@ package com.happinesea.ec.rws.lib
  *
  */
 interface RwsResponseParser {
-    public <R> R parse(java.io.InputStream is,Class<R> clz)
+    public <R> R parse(String is,Class<R> clz)
 }

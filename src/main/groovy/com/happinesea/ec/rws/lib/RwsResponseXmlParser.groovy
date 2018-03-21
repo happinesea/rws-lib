@@ -2,6 +2,8 @@ package com.happinesea.ec.rws.lib;
 
 import java.lang.reflect.Field
 
+import org.apache.commons.lang.ArrayUtils
+
 import com.happinesea.ec.rws.lib.util.ClassUtils
 
 import groovy.util.logging.Log4j2
@@ -49,39 +51,47 @@ public class RwsResponseXmlParser implements RwsResponseParser {
      * </pre>
      */
     @Override
-    public <R> R parse(InputStream is, Class<R> clz) {
+    public <R> R parse(String is, Class<R> clz) {
 	if(is == null) {
 	    throw new IllegalArgumentException('Response xml inputstream is null')
 	}
-	rootNode = new XmlSlurper().parse(is)
+	rootNode = new XmlSlurper().parseText(is)
 
 	return parse(rootNode, clz)
     }
 
     public <R> R parse(GPathResult node, Class<R> clz) {
-	if(log.isDebugEnabled()) {
-	    log.debug('clz type: {}', clz)
-	}
+
 	def result = clz.getDeclaredConstructor().newInstance()
 
+	if(log.isDebugEnabled()) {
+	    log.debug('clz type: {} result type == clz+ []', clz, result.getClass() == clz)
+	}
+
 	Field[] fs = ClassUtils.getFieldsApiResponse(clz)
+
+	if(ArrayUtils.isEmpty(fs)) {
+	    return result
+	}
 	Map<String, Field> fieldMap = new HashMap()
 
 	for(Field f: fs) {
-	    fieldMap.put(f.getName(), f)
+	    def name = f.getName()
+	    fieldMap.put(name, f)
+	    log.debug('target field: {}/{}', name, f.getType())
 	}
 
+	String name = node.name()
 	if(log.isDebugEnabled()) {
 	    log.debug('fieldMap->{}', fieldMap)
-	    log.debug('node name: {}', node.name())
+	    log.debug('node name: {}', name)
 	}
 
 	node.children().each{ v->
 	    Field f = fieldMap[v.name()]
 
 	    if(log.isDebugEnabled()) {
-		log.debug('-> child: {}', v.name())
-		log.debug('-> target field: {}', f?.getName())
+		log.debug('{}-> child: {} target field: {}', name, v.name(), f?.getName())
 	    }
 
 	    if(f== null) {

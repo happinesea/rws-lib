@@ -23,10 +23,10 @@ class RwsResponseResult implements ApiResponseNode {
      *
      */
     static class Status implements ApiResponseNode{
-	def interfaceId
+	String interfaceId
 	SystemStatusElementEnum systemStatus
 	MessageElementEnum message
-	def requestId
-	def requests
+	String requestId
+	String requests
     }
 }
