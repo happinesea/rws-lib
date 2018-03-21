@@ -7,9 +7,12 @@ jobs:
       - checkout
       - run:
           name: Starting build
-          command: chmod +x ./gradlew;./gradlew clean build
+          command: chmod +x ./gradlew;./gradlew clean build -x test
+  test:
+    docker:
+      - image: circleci/openjdk:10-ea-jdk-browsers
+    steps:
+      - checkout
       - run:
           name: Starting unit test.
-          command: chmod +x ./gradlew;./gradlew clean test
-      
-      
+          command: chmod +x ./gradlew;./gradlew --info clean test jacocoTestReport coveralls
