@@ -5,9 +5,9 @@ package com.happinesea.ec.rws.lib.enumerated;
  *
  */
 public enum CouponCapitalEnum implements ApiResponseEnum{
-    SHOP(0, 'ショップ'),  MAKER(1, 'メーカー')
-    ,  SERVICE(2, 'サービス')
+    SHOP('0', 'ショップ'),  MAKER('1', 'メーカー')
+    ,  SERVICE('2', 'サービス')
 
-    Integer id
+    String id
     String description
 }

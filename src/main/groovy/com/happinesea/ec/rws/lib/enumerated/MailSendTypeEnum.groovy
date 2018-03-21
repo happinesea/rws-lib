@@ -5,9 +5,9 @@ package com.happinesea.ec.rws.lib.enumerated;
  *
  */
 public enum MailSendTypeEnum implements ApiResponseEnum{
-    PC_MB(0, 'PC/モバイル'), PC(1, 'PC'), MB(2, 'モバイル')
+    PC_MB('0', 'PC/モバイル'), PC('1', 'PC'), MB('2', 'モバイル')
 
 
-    Integer id
+    String id
     String description
 }

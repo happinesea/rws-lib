@@ -42,12 +42,12 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 			field.getName())
 	    }
 
-	    if(String.valueOf(field.getType()).toUpperCase().endsWith('ENUM')) {
+	    if(isApiResponseEnum(field.getType())) {
 		if(log.isDebugEnabled()) {
 		    log.debug('add enum [{}] to result.', field)
 		}
 		result = ArrayUtils.add(result, field)
-	    }else if(ArrayUtils.contains(field.getType().getInterfaces(), ApiResponseNode.class)) {
+	    }else if(isApiResponseNode(field.getType())) {
 		if(log.isDebugEnabled()) {
 		    log.debug('add api response node [{}] to result.', field)
 		}
@@ -70,5 +70,45 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	}
 
 	return result
+    }
+
+    /**
+     * {@linkplain ApiResponse}の実装クラスかどうかを判定する
+     * 
+     * @param clz 対象クラス
+     * @return 判定結果。<code>null</code>の場合、<code>false</code>を戻す
+     */
+    public static boolean isApiResponseNode(Class clz) {
+
+	return isTargetInterface(clz, ApiResponseNode)
+    }
+
+    /**
+     * <s>{@linkplain ApiResponseEnum}の実装クラスかどうかを判定する</s>
+     *
+     * @param clz 対象クラス
+     * @return 判定結果。<code>null</code>の場合、<code>false</code>を戻す
+     */
+    public static boolean isApiResponseEnum(Class clz) {
+	if(clz == null) {
+	    return false
+	}
+
+	return String.valueOf(clz).toUpperCase().endsWith('ENUM')
+    }
+
+    /**
+     * 対象のIFの実装クラスかどうかを判定する
+     * 
+     * @param clz 判定クラス
+     * @param targetIf 対象のIF
+     * @return 判定結果。<code>null</code>の場合、<code>false</code>を戻す
+     */
+    public static boolean isTargetInterface(Class clz, Class targetIf) {
+	if(clz == null || targetIf == null || ArrayUtils.isEmpty(clz.getInterfaces())) {
+	    return false;
+	}
+
+	return ArrayUtils.contains(clz.getInterfaces(), targetIf)
     }
 }

@@ -5,9 +5,9 @@ package com.happinesea.ec.rws.lib.enumerated;
  *
  */
 public enum PhoneNumberTypeEnum implements ApiResponseEnum{
-    BUYER(1, '注文者'), DELIVERY_ADD(2, '送付先')
+    BUYER('1', '注文者'), DELIVERY_ADD('2', '送付先')
 
 
-    Integer id
+    String id
     String description
 }

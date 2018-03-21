@@ -5,11 +5,11 @@ package com.happinesea.ec.rws.lib.enumerated
  *
  */
 public enum PurchaseSiteTypeEnum implements ApiResponseEnum{
-    ALL(0, 'すべて'),  PC(1, 'PCで注文')
-    ,  MB(2, 'モバイルで注文'),  SP(3, 'スマートフォンで注文')
-    ,  TB(4, 'タブレットで注文')
+    ALL('0', 'すべて'),  PC('1', 'PCで注文')
+    ,  MB('2', 'モバイルで注文'),  SP('3', 'スマートフォンで注文')
+    ,  TB('4', 'タブレットで注文')
 
 
-    Integer id
+    String id
     String description
 }
