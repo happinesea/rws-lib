@@ -4,7 +4,7 @@ package com.happinesea.ec.rws.lib.enumerated;
  * @author loveapple
  *
  */
-public enum OrderProgressEnum{
+public enum OrderProgressEnum implements ApiResponseEnum{
     WAILT(100, '注文確認待ち'), PROCESS(200, '楽天処理中'),
     WAIT_DELIVERY(300, '発送待ち'), WAIL_COMMIT(400, '変更確定待ち'),
     DELIVERY(500, '発送済'), PAYING(600, '支払手続き中'),

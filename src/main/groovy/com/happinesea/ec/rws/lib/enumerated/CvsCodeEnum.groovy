@@ -4,7 +4,7 @@ package com.happinesea.ec.rws.lib.enumerated;
  * @author loveapple
  *
  */
-public enum CvsCodeEnum{
+public enum CvsCodeEnum implements ApiResponseEnum{
     FM(1, 'ファミリーマート')
     ,MS(20, 'ミニストップ')
     ,SK(40, 'サークルK')

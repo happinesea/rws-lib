@@ -4,7 +4,7 @@ package com.happinesea.ec.rws.lib.enumerated;
  * @author loveapple
  *
  */
-public enum DeliveryCompanyEnum{
+public enum DeliveryCompanyEnum implements ApiResponseEnum{
     OTHER(1000, 'その他')
     ,YAMATO(1001, 'ヤマト運輸')
     ,SAGAWA(1002, '佐川急便')

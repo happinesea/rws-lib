@@ -4,7 +4,7 @@ package com.happinesea.ec.rws.lib.enumerated;
  * @author loveapple
  *
  */
-public enum CarrierCodeEnum{
+public enum CarrierCodeEnum implements ApiResponseEnum {
     FP_DOCOMO(1, 'モバイル(docomo) フィーチャーフォン'),  FP_KDDI(2, 'モバイル(KDDI) フィーチャーフォン')
     ,  FP_SB(3, 'モバイル(Softbank) フィーチャーフォン'),  FP_WILLCOM(5, 'モバイル(WILLCOM) フィーチャーフォン')
     ,  SP_IOS(11, 'スマートフォン（iPhone系）'),  SP_ANDROID(12, 'スマートフォン（Android系）')

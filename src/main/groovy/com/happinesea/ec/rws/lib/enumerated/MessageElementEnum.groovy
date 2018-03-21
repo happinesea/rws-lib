@@ -5,7 +5,7 @@ package com.happinesea.ec.rws.lib.enumerated
  * @author loveapple
  *
  */
-public enum MessageElementEnum {
+public enum MessageElementEnum implements ApiResponseEnum {
     OK('OK', '')
     , ParameterError('ParameterError', 'パラメータエラー	')
     ,Request_data_is_wrong_format('Request data is wrong format', 'リクエストのフォーマットエラー	')
