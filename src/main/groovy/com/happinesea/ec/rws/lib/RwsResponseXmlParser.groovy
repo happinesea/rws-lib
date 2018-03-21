@@ -100,11 +100,12 @@ public class RwsResponseXmlParser implements RwsResponseParser {
 
 
 	    f.setAccessible(true)
-	    if(f.getType().isPrimitive()) {
+	    if(ClassUtils.isPrimitveAndString(f.getType())) {
 		if(log.isDebugEnabled()) {
 		    log.debug('Set element: {}', v.name())
 		}
 		f.set(result, v.text())
+	    }else if(ClassUtils.isApiResponseEnum(f.getType())) {
 	    }else {
 		if(log.isDebugEnabled()) {
 		    log.debug('Recursive element: {}', v.name())

@@ -13,7 +13,6 @@ import com.happinesea.ec.rws.lib.bean.RwsItemGetResult
 import com.happinesea.ec.rws.lib.bean.RwsItemResponseResult
 import com.happinesea.ec.rws.lib.bean.RwsResponseResult
 import com.happinesea.ec.rws.lib.bean.RwsResponseResult.Status
-import com.happinesea.ec.rws.lib.enumerated.ApiResponseEnum
 import com.happinesea.ec.rws.lib.enumerated.MessageElementEnum
 import com.happinesea.ec.rws.lib.enumerated.SystemStatusElementEnum
 
@@ -82,15 +81,25 @@ class ClassUtilsTest {
 	assertTrue ClassUtils.isApiResponseEnum(SystemStatusElementEnum)
     }
 
+    @Test
     public void testIsTargetInterface() {
 	assertFalse ClassUtils.isTargetInterface(null, null)
 	assertFalse ClassUtils.isTargetInterface(SystemStatusElementEnum, null)
 	assertFalse ClassUtils.isTargetInterface(null, SystemStatusElementEnum)
 
-	assertTrue ClassUtils.isTargetInterface(SystemStatusElementEnum, Object)
+	assertTrue ClassUtils.isTargetInterface(String, CharSequence)
 
-	assertTrue ClassUtils.isTargetInterface(SystemStatusElementEnum, Enum)
+    }
 
-	assertTrue ClassUtils.isTargetInterface(SystemStatusElementEnum, ApiResponseEnum)
+    @Test
+    public void testIsPrimimitveAndString() {
+	assertFalse ClassUtils.isPrimitveAndString(null)
+
+	assertFalse ClassUtils.isPrimitveAndString(ApiResponseNode)
+	assertFalse ClassUtils.isPrimitveAndString(Status)
+
+	assertTrue ClassUtils.isPrimitveAndString(Integer)
+	assertTrue ClassUtils.isPrimitveAndString(String)
+
     }
 }

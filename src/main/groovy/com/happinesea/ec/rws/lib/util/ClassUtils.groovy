@@ -19,6 +19,19 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 
     private static final String NO_TARGET_METHOD_FIX = '_'
 
+    private static final Set<Class> PRIMITIVE_WARPPER;
+    static {
+	PRIMITIVE_WARPPER = new HashSet()
+	PRIMITIVE_WARPPER.add(Boolean)
+	PRIMITIVE_WARPPER.add(Character)
+	PRIMITIVE_WARPPER.add(Byte)
+	PRIMITIVE_WARPPER.add(Short)
+	PRIMITIVE_WARPPER.add(Integer)
+	PRIMITIVE_WARPPER.add(Long)
+	PRIMITIVE_WARPPER.add(Float)
+	PRIMITIVE_WARPPER.add(Double)
+    }
+
     /**
      * 親クラスの定義を含めて、{@linkplain ApiResponse}型、および、プリミティブ型の{@linkplain Field}を結果に戻す。
      * 
@@ -52,7 +65,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 		    log.debug('add api response node [{}] to result.', field)
 		}
 		result = ArrayUtils.add(result, field)
-	    }else if((field.getType().isPrimitive() || String.class == field.getType() ) && !field.getName().startsWith(NO_TARGET_METHOD_FIX)) {
+	    }else if(isPrimitveAndString(field.getType())) {
 		if(log.isDebugEnabled()) {
 		    log.debug('add primitive(and String) [{}] to result.', field)
 		}
@@ -95,6 +108,20 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	}
 
 	return String.valueOf(clz).toUpperCase().endsWith('ENUM')
+    }
+
+    /**
+     * {@linkplain String}、又は、プリミティブ型のラッパークラスかどうかを判定する
+     * 
+     * @param clz 対象クラス
+     * @return 判定結果。<code>null</code>の場合、<code>false</code>を戻す
+     */
+    public static boolean isPrimitveAndString(Class clz) {
+	if(clz == null) {
+	    return false
+	}
+
+	return (String.class == clz || PRIMITIVE_WARPPER.contains(clz)) && !clz.getName().startsWith(NO_TARGET_METHOD_FIX)
     }
 
     /**
