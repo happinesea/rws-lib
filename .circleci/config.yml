@@ -18,7 +18,7 @@ jobs:
           command: chmod +x ./gradlew;./gradlew --info clean test jacocoTestReport coveralls
 workflows:
   version: 2
-  build_and_unit_test_workflow:
+  build_and_test:
   jobs:
-      - build
-      - test
+    - build
+    - test
