@@ -1,6 +1,7 @@
 package com.happinesea.ec.rws.lib.util;
 
 import java.lang.reflect.Field
+import java.util.HashSet
 
 import org.apache.commons.lang.ArrayUtils
 
@@ -69,6 +70,11 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	    }else if(isPrimitveAndString(field.getType())) {
 		if(log.isDebugEnabled()) {
 		    log.debug('add primitive(and String) [{}] to result.', field)
+		}
+		result = ArrayUtils.add(result, field)
+	    }else if(isTargetInterface(field.getType(), Collection)) {
+		if(log.isDebugEnabled()) {
+		    log.debug('add collection [{}] to result.', field)
 		}
 		result = ArrayUtils.add(result, field)
 	    }

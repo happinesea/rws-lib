@@ -111,6 +111,19 @@ public class RwsResponseXmlParser implements RwsResponseParser {
 		BeanUtils.copyProperty(result, f.getName(),v.text())
 	    }else if(ClassUtils.isApiResponseEnum(f.getType())) {
 		f.set(result, EnumUtils.getApiResponseEnum(f.getType(), v.text()))
+	    }else if(ClassUtils.isTargetInterface(f.getType(), Collection)) {
+		GPathResult tmp = v.children()
+		if(tmp != null && !tmp.isEmpty()) {
+		    List elements = []
+		    v.children().each {
+			elements.add(it)
+			log.debug('list element-> {}', it)
+		    }
+		    f.set(result, elements)
+		}
+
+		// TODO
+		log.debug('Generic Types {}/{}', f.getGenericInfo(), f.getType())
 	    }else {
 		if(log.isDebugEnabled()) {
 		    log.debug('Recursive element: {}', v.name())

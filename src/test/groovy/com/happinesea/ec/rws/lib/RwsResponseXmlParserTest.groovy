@@ -66,6 +66,6 @@ class RwsResponseXmlParserTest {
 	assertEquals '200-00', result.itemSearchResult.code
 	assertEquals 10, result.itemSearchResult.numFound
 
-	//assertNotNull result.itemSearchResult.items
+	assertNotNull result.itemSearchResult.items
     }
 }
