@@ -16,3 +16,8 @@ jobs:
       - run:
           name: Starting unit test.
           command: chmod +x ./gradlew;./gradlew --info clean test jacocoTestReport coveralls
+workflows:
+  version: 2
+  unit_test_workflow:
+  jobs:
+      - test
