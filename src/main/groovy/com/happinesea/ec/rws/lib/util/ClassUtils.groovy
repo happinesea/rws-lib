@@ -5,6 +5,7 @@ import java.lang.reflect.Field
 import org.apache.commons.lang.ArrayUtils
 
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
+import com.happinesea.ec.rws.lib.enumerated.ApiResponseEnum
 
 import groovy.util.logging.Log4j2
 
@@ -107,7 +108,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	    return false
 	}
 
-	return String.valueOf(clz).toUpperCase().endsWith('ENUM')
+	return isTargetInterface(clz, ApiResponseEnum)
     }
 
     /**

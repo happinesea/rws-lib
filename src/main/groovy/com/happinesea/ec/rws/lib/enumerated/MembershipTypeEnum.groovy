@@ -9,6 +9,10 @@ public enum MembershipTypeEnum implements ApiResponseEnum{
     ,  STUDENT('2', '楽天学割対象受注である')
 
 
+    MembershipTypeEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }

@@ -35,6 +35,10 @@ public enum DeliveryCompanyEnum implements ApiResponseEnum{
     ,SCH('1027', 'SGHグローバル・ジャパン')
 
 
+    DeliveryCompanyEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }

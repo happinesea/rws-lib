@@ -12,7 +12,10 @@ public enum CarrierCodeEnum implements ApiResponseEnum {
     ,  TB_ANDROID('22', 'タブレット（Android系）'),  TB_OTHER('29', 'タブレット（その他）')
     ,  OTHER('99', 'その他　不明な場合も含む')
 
-
+    CarrierCodeEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }

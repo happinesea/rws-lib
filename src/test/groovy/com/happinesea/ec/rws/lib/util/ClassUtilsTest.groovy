@@ -10,7 +10,7 @@ import org.junit.Test
 import com.happinesea.ec.rws.lib.RwsResponseParser
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 import com.happinesea.ec.rws.lib.bean.RwsItemGetResult
-import com.happinesea.ec.rws.lib.bean.RwsItemResponseResult
+import com.happinesea.ec.rws.lib.bean.RwsItemGetResponseResult
 import com.happinesea.ec.rws.lib.bean.RwsResponseResult
 import com.happinesea.ec.rws.lib.bean.RwsResponseResult.Status
 import com.happinesea.ec.rws.lib.enumerated.MessageElementEnum
@@ -36,7 +36,7 @@ class ClassUtilsTest {
 	assertEquals Status, fields[0].getType()
 
 	// Test have superclass
-	fields = ClassUtils.getFieldsApiResponse(RwsItemResponseResult)
+	fields = ClassUtils.getFieldsApiResponse(RwsItemGetResponseResult)
 	assertEquals 'status', fields[1].getName()
 	assertEquals Status, fields[1].getType()
 	assertEquals 'itemGetResult', fields[0].getName()

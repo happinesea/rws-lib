@@ -11,6 +11,10 @@ public enum EmailCarrierCodeEnum implements ApiResponseEnum{
 
 
 
+    EmailCarrierCodeEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }

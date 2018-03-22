@@ -2,9 +2,11 @@ package com.happinesea.ec.rws.lib;
 
 import java.lang.reflect.Field
 
+import org.apache.commons.beanutils.BeanUtils
 import org.apache.commons.lang.ArrayUtils
 
 import com.happinesea.ec.rws.lib.util.ClassUtils
+import com.happinesea.ec.rws.lib.util.EnumUtils
 
 import groovy.util.logging.Log4j2
 import groovy.util.slurpersupport.GPathResult
@@ -104,8 +106,11 @@ public class RwsResponseXmlParser implements RwsResponseParser {
 		if(log.isDebugEnabled()) {
 		    log.debug('Set element: {}', v.name())
 		}
-		f.set(result, v.text())
+		// TODO 型変換
+		//BeanUtils.copyProperty(result, f.,v.text())
+		BeanUtils.copyProperty(result, f.getName(),v.text())
 	    }else if(ClassUtils.isApiResponseEnum(f.getType())) {
+		f.set(result, EnumUtils.getApiResponseEnum(f.getType(), v.text()))
 	    }else {
 		if(log.isDebugEnabled()) {
 		    log.debug('Recursive element: {}', v.name())

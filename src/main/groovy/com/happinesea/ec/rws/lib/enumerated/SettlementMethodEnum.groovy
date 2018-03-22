@@ -10,6 +10,10 @@ public enum SettlementMethodEnum implements ApiResponseEnum{
     OTHER_PREPAYMENT('14', 'ローソン、郵便局ATM等（前払）')
 
 
+    SettlementMethodEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }

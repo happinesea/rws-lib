@@ -10,6 +10,10 @@ public enum SearchKeywordTypeEnum implements ApiResponseEnum{
     DELIVERY_NAME('6', '送付先お名前')
 
 
+    SearchKeywordTypeEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }

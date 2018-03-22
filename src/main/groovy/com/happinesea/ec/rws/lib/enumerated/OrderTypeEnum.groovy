@@ -10,6 +10,10 @@ public enum OrderTypeEnum implements ApiResponseEnum{
     DELIVERY_COMPLETE('5', '発送完了日'), PAYING('6', '決済確定日')
 
 
+    OrderTypeEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }

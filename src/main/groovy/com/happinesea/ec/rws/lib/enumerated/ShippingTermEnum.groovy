@@ -9,6 +9,10 @@ public enum ShippingTermEnum implements ApiResponseEnum{
     ,  PM('2', '午後'),  OTHER('3', 'その他')
 
 
+    ShippingTermEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }

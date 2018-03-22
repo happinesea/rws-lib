@@ -11,6 +11,10 @@ public enum OrderProgressEnum implements ApiResponseEnum{
     PAY_COMPLETE('700', '支払手続き済'), WAIT_CANCEL('800', 'キャンセル確定待ち')
 
 
+    OrderProgressEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }

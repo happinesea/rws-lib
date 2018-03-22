@@ -9,6 +9,10 @@ public enum DateTypeEnum implements ApiResponseEnum{
     DISTRIBUTION('5', '頒布会'), RESERVED('6', '予約商品')
 
 
+    DateTypeEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }

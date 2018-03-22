@@ -14,6 +14,10 @@ public enum MessageElementEnum implements ApiResponseEnum {
     , SystemError('SystemError()', '予期せぬエラー')
     , Method_Not_Allowed('Method Not Allowed', '許可されていないHTTPメソッド')
 
+    MessageElementEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }

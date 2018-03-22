@@ -25,6 +25,10 @@ public enum CvsCodeEnum implements ApiResponseEnum{
     ,SS('93', '生活彩家')
 
 
+    CvsCodeEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }

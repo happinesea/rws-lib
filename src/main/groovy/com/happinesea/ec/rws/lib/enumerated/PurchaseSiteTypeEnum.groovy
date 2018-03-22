@@ -10,6 +10,10 @@ public enum PurchaseSiteTypeEnum implements ApiResponseEnum{
     ,  TB('4', 'タブレットで注文')
 
 
+    PurchaseSiteTypeEnum(String id, String description){
+	this.id = id
+	this.description = description
+    }
     String id
     String description
 }
