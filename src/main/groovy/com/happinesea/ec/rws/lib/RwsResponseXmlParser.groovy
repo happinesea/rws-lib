@@ -106,8 +106,6 @@ public class RwsResponseXmlParser implements RwsResponseParser {
 		if(log.isDebugEnabled()) {
 		    log.debug('Set element: {}', v.name())
 		}
-		// TODO 型変換
-		//BeanUtils.copyProperty(result, f.,v.text())
 		BeanUtils.copyProperty(result, f.getName(),v.text())
 	    }else if(ClassUtils.isApiResponseEnum(f.getType())) {
 		f.set(result, EnumUtils.getApiResponseEnum(f.getType(), v.text()))
@@ -122,7 +120,7 @@ public class RwsResponseXmlParser implements RwsResponseParser {
 		    f.set(result, elements)
 		}
 
-		// TODO
+		// TODO ジェネクス型を取得して設定する
 		log.debug('Generic Types {}/{}', f.getGenericInfo(), f.getType())
 	    }else {
 		if(log.isDebugEnabled()) {

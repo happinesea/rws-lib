@@ -11,6 +11,8 @@ import com.happinesea.ec.rws.lib.RwsResponseParser
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 import com.happinesea.ec.rws.lib.bean.RwsItemGetResponseResult
 import com.happinesea.ec.rws.lib.bean.RwsItemGetResult
+import com.happinesea.ec.rws.lib.bean.RwsItemSearchResult
+import com.happinesea.ec.rws.lib.bean.RwsResponseItem
 import com.happinesea.ec.rws.lib.bean.RwsResponseResult
 import com.happinesea.ec.rws.lib.bean.RwsResponseResult.Status
 import com.happinesea.ec.rws.lib.enumerated.MessageElementEnum
@@ -103,5 +105,26 @@ class ClassUtilsTest {
 	assertTrue ClassUtils.isPrimitveAndString(Integer)
 	assertTrue ClassUtils.isPrimitveAndString(String)
 
+    }
+
+    @Test
+    public void testGetFieldGenertics() {
+	def expectedException = shouldFail(IllegalArgumentException){ ClassUtils.getFieldGenertics(null) }
+
+	assertEquals 'field is null.', expectedException.message
+
+	// テストデータ初期化
+	Field stringField = RwsItemSearchResult.getDeclaredField('code')
+	Field listField = RwsItemSearchResult.getDeclaredField('items')
+
+	assertEquals String, ClassUtils.getFieldGenertics(stringField)
+	assertEquals RwsResponseItem, ClassUtils.getFieldGenertics(listField)
+
+	listField = TestClz.getDeclaredField('testlist')
+	assertEquals List, ClassUtils.getFieldGenertics(listField)
+    }
+
+    private class TestClz{
+	List<? > testlist
     }
 }

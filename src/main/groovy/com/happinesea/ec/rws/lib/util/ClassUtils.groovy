@@ -1,7 +1,6 @@
 package com.happinesea.ec.rws.lib.util;
 
 import java.lang.reflect.Field
-import java.util.HashSet
 
 import org.apache.commons.lang.ArrayUtils
 
@@ -144,5 +143,38 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	}
 
 	return ArrayUtils.contains(clz.getInterfaces(), targetIf)
+    }
+
+    /**
+     * 対象{@linkplain Field}のジェネクスの型を取得する<br>
+     * ジェネクスが定義されないものは自分自身の型を戻す
+     * 
+     * @param field
+     * @return
+     */
+    public static Class getFieldGenertics(Field field) {
+	if(field == null) {
+	    throw new IllegalArgumentException('field is null.')
+	}
+
+	String typeName = field.getGenericType().getTypeName()
+
+	int startPoint = typeName.indexOf('<')
+	if(startPoint < 0) {
+	    return field.getType()
+	}
+
+	int endPoint = typeName.indexOf('>')
+	if(endPoint < 0) {
+	    throw new RuntimeException(String.format('invalid class name of [{}]', typeName))
+	}
+
+	String targetName = typeName.substring(startPoint + 1, endPoint)
+
+	if(targetName == '?') {
+	    return field.getType()
+	}else {
+	    Class.forName(targetName)
+	}
     }
 }
