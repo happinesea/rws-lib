@@ -29,7 +29,7 @@ import groovy.util.logging.Log4j2
  *
  */
 @Log4j2
-abstract class AbstractRwsCrawler {
+class RwsCrawler {
     /**
      * 設定情報
      */
@@ -40,7 +40,7 @@ abstract class AbstractRwsCrawler {
      * 
      * @return 自分自身のインスタンスを戻す
      */
-    def init() {
+    RwsCrawler init() {
 	config = HappineseaConfig.getInstance()
 
 	return this
@@ -80,7 +80,7 @@ abstract class AbstractRwsCrawler {
 		log.debug('Response content: [{}]', entity.getContent().getText())
 	    }
 
-	    def rootNode = new XmlParser().parseText(entity.getContent())
+	    def rootNode = new XmlParser().parseText(entity.getContent().getText())
 
 
 	}catch(IOException e) {
@@ -104,9 +104,20 @@ abstract class AbstractRwsCrawler {
     public List<Header> getRequestHeaderStr(RwsRequestHeaderBean bean) {
 
 	List<Header> headers = new ArrayList<Header>()
-	headers.add(new BasicHeader('Authorization', bean.getAuthorization()))
-	headers.add(new BasicHeader('Content-Type', bean.getContentType().toString()))
-	headers.add(new BasicHeader('Accept-Charset', bean.getAcceptCharset()))
+
+	if(bean == null) {
+	    return headers
+	}
+
+	if(bean.getAuthorization()) {
+	    headers.add(new BasicHeader('Authorization', bean.getAuthorization()))
+	}
+	if(bean.getContentType()) {
+	    headers.add(new BasicHeader('Content-Type', bean.getContentType().toString()))
+	}
+	if(bean.getAcceptCharset()) {
+	    headers.add(new BasicHeader('Accept-Charset', bean.getAcceptCharset()))
+	}
 
 	return headers
     }

@@ -4,5 +4,5 @@ package com.happinesea.ec.rws.lib
  * @author loveapple
  *
  */
-class RwsCrawlerItemSearch extends AbstractRwsCrawler {
+class RwsCrawlerItemSearch extends RwsCrawler {
 }
