@@ -42,13 +42,13 @@ class RwsCrawlerTest {
 	result = crawler.getRequestHeaderStr(bean)
 	assertEquals 2, result.size()
 	assertEquals 'ESA ' + 'x:y'.bytes.encodeBase64().toString(), result[0].getValue()
-	assertEquals ContentType.JSON, result[1].getValue()
+	assertEquals ContentType.JSON.toString() , result[1].getValue()
 
 	bean.acceptCharset = 'z'
 	result = crawler.getRequestHeaderStr(bean)
 	assertEquals 3, result.size()
 	assertEquals 'ESA ' + 'x:y'.bytes.encodeBase64().toString(), result[0].getValue()
-	assertEquals ContentType.JSON, result[1].getValue()
+	assertEquals ContentType.JSON.toString(), result[1].getValue()
 	assertEquals 'z', result[2].getValue()
     }
 
