@@ -31,15 +31,15 @@ class RwsResponseXmlParserTest {
 		</numFound>
 		<items>
 			<item>
-				<itemUrl>aaa</itemUrl>
+				<itemUrl>a1</itemUrl>
 				<!-- omission -->
 			</item>
 			<item>
-				<itemUrl>aaa</itemUrl>
+				<itemUrl>a2</itemUrl>
 				<!-- omission -->
 			</item>
 			<item>
-				<itemUrl>aaa</itemUrl>
+				<itemUrl>a3</itemUrl>
 				<!-- omission -->
 			</item>
 		</items>
@@ -67,5 +67,12 @@ class RwsResponseXmlParserTest {
 	assertEquals 10, result.itemSearchResult.numFound
 
 	assertNotNull result.itemSearchResult.items
+	assertEquals 3, result.itemSearchResult.items.size()
+	assertNotNull result.itemSearchResult.items[0]
+	assertNotNull result.itemSearchResult.items[1]
+	assertNotNull result.itemSearchResult.items[2]
+	assertEquals 'a1', result.itemSearchResult.items[0].itemUrl
+	assertEquals 'a2', result.itemSearchResult.items[1].itemUrl
+	assertEquals 'a3', result.itemSearchResult.items[2].itemUrl
     }
 }

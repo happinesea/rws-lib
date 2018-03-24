@@ -5,119 +5,119 @@ package com.happinesea.ec.rws.lib.bean
  *
  */
 class RwsResponseItem implements ApiResponseNode {
-    def itemUrl
-    def itemNumber
-    def itemName
-    def itemPrice
-    def genreId
-    def catalogId
-    def catalogIdExemptionReason
-    def whiteBgImageUrl
+    String itemUrl
+    String itemNumber
+    String itemName
+    String itemPrice
+    String genreId
+    String catalogId
+    String catalogIdExemptionReason
+    String whiteBgImageUrl
     List<Image> images
-    def descriptionForPC
-    def descriptionForMobile
-    def descriptionForSmartPhone
-    def movieUrl
+    String descriptionForPC
+    String descriptionForMobile
+    String descriptionForSmartPhone
+    String movieUrl
     List<Option> options
     List<TagId> tagIds
-    def catchCopyForPC
-    def catchCopyForMobile
-    def descriptionBySalesMethod
-    def isSaleButton
-    def isDocumentButton
-    def isInquiryButton
-    def isStockNoticeButton
-    def displayMakerContents
-    def itemLayout
-    def isIncludedTax
-    def isIncludedPostage
-    def isIncludedCashOnDeliveryPostage
-    def displayPrice
-    def orderLimit
-    def postage
-    def postageSegment1
-    def postageSegment2
-    def isNoshiEnable
-    def isTimeSale
-    def timeSaleStartDateTime
-    def timeSaleEndDateTime
-    def isUnavailableForSearch
-    def limitedPasswd
-    def isAvailableForMobile
-    def isDepot
-    def detailSellType
-    def releaseDate
+    String catchCopyForPC
+    String catchCopyForMobile
+    String descriptionBySalesMethod
+    String isSaleButton
+    String isDocumentButton
+    String isInquiryButton
+    String isStockNoticeButton
+    String displayMakerContents
+    String itemLayout
+    String isIncludedTax
+    String isIncludedPostage
+    String isIncludedCashOnDeliveryPostage
+    String displayPrice
+    String orderLimit
+    String postage
+    String postageSegment1
+    String postageSegment2
+    String isNoshiEnable
+    String isTimeSale
+    String timeSaleStartDateTime
+    String timeSaleEndDateTime
+    String isUnavailableForSearch
+    String limitedPasswd
+    String isAvailableForMobile
+    String isDepot
+    String detailSellType
+    String releaseDate
     Point point
     ItemInventory itemInventory
-    def asurakuDeliveryId
-    def deliverySetId
-    def sizeChartLinkCode
-    def reviewDisp
+    String asurakuDeliveryId
+    String deliverySetId
+    String sizeChartLinkCode
+    String reviewDisp
     Medicine medicine
-    def displayPriceId
+    String displayPriceId
     List<CategoryInfo> categoryInfo
-    def itemWeight
-    def layoutCommonId
-    def layoutMapId
-    def textSmallId
-    def lossLeaderId
-    def textLargeId
-    def registDate
+    String itemWeight
+    String layoutCommonId
+    String layoutMapId
+    String textSmallId
+    String lossLeaderId
+    String textLargeId
+    String registDate
 
     static class Image{
-	def imageUrl
-	def imageAlt
+	String imageUrl
+	String imageAlt
     }
     static class Option{
-	def optionName
-	def optionStyle
+	String optionName
+	String optionStyle
 	List<OptionValues> optionValues
 	static class OptionValues{
 	    OptionValue optionValue
 	    static class OptionValue{
-		def value
+		String value
 	    }
 	}
     }
     static class TagId{
-	def tagId
+	String tagId
     }
     static class Point{
-	def pointRate
-	def pointRateStart
-	def pointRateEnd
+	String pointRate
+	String pointRateStart
+	String pointRateEnd
     }
     static class ItemInventory{
-	def inventoryType
-	def inventories
+	String inventoryType
+	String inventories
 	Inventory inventory
-	def verticalName
-	def horizontalName
-	def inventoryQuantityFlag
-	def inventoryDisplayFlag
+	String verticalName
+	String horizontalName
+	String inventoryQuantityFlag
+	String inventoryDisplayFlag
 
 	static class Inventory{
-	    def inventoryCount
-	    def childNoVertical
-	    def childNoHorizontal
-	    def optionNameVertical
-	    def optionNameHorizontal
-	    def isBackorderAvailable
-	    def normalDeliveryDateId
-	    def backorderDeliveryDateId
-	    def isBackorder
-	    def isRestoreInventoryFlag
+	    String inventoryCount
+	    String childNoVertical
+	    String childNoHorizontal
+	    String optionNameVertical
+	    String optionNameHorizontal
+	    String isBackorderAvailable
+	    String normalDeliveryDateId
+	    String backorderDeliveryDateId
+	    String isBackorder
+	    String isRestoreInventoryFlag
 	    List<Image> images
 	    List<TagId> tagIds
 	}
     }
     static class Medicine{
-	def medCaption
-	def medAttention
+	String medCaption
+	String medAttention
     }
     static class CategoryInfo{
-	def categorySetManageNumber
-	def categoryId
-	def isPluralItemPage
+	String categorySetManageNumber
+	String categoryId
+	String isPluralItemPage
     }
 }

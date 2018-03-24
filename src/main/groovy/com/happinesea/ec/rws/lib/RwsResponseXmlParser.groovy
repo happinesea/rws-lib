@@ -67,7 +67,7 @@ public class RwsResponseXmlParser implements RwsResponseParser {
 	def result = clz.getDeclaredConstructor().newInstance()
 
 	if(log.isDebugEnabled()) {
-	    log.debug('clz type: {} result type == clz+ []', clz, result.getClass() == clz)
+	    log.debug('clz type: {} result type == clz+ {}', clz, result.getClass() == clz)
 	}
 
 	Field[] fs = ClassUtils.getFieldsApiResponse(clz)
@@ -113,15 +113,15 @@ public class RwsResponseXmlParser implements RwsResponseParser {
 		GPathResult tmp = v.children()
 		if(tmp != null && !tmp.isEmpty()) {
 		    List elements = []
+		    Class elementType = ClassUtils.getFieldGenertics(f)
 		    v.children().each {
-			elements.add(it)
-			log.debug('list element-> {}', it)
+			if(log.isDebugEnabled()) {
+			    log.debug('element parse -> {}/{}', it, elementType)
+			}
+			elements.add(parse(it, elementType))
 		    }
 		    f.set(result, elements)
 		}
-
-		// TODO ジェネクス型を取得して設定する
-		log.debug('Generic Types {}/{}', f.getGenericInfo(), f.getType())
 	    }else {
 		if(log.isDebugEnabled()) {
 		    log.debug('Recursive element: {}', v.name())
