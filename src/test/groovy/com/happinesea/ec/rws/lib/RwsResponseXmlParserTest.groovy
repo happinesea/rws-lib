@@ -49,9 +49,9 @@ class RwsResponseXmlParserTest {
     @Test
     public void testParseItemSearch() {
 
-	RwsResponseXmlParser<RwsItemSearchResponseResult> parser = new RwsResponseXmlParser<RwsItemSearchResponseResult>();
+	RwsResponseXmlParser parser = new RwsResponseXmlParser()
 
-	RwsItemSearchResponseResult result = parser.parse(itemSearchXmlSuccess, RwsItemSearchResponseResult.class)
+	RwsItemSearchResponseResult result = parser.parse(itemSearchXmlSuccess, RwsItemSearchResponseResult)
 
 	assertNotNull result
 	assertNotNull result.status

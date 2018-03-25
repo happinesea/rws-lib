@@ -5,6 +5,7 @@ import java.lang.reflect.Field
 import org.apache.commons.beanutils.BeanUtils
 import org.apache.commons.lang.ArrayUtils
 
+import com.happinesea.ec.rws.lib.bean.RwsResponseResult
 import com.happinesea.ec.rws.lib.util.ClassUtils
 import com.happinesea.ec.rws.lib.util.EnumUtils
 
@@ -12,7 +13,7 @@ import groovy.util.logging.Log4j2
 import groovy.util.slurpersupport.GPathResult
 
 /**
- * @author loveapple
+ * 
  *
  */
 @Log4j2
@@ -53,7 +54,7 @@ public class RwsResponseXmlParser implements RwsResponseParser {
      * </pre>
      */
     @Override
-    public <R> R parse(String content, Class<R> clz) {
+    public <R extends RwsResponseResult> R parse(String content, Class<R> clz) {
 	if(content == null) {
 	    throw new IllegalArgumentException('Response xml inputstream is null')
 	}
