@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:10-ea-jdk-browsers
+      - image: circleci/openjdk:9.0.1-jdk-browsers
     steps:
       - checkout
       - run:
@@ -10,7 +10,7 @@ jobs:
           command: chmod +x ./gradlew;./gradlew clean build -x test
   test:
     docker:
-      - image: circleci/openjdk:10-ea-jdk-browsers
+      - image: circleci/openjdk:9.0.1-jdk-browsers
     steps:
       - checkout
       - run:
