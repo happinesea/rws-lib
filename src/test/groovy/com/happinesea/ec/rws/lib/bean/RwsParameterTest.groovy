@@ -4,7 +4,8 @@ import static org.junit.Assert.*
 
 import org.junit.Test
 
-import com.happinesea.ec.rws.lib.request.form.RwsItemApiGetForm
+import com.happinesea.ec.rws.lib.bean.form.RwsItemApiGetForm
+
 
 class RwsParameterTest {
 

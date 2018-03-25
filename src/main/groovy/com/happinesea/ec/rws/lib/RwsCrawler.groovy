@@ -16,7 +16,6 @@ import org.apache.http.message.BasicHeader
 import com.happinesea.HappineseaConfig
 import com.happinesea.ec.rws.lib.bean.RwsParameter
 import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
-import com.happinesea.ec.rws.lib.bean.RwsResponseBody
 import com.happinesea.ec.rws.lib.bean.RwsResponseResult
 
 import groovy.util.logging.Log4j2
@@ -36,26 +35,18 @@ class RwsCrawler {
     private HappineseaConfig config
 
     /**
+     * コンストラクタ
+     */
+    public RwsCrawler() {
+	config = HappineseaConfig.getInstance()
+    }
+
+    /**
      * クローラーの初期化を行う
      * 
      * @return 自分自身のインスタンスを戻す
      */
-    RwsCrawler init() {
-	config = HappineseaConfig.getInstance()
-
-	return this
-    }
-
-    /**
-     * 
-     * @param httpBuilder
-     * @param parameter
-     * @return
-     */
-    public <R extends RwsResponseResult> R getApiRequest(RwsParameter parameter, RwsResponseParser parser) {
-	if(parameter == null || parameter.getHeader() == null) {
-	    throw new IllegalArgumentException('invalide request info.')
-	}
+    protected HttpClient init(RwsParameter parameter) {
 
 	// RequestConfig
 	RequestConfig requestConfig = RequestConfig.custom()
@@ -63,43 +54,66 @@ class RwsCrawler {
 		.setSocketTimeout(config.socketTimeout).build()
 
 	// HttpClient
-	HttpClient httpClient = HttpClientBuilder.create()
+	return HttpClientBuilder.create()
 		.setDefaultRequestConfig(requestConfig)
 		.setDefaultHeaders(getRequestHeaderStr(parameter.header)).build();
 
-	HttpGet httpGet = new HttpGet(parameter.getRequestUri() + parameter.getPath() + "?" + parameter.getQueryString());
-
-	RwsResponseBody response = new R()
-	try {
-	    HttpResponse result= httpClient.execute(httpGet);
-
-	    HttpEntity entity = result.entity
-
-	    if(log.isDebugEnabled()) {
-		log.debug('Request parameter: [{}]', parameter.getQueryString())
-		log.debug('Response content: [{}]', entity.getContent().getText())
-	    }
-
-	    def rootNode = new XmlParser().parseText(entity.getContent().getText())
-
-
-	}catch(IOException e) {
-	    response.thro = e;
-	}catch(ClientProtocolException e) {
-	    response.thro = e;
-
-	}catch(Exception e) {
-	    response.thro = e;
-
-	}
-
-	return response
     }
 
     /**
      * 
-     * @param bean
+     * @param parameter
+     * @param parser
+     * @param clz
      * @return
+     */
+    public <R extends RwsResponseResult>R getApiContents(RwsParameter parameter, RwsResponseParser parser, Class<R> clz) {
+	HttpEntity entity = getApiRequest(parameter).entity
+
+	BufferedReader br
+
+	try {
+	    br = new BufferedReader(entity.getContent());
+
+	    StringBuilder sb = new StringBuilder()
+	    String line
+	    while ((line = br.readLine()) != null) {
+		sb.append(line);
+	    }
+
+	    return parser.parse(sb.toString(), clz)
+	}finally{
+	    if(br != null) {
+		br.close()
+	    }
+	}
+    }
+
+    /**
+     * HTTP通信GETメソッドのレスポンスを返す
+     * 
+     * @param parameter リクエストパラメータ
+     * @return レスポンス
+     * @throws IOException
+     * @throws ClientProtocolException
+     */
+    public HttpResponse getApiRequest(RwsParameter parameter) throws IOException, ClientProtocolException {
+	if(parameter == null || parameter.getHeader() == null) {
+	    throw new IllegalArgumentException('invalide request info.')
+	}
+
+	HttpClient httpClient = init(parameter)
+
+	HttpGet httpGet = new HttpGet(parameter.getRequestUri() + parameter.getPath() + "?" + parameter.getQueryString());
+
+	return httpClient.execute(httpGet);
+    }
+
+    /**
+     * RWS特化したHTTP通信用のヘッダー情報を作成する
+     * 
+     * @param bean ヘッダー情報を格納するbean
+     * @return HTTPヘッダー情報
      */
     public List<Header> getRequestHeaderStr(RwsRequestHeaderBean bean) {
 

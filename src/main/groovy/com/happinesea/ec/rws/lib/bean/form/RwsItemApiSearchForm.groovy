@@ -1,4 +1,4 @@
-package com.happinesea.ec.rws.lib.request.form
+package com.happinesea.ec.rws.lib.bean.form
 
 import com.happinesea.ec.rws.lib.enumerated.SortKeyItemEnum
 import com.happinesea.ec.rws.lib.enumerated.SortOrderItemEnum

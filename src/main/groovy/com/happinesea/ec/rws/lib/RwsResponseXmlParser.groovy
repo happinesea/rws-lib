@@ -53,11 +53,11 @@ public class RwsResponseXmlParser implements RwsResponseParser {
      * </pre>
      */
     @Override
-    public <R> R parse(String is, Class<R> clz) {
-	if(is == null) {
+    public <R> R parse(String content, Class<R> clz) {
+	if(content == null) {
 	    throw new IllegalArgumentException('Response xml inputstream is null')
 	}
-	rootNode = new XmlSlurper().parseText(is)
+	rootNode = new XmlSlurper().parseText(content)
 
 	return parse(rootNode, clz)
     }

@@ -5,7 +5,7 @@ import static org.junit.Assert.*
 
 import org.junit.Test
 
-import com.happinesea.ec.rws.lib.bean.RwsItemSearchResponseResult
+import com.happinesea.ec.rws.lib.bean.node.RwsItemSearchResponseResult
 import com.happinesea.ec.rws.lib.enumerated.MessageElementEnum
 import com.happinesea.ec.rws.lib.enumerated.SystemStatusElementEnum
 

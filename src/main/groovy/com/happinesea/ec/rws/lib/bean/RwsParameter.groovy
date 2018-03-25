@@ -2,7 +2,8 @@ package com.happinesea.ec.rws.lib.bean
 
 import java.nio.charset.StandardCharsets
 
-import com.happinesea.ec.rws.lib.request.form.AbstractRwsForm
+import com.happinesea.ec.rws.lib.bean.form.AbstractRwsForm
+
 
 /**
  * リクエストパラメータを格納する
