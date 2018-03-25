@@ -3,8 +3,97 @@ import java.text.SimpleDateFormat
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
+//apply plugin: 'application'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
-//def serFile="${project.buildDir}/cobertura.ser"
+
+def jdkVersion = 1.9
+sourceCompatibility = jdkVersion
+targetCompatibility = jdkVersion
+
+group = 'com.happinesea.lib'
+def currentFile = new File(".").getAbsoluteFile()
+def config = new ConfigSlurper().parse(new File(currentFile.getParentFile(), 'src/main/resources/com/happinesea/happinesea.config').toURI().toURL())
+version = config.happinesea.ec.rws.tool.version
+
+def d    = new Date()
+def time = new SimpleDateFormat( "HH:mm '(GMT'Z')'" ).format( d )
+def date = new SimpleDateFormat( 'MMMM dd, yyyy' ).format( d )
+
+
+// application info
+group = 'com.happinesea'
+archivesBaseName = 'rws-lib'
+description = ''
+
+
+//set build variables based on build type (release, continuous integration, development)
+def isDevBuild
+def isCiBuild
+def isReleaseBuild
+def sonatypeRepositoryUrl
+if (hasProperty("release")) {
+    isReleaseBuild = true
+    sonatypeRepositoryUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+} else if (hasProperty("ci")) {
+    isCiBuild = true
+    version += "-SNAPSHOT"
+    sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+} else {
+    isDevBuild = true
+    version += "-SNAPSHOT"
+}
+signing {
+    required { isReleaseBuild }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        if (isDevBuild) {
+            mavenLocal()
+        }
+        else {
+            mavenDeployer {
+                if(isReleaseBuild) {
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+                }
+
+                repository(url: sonatypeRepositoryUrl) {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+                }
+
+                pom.project {
+                    name "${archivesBaseName}"
+                    packaging 'jar'
+                    description "${description}"
+                    url 'http://lab.happinesea.com/rws-lib.html'
+
+                    scm {
+                        url "scm:git@github.com:happinesea/rws-lib.git"
+                        connection "scm:git@github.com:happinesea/rws-lib.git"
+                        developerConnection "scm:git@github.com:happinesea/rws-lib.git"
+                    }
+                    licenses {
+                        license {
+                            name 'MIT'
+                            url 'https://opensource.org/licenses/MIT'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id 'loveapple'
+                            name 'Chunli Hao'
+                            email 'chunli.hao@happinesea.com'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 buildscript {
     //repositories { mavenCentral() }
@@ -30,19 +119,6 @@ jacocoCoverage {
     fileThreshold 0.0, "*.groovy"
 }
 
-def jdkVersion = 1.9
-sourceCompatibility = jdkVersion
-targetCompatibility = jdkVersion
-
-group = 'com.happinesea.lib'
-def currentFile = new File(".").getAbsoluteFile()
-def config = new ConfigSlurper().parse(new File(currentFile.getParentFile(), 'src/main/resources/com/happinesea/happinesea.config').toURI().toURL())
-version = config.happinesea.ec.rws.tool.version
-
-def d    = new Date()
-def time = new SimpleDateFormat( "HH:mm '(GMT'Z')'" ).format( d )
-def date = new SimpleDateFormat( 'MMMM dd, yyyy' ).format( d )
-
 
 dependencies {
     //compile 'org.codehaus.groovy:groovy-all:3.0.0-alpha-1'
@@ -54,9 +130,7 @@ dependencies {
     compile 'org.apache.logging.log4j:log4j-api:2.10.0'
     compile 'org.apache.logging.log4j:log4j-core:2.10.0'
 
-
     compile localGroovy()
-
 
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
     testCompile 'junit:junit:4.12'
@@ -65,7 +139,7 @@ dependencies {
 
 eclipse.classpath.file {
     whenMerged { classpath ->
-	classpath.entries.findAll { entry -> entry.kind == 'output' }*.path = 'build/bin'
+        classpath.entries.findAll { entry -> entry.kind == 'output' }*.path = 'build/bin'
     }
 }
 eclipseJdt  {
@@ -76,7 +150,7 @@ eclipseJdt  {
 	}
 }
 
-eclipse { project { name = 'rws-lib' } }
+eclipse { project { name = archivesBaseName } }
 
 repositories { mavenCentral() }
 
@@ -95,8 +169,8 @@ groovydoc{
     use=true
     source = sourceSets.main.groovy
     groovyClasspath = configurations.compile
-    windowTitle = 'happinesea rws-lib groovy docs'
-    docTitle = "rws-lib API(v-${version})"
+    windowTitle = "happinesea ${archivesBaseName} groovy docs"
+    docTitle = "${archivesBaseName} API(v-${version})"
     header = '<a href="http://lab.happinesea.com" target="_blank">happinsea</a>'
     footer = '<a href="http://lab.happinesea.com" target="_blank">happinsea</a> API documentation was generated at ' + "$time on $date."
     link 'http://download.oracle.com/javase/7/docs/api/', 'java.'
