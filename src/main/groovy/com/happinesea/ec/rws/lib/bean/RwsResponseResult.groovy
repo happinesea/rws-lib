@@ -27,6 +27,6 @@ class RwsResponseResult implements ApiResponseNode {
 	SystemStatusElementEnum systemStatus
 	MessageElementEnum message
 	String requestId
-	String requests
+	List<String> requests
     }
 }

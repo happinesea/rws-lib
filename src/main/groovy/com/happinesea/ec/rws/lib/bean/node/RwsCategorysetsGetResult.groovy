@@ -6,14 +6,14 @@ import com.happinesea.ec.rws.lib.bean.ApiResponseNode
  */
 class RwsCategorysetsGetResult implements ApiResponseNode {
     String code
-    String shopId
+    Integer shopId
     List<CategorySet> categorySetList
 
     static class CategorySet{
-	String categorySetManageNumber
-	String categorySetId
+	Integer categorySetManageNumber
+	Integer categorySetId
 	String categorySetName
-	String categorySetStatus
-	String categorySetOrder
+	Integer categorySetStatus
+	Integer categorySetOrder
     }
 }

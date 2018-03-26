@@ -6,9 +6,12 @@ import static org.junit.Assert.*
 import org.apache.commons.collections.CollectionUtils
 import org.junit.Test
 
+import com.happinesea.ec.rws.lib.bean.node.RwsCategoriesGetResponseResult
+import com.happinesea.ec.rws.lib.bean.node.RwsCategoriesGetResult
 import com.happinesea.ec.rws.lib.bean.node.RwsCategorysetsGetResponseResult
 import com.happinesea.ec.rws.lib.bean.node.RwsCategorysetsGetResult
 import com.happinesea.ec.rws.lib.bean.node.RwsItemSearchResponseResult
+import com.happinesea.ec.rws.lib.bean.node.RwsCategoriesGetResult.Category
 import com.happinesea.ec.rws.lib.bean.node.RwsCategorysetsGetResult.CategorySet
 import com.happinesea.ec.rws.lib.enumerated.MessageElementEnum
 import com.happinesea.ec.rws.lib.enumerated.SystemStatusElementEnum
@@ -91,7 +94,7 @@ class RwsResponseXmlParserTest {
 	</status>
 	<categorysetsGetResult>
 		<code>N000</code>
-		<shopId>happinesea</shopId>
+		<shopId>1</shopId>
 		<categorySetList>
 			<categorySet>
 				<categorySetManageNumber>0</categorySetManageNumber>
@@ -109,6 +112,7 @@ class RwsResponseXmlParserTest {
 	</categorysetsGetResult>
 </result>
 '''
+
     @Test
     public void testParseCategorysetsGetResult() {
 
@@ -127,7 +131,7 @@ class RwsResponseXmlParserTest {
 
 	assertNotNull categorysetsGetResult
 	assertEquals 'N000', categorysetsGetResult.code
-	assertEquals 'happinesea', categorysetsGetResult.shopId
+	assertEquals 1, categorysetsGetResult.shopId
 
 	List<CategorySet> categoryList = categorysetsGetResult.categorySetList
 	assertTrue CollectionUtils.isNotEmpty(categoryList)
@@ -135,13 +139,143 @@ class RwsResponseXmlParserTest {
 	CategorySet category1 = categoryList[0]
 	CategorySet category2 = categoryList[1]
 
-	assertEquals '0', category1.categorySetManageNumber
+	assertEquals 0, category1.categorySetManageNumber
 	assertEquals 'ブランド品', category1.categorySetName
-	assertEquals '0', category1.categorySetStatus
-	assertEquals '1', category1.categorySetOrder
-	assertEquals '1', category2.categorySetManageNumber
+	assertEquals 0, category1.categorySetStatus
+	assertEquals 1, category1.categorySetOrder
+	assertEquals 1, category2.categorySetManageNumber
 	assertEquals 'お菓子', category2.categorySetName
-	assertEquals '0', category2.categorySetStatus
-	assertEquals '2', category2.categorySetOrder
+	assertEquals 0, category2.categorySetStatus
+	assertEquals 2, category2.categorySetOrder
+    }
+
+
+    def categoriesGetResponseResult = '''<?xml version="1.0" encoding="UTF-8"?>
+<result>
+	<status>
+		<interfaceId>shop.categories.get</interfaceId>
+		<systemStatus>OK</systemStatus>
+		<message>OK</message>
+		<requestId>714a4983-555f-42d9-aeea-89dae89f2f55</requestId>
+		  
+		<!-- To understand the request from client. But, do not record the authentication information.-->
+		<requests>
+			<categorySetManageNumber>100</categorySetManageNumber>
+		</requests>
+	</status>
+	<categoriesGetResult>
+		<code>N000</code>
+                <shopId/>
+		<categorySetManageNumber>1</categorySetManageNumber>
+		<categoryList>
+			<category>
+				<categoryId>117</categoryId>
+				<categoryLevel>1</categoryLevel>
+				<name>チョコレート</name>
+				<status>0</status>
+				<categoryWeight>1</categoryWeight>
+				<childCategories/>
+			</category>
+			<category>
+				<categoryId>118</categoryId>
+				<categoryLevel>1</categoryLevel>
+				<name>ケーキ</name>
+				<status>0</status>
+				<categoryWeight>2</categoryWeight>
+				<childCategories/>
+			</category>
+			<category>
+				<categoryId>119</categoryId>
+				<categoryLevel>1</categoryLevel>
+				<name>キャンディー</name>
+				<status>0</status>
+				<categoryWeight>3</categoryWeight>
+				<childCategories>
+					<category>
+                				<categoryId>1191</categoryId>
+                				<categoryLevel>2</categoryLevel>
+                				<name>キャンディー-1</name>
+                				<status>0</status>
+                				<categoryWeight>3</categoryWeight>
+                				<childCategories>
+                					<category>
+                                				<categoryId>11911</categoryId>
+                                				<categoryLevel>3</categoryLevel>
+                                				<name>キャンディー-1-1</name>
+                                				<status>0</status>
+                                				<categoryWeight>3</categoryWeight>
+                                				<childCategories>
+                                					<category>
+                                                				<categoryId>119111</categoryId>
+                                                				<categoryLevel>4</categoryLevel>
+                                                				<name>キャンディー-1-1-1</name>
+                                                				<status>0</status>
+                                                				<categoryWeight>3</categoryWeight>
+                                                				<childCategories>
+                                                					
+                                                				</childCategories>
+                                                			</category>
+                                					
+                                				</childCategories>
+                                			</category>
+                				</childCategories>
+                			</category>
+					<category>
+                				<categoryId>1192</categoryId>
+                				<categoryLevel>2</categoryLevel>
+                				<name>キャンディー-2</name>
+                				<status>0</status>
+                				<categoryWeight>3</categoryWeight>
+                				<childCategories>
+                					<category>
+                                				<categoryId>11954</categoryId>
+                                				<categoryLevel>3</categoryLevel>
+                                				<name>キャンディー-2-1</name>
+                                				<status>0</status>
+                                				<categoryWeight>3</categoryWeight>
+                                				<childCategories>
+                                					
+                                				</childCategories>
+                                			</category>
+                				</childCategories>
+                			</category>
+				</childCategories>
+			</category>
+		</categoryList>
+	</categoriesGetResult>
+</result>'''
+
+    @Test
+    public void testParseCategorysGetResult() {
+
+	RwsResponseXmlParser parser = new RwsResponseXmlParser()
+
+	RwsCategoriesGetResponseResult result = parser.parse(categoriesGetResponseResult, RwsCategoriesGetResponseResult)
+
+	assertNotNull result
+	assertNotNull result.status
+	assertEquals 'shop.categories.get', result.status.interfaceId
+	assertEquals SystemStatusElementEnum.OK, result.status.systemStatus
+	assertEquals MessageElementEnum.OK, result.status.message
+	assertEquals '714a4983-555f-42d9-aeea-89dae89f2f55', result.status.requestId
+
+	assertTrue CollectionUtils.isNotEmpty(result.status.requests)
+	//assertEquals 'shop.categories.get', result.status.requests[0]
+
+	RwsCategoriesGetResult categoriesGetResult = result.categoriesGetResult
+
+	assertNotNull categoriesGetResult
+	assertEquals 'N000', categoriesGetResult.code
+	assertEquals 1, categoriesGetResult.categorySetManageNumber
+
+	List<Category> categoryList = categoriesGetResult.categoryList
+
+	assertTrue CollectionUtils.isNotEmpty(categoryList)
+	assertEquals 3, categoryList.size()
+	Category category1 = categoryList[0]
+	Category category2 = categoryList[1]
+	Category category3 = categoryList[2]
+
+
     }
 }
