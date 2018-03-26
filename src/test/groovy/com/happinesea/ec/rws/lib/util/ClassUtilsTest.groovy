@@ -51,7 +51,7 @@ class ClassUtilsTest {
 	// Test have primitave and string
 	assertEquals 5, fields.length
 	assertEquals 'requests', fields[4].getName()
-	assertEquals String, fields[4].getType()
+	assertEquals List, fields[4].getType()
 	assertEquals 'requestId', fields[3].getName()
 	assertEquals String, fields[3].getType()
 	assertEquals 'message', fields[2].getName()
