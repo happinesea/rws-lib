@@ -58,7 +58,7 @@ public class RwsResponseXmlParser implements RwsResponseParser {
 	if(content == null) {
 	    throw new IllegalArgumentException('Response xml inputstream is null')
 	}
-	rootNode = new XmlSlurper().parseText(content)
+	rootNode = new XmlSlurper().parseText(content.trim())
 
 	return parse(rootNode, clz)
     }
