@@ -10,7 +10,7 @@ class RwsCategorysetsGetResult implements ApiResponseNode {
     List<CategorySet> categorySetList
 
     static class CategorySet{
-	Integer categorySetManageNumber
+	String categorySetManageNumber
 	Integer categorySetId
 	String categorySetName
 	Integer categorySetStatus

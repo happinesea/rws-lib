@@ -5,6 +5,7 @@ import static org.junit.Assert.*
 
 import org.junit.Test
 
+import com.happinesea.ec.rws.lib.bean.RwsResponseResult.Status
 import com.happinesea.ec.rws.lib.enumerated.SystemStatusElementEnum
 
 class EnumUtilsTest {
@@ -28,11 +29,18 @@ class EnumUtilsTest {
 	}
 	assertEquals 'Enum class or code is null', expectedException.message
 
-	/*expectedException = shouldFail(IllegalArgumentException){
-	 EnumUtils.getApiResponseEnum(Status, 'code')
-	 }*/
-	//String clzMsg = clz.toString() + ' is not ApiResponseEnum.'
-	//assertEquals clzMsg , expectedException.message
+	expectedException = shouldFail(IllegalArgumentException){
+	    EnumUtils.getApiResponseEnum(Status, 'code')
+	}
+	String clzMsg = Status.getName() + ' is not ApiResponseEnum.'
+	assertEquals clzMsg , expectedException.message
+
+	expectedException = shouldFail(IllegalArgumentException){
+	    EnumUtils.getApiResponseEnum(SystemStatusElementEnum, 'code')
+	}
+	clzMsg = 'No enum constant code in ' +  SystemStatusElementEnum.getName()
+	assertEquals clzMsg , expectedException.message
+
 
 	SystemStatusElementEnum e = EnumUtils.getApiResponseEnum(SystemStatusElementEnum, 'OK')
 	assertEquals SystemStatusElementEnum.OK, e

@@ -139,11 +139,11 @@ class RwsResponseXmlParserTest {
 	CategorySet category1 = categoryList[0]
 	CategorySet category2 = categoryList[1]
 
-	assertEquals 0, category1.categorySetManageNumber
+	assertEquals '0', category1.categorySetManageNumber
 	assertEquals 'ブランド品', category1.categorySetName
 	assertEquals 0, category1.categorySetStatus
 	assertEquals 1, category1.categorySetOrder
-	assertEquals 1, category2.categorySetManageNumber
+	assertEquals '1', category2.categorySetManageNumber
 	assertEquals 'お菓子', category2.categorySetName
 	assertEquals 0, category2.categorySetStatus
 	assertEquals 2, category2.categorySetOrder
@@ -266,7 +266,7 @@ class RwsResponseXmlParserTest {
 
 	assertNotNull categoriesGetResult
 	assertEquals 'N000', categoriesGetResult.code
-	assertEquals 1, categoriesGetResult.categorySetManageNumber
+	assertEquals '1', categoriesGetResult.categorySetManageNumber
 
 	List<Category> categoryList = categoriesGetResult.categoryList
 
@@ -276,6 +276,78 @@ class RwsResponseXmlParserTest {
 	Category category2 = categoryList[1]
 	Category category3 = categoryList[2]
 
+	assertEquals 117, category1.categoryId
+	assertEquals 1, category1.categoryLevel
+	assertEquals 'チョコレート', category1.name
+	assertEquals 0, category1.status
+	assertEquals 1, category1.categoryWeight
+	assertNull category1.childCategories
+
+	assertEquals 118, category2.categoryId
+	assertEquals 1, category2.categoryLevel
+	assertEquals 'ケーキ', category2.name
+	assertEquals 0, category2.status
+	assertEquals 2, category2.categoryWeight
+	assertNull category2.childCategories
+
+	assertEquals 119, category3.categoryId
+	assertEquals 1, category3.categoryLevel
+	assertEquals 'キャンディー', category3.name
+	assertEquals 0, category3.status
+	assertEquals 3, category3.categoryWeight
+	assertNotNull category3.childCategories
+
+	assertEquals 2, category3.childCategories.size()
+	Category category3_1 = category3.childCategories[0]
+	Category category3_2 = category3.childCategories[1]
+
+	// 1つ目再帰の掘り下げ
+	assertEquals 1191, category3_1.categoryId
+	assertEquals 2, category3_1.categoryLevel
+	assertEquals 'キャンディー-1', category3_1.name
+	assertEquals 0, category3_1.status
+	assertEquals 3, category3_1.categoryWeight
+	assertNotNull category3_1.childCategories
+
+	assertEquals 1, category3_1.childCategories.size()
+	Category category3_1_1 = category3_1.childCategories[0]
+
+	assertEquals 11911, category3_1_1.categoryId
+	assertEquals 3, category3_1_1.categoryLevel
+	assertEquals 'キャンディー-1-1', category3_1_1.name
+	assertEquals 0, category3_1_1.status
+	assertEquals 3, category3_1_1.categoryWeight
+	assertNotNull category3_1_1.childCategories
+
+	assertEquals 1, category3_1.childCategories.size()
+	Category category3_1_1_1 = category3_1_1.childCategories[0]
+
+	assertEquals 119111, category3_1_1_1.categoryId
+	assertEquals 4, category3_1_1_1.categoryLevel
+	assertEquals 'キャンディー-1-1-1', category3_1_1_1.name
+	assertEquals 0, category3_1_1_1.status
+	assertEquals 3, category3_1_1_1.categoryWeight
+	assertNull category3_1_1_1.childCategories
+
+	// 2つ目再帰の掘り下げ
+
+	// 1つ目の掘り下げ
+	assertEquals 1192, category3_2.categoryId
+	assertEquals 2, category3_2.categoryLevel
+	assertEquals 'キャンディー-2', category3_2.name
+	assertEquals 0, category3_2.status
+	assertEquals 3, category3_2.categoryWeight
+	assertNotNull category3_2.childCategories
+
+	assertEquals 1, category3_2.childCategories.size()
+	Category category3_2_1 = category3_2.childCategories[0]
+
+	assertEquals 11954, category3_2_1.categoryId
+	assertEquals 3, category3_2_1.categoryLevel
+	assertEquals 'キャンディー-2-1', category3_2_1.name
+	assertEquals 0, category3_2_1.status
+	assertEquals 3, category3_2_1.categoryWeight
+	assertNull category3_2_1.childCategories
 
     }
 }

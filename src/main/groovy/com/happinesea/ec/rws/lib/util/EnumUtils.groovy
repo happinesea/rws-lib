@@ -3,7 +3,7 @@ package com.happinesea.ec.rws.lib.util
 import groovy.util.logging.Log4j2
 
 /**
- * @author loveapple
+ * Enumを操作するUtil
  *
  */
 @Log4j2
@@ -13,8 +13,7 @@ class EnumUtils {
 	    throw new IllegalArgumentException('Enum class or code is null')
 	}
 	if(!ClassUtils.isApiResponseEnum(clz)) {
-	    log.debug('{} -> {}', ClassUtils.isApiResponseEnum(clz), clz)
-	    throw new IllegalArgumentException('{} is not ApiResponseEnum.', clz)
+	    throw new IllegalArgumentException(String.format('%s is not ApiResponseEnum.', clz.getName()))
 	}
 
 	for(def it : clz.getEnumConstants()) {
@@ -23,7 +22,6 @@ class EnumUtils {
 	    }
 	}
 
-
-	throw new IllegalArgumentException('No enum constant {} in {}', code, clz)
+	throw new IllegalArgumentException(String.format('No enum constant %s in %s', code, clz.getName()))
     }
 }
