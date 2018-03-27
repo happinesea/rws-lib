@@ -55,15 +55,26 @@ public class RwsResponseXmlParser implements RwsResponseParser {
      */
     @Override
     public <R extends RwsResponseResult> R parse(String content, Class<R> clz) {
-	if(content == null) {
-	    throw new IllegalArgumentException('Response xml inputstream is null')
+	if(content == null || clz == null) {
+	    throw new IllegalArgumentException('Content or clz is null.')
 	}
 	rootNode = new XmlSlurper().parseText(content.trim())
 
 	return parse(rootNode, clz)
     }
 
+    /**
+     * パース処理を行う<br>
+     * 
+     * @param node パース対象のノード
+     * @param clz パース結果のクラス
+     * @return パースした結果
+     */
     public <R> R parse(GPathResult node, Class<R> clz) {
+
+	if(node == null) {
+	    return null
+	}
 
 	def result = clz.getDeclaredConstructor().newInstance()
 

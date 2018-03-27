@@ -11,10 +11,13 @@ class RwsParameterTest {
 
     @Test
     public void testGetQueryString() {
+	RwsParameter parameter = new RwsParameter()
+	// test null
+	assertEquals '', parameter.getQueryString()
+
 	RwsItemApiGetForm form = new RwsItemApiGetForm()
 	form.itemUrl = 'testUrl(hoge)'
 
-	RwsParameter parameter = new RwsParameter()
 	parameter.requestForm = form
 
 	assertEquals('itemUrl=testUrl%28hoge%29', parameter.getQueryString())
