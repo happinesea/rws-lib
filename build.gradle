@@ -46,7 +46,7 @@ if (hasProperty("release")) {
 }
 task javadocJar(type: Jar) {
     classifier = 'javadoc'
-    from javadoc
+    from groovydoc.destinationDir
 }
 
 task sourcesJar(type: Jar) {
