@@ -45,6 +45,19 @@ if (hasProperty("release")) {
     isDevBuild = true
     version += "-SNAPSHOT"
 }
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from groovydoc.destinationDir
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
 signing {
     required { isReleaseBuild }
     sign configurations.archives
