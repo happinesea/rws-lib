@@ -3,7 +3,7 @@ package com.happinesea
 /**
  * happinesea.configに定義するアプリケーションの設定情報を管理する設定情報
  * 
- * @author loveapple
+ * 
  *
  */
 class HappineseaConfig {

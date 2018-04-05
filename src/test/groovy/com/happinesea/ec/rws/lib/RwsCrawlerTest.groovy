@@ -4,18 +4,55 @@ import static groovy.test.GroovyAssert.*
 import static org.junit.Assert.*
 
 import org.apache.http.Header
+import org.apache.http.HttpEntity
+import org.apache.http.HttpResponse
 import org.apache.http.client.HttpClient
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.entity.BasicHttpEntity
 import org.junit.Test
 
 import com.happinesea.ec.rws.lib.bean.RwsParameter
 import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.form.RwsItemApiSearchForm
-import com.happinesea.ec.rws.lib.bean.node.RwsItemSearchResponseResult
 
-import groovy.mock.interceptor.MockFor
+import groovy.util.logging.Log4j2
 import groovyx.net.http.ContentType
 
+@Log4j2
 class RwsCrawlerTest {
+
+    def itemSearchXmlSuccess = '''<?xml version="1.0" encoding="UTF-8"?>
+<result>
+	<status>
+		<interfaceId>item.search</interfaceId>
+		<systemStatus>OK</systemStatus>
+		<message>OK</message>
+		<requestId>714a4983-555f-42d9-aeea-89dae89f2f55</requestId>
+		<requests>
+			<itemUrl>aaa</itemUrl>
+		</requests>
+	</status>
+	<itemSearchResult>
+		<code>200-00</code>
+		<numFound>
+			10
+		</numFound>
+		<items>
+			<item>
+				<itemUrl>a1</itemUrl>
+				<!-- omission -->
+			</item>
+			<item>
+				<itemUrl>a2</itemUrl>
+				<!-- omission -->
+			</item>
+			<item>
+				<itemUrl>a3</itemUrl>
+				<!-- omission -->
+			</item>
+		</items>
+	</itemSearchResult>
+</result>'''
 
     @Test
     public void testGetRequestHeaderStr() {
@@ -50,8 +87,8 @@ class RwsCrawlerTest {
 
     @Test
     public void testGetApiRequest() {
-	RwsCrawler<RwsItemSearchResponseResult> crawler = new RwsCrawler<RwsItemSearchResponseResult>()
 
+	RwsCrawler crawler = new RwsCrawler()
 	def expectedException = shouldFail(IllegalArgumentException){crawler.getApiRequest(null)}
 	assertEquals 'invalide request info.', expectedException.message
 
@@ -70,50 +107,14 @@ class RwsCrawlerTest {
 	header.contentType = ContentType.XML
 	paramter.header = header
 	paramter.requestForm = new RwsItemApiSearchForm()
-
 	paramter.requestForm.itemName = '馬油'
 
-	def httpClientMock = new MockFor(HttpClient)
-	httpClientMock.demand.execute{ return null }
+	HttpEntity entity = new BasicHttpEntity()
+	def httpResponseMock = [getEntity:{return entity}] as HttpResponse
+	def httpClientMock = [execute:{HttpGet httpGet -> return httpResponseMock}] as HttpClient
 
+	def crawlerMock = [init:{RwsParameter parameter -> return httpClientMock}] as RwsCrawler
 
-	/*httpClientMock.use {
-	 HttpResponse response = crawler.getApiRequest(paramter)
-	 assertNull response
-	 }*/
+	assertEquals httpResponseMock, crawlerMock.getApiRequest(paramter)
     }
-
-
-    def itemSearchXmlSuccess = '''<?xml version="1.0" encoding="UTF-8"?>
-<result>
-	<status>
-		<interfaceId>item.search</interfaceId>
-		<systemStatus>OK</systemStatus>
-		<message>OK</message>
-		<requestId>714a4983-555f-42d9-aeea-89dae89f2f55</requestId>
-		<requests>
-			<itemUrl>aaa</itemUrl>
-		</requests>
-	</status>
-	<itemSearchResult>
-		<code>200-00</code>
-		<numFound>
-			10
-		</numFound>
-		<items>
-			<item>
-				<itemUrl>a1</itemUrl>
-				<!-- omission -->
-			</item>
-			<item>
-				<itemUrl>a2</itemUrl>
-				<!-- omission -->
-			</item>
-			<item>
-				<itemUrl>a3</itemUrl>
-				<!-- omission -->
-			</item>
-		</items>
-	</itemSearchResult>
-</result>'''
 }

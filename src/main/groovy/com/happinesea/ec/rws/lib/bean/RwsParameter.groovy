@@ -8,7 +8,7 @@ import com.happinesea.ec.rws.lib.bean.form.AbstractRwsForm
 /**
  * リクエストパラメータを格納する
  * 
- * @author loveapple
+ * 
  *
  * @param <F>
  */

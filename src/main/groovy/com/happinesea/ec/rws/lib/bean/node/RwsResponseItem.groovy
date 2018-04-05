@@ -3,7 +3,7 @@ package com.happinesea.ec.rws.lib.bean.node
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 
 /**
- * @author loveapple
+ * 
  *
  */
 class RwsResponseItem implements ApiResponseNode {

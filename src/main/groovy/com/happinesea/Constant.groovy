@@ -1,7 +1,7 @@
 package com.happinesea
 
 /**
- * @author loveapple
+ * 
  *
  */
 class Constant {

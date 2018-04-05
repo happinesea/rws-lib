@@ -5,7 +5,7 @@ import groovyx.net.http.ContentType
 /**
  * RWS(RMS WEB SERVICE) WEB API リクエストヘッダー
  * 
- * @author loveapple
+ * 
  *
  */
 class RwsRequestHeaderBean {

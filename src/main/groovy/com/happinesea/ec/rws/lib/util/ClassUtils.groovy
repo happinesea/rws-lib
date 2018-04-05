@@ -1,6 +1,7 @@
 package com.happinesea.ec.rws.lib.util;
 
 import java.lang.reflect.Field
+import java.util.HashSet
 
 import org.apache.commons.lang.ArrayUtils
 
@@ -12,7 +13,7 @@ import groovy.util.logging.Log4j2
 /**
  * Class操作関連のUtils
  * 
- * @author loveapple
+ * 
  *
  */
 @Log4j2
@@ -157,6 +158,9 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	    throw new IllegalArgumentException('field is null.')
 	}
 
+	if(ClassUtils.isPrimitveAndString(field.getType())) {
+	    return field.getType()
+	}
 	String typeName = field.getGenericType().getTypeName()
 
 	int startPoint = typeName.indexOf('<')

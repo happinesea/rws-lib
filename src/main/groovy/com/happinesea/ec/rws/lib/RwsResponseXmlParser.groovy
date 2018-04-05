@@ -5,7 +5,7 @@ import java.lang.reflect.Field
 import org.apache.commons.beanutils.BeanUtils
 import org.apache.commons.lang.ArrayUtils
 
-import com.happinesea.ec.rws.lib.bean.RwsResponseResult
+import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 import com.happinesea.ec.rws.lib.util.ClassUtils
 import com.happinesea.ec.rws.lib.util.EnumUtils
 
@@ -54,7 +54,7 @@ public class RwsResponseXmlParser implements RwsResponseParser {
      * </pre>
      */
     @Override
-    public <R extends RwsResponseResult> R parse(String content, Class<R> clz) {
+    public <R extends ApiResponseNode> R parse(String content, Class<R> clz) {
 	if(content == null || clz == null) {
 	    throw new IllegalArgumentException('Content or clz is null.')
 	}

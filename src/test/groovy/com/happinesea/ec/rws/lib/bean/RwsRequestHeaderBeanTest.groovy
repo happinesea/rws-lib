@@ -5,7 +5,7 @@ import static org.junit.Assert.*
 import spock.lang.Specification
 
 /**
- * @author loveapple
+ * 
  *
  */
 class RwsRequestHeaderBeanTest extends Specification{

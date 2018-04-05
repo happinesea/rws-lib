@@ -16,7 +16,7 @@ import org.apache.http.message.BasicHeader
 import com.happinesea.HappineseaConfig
 import com.happinesea.ec.rws.lib.bean.RwsParameter
 import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
-import com.happinesea.ec.rws.lib.bean.RwsResponseResult
+import com.happinesea.ec.rws.lib.bean.RwsResponseXmlResult
 
 import groovy.util.logging.Log4j2
 
@@ -24,7 +24,7 @@ import groovy.util.logging.Log4j2
  * RWSクローラー
  * 
  * 
- * @author loveapple
+ * 
  *
  */
 @Log4j2
@@ -67,7 +67,7 @@ class RwsCrawler {
      * @param clz
      * @return
      */
-    public <R extends RwsResponseResult>R getApiContents(RwsParameter parameter, RwsResponseParser parser, Class<R> clz) {
+    public <R extends RwsResponseXmlResult>R getApiContents(RwsParameter parameter, RwsResponseParser parser, Class<R> clz) {
 	HttpEntity entity = getApiRequest(parameter).entity
 
 	BufferedReader br

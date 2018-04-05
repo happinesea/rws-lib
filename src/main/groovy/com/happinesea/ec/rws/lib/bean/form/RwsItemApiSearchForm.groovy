@@ -4,7 +4,7 @@ import com.happinesea.ec.rws.lib.enumerated.SortKeyItemEnum
 import com.happinesea.ec.rws.lib.enumerated.SortOrderItemEnum
 
 /**
- * @author loveapple
+ * 
  *
  */
 class RwsItemApiSearchForm extends RwsItemApiGetForm{

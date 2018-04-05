@@ -6,10 +6,10 @@ import com.happinesea.ec.rws.lib.enumerated.SystemStatusElementEnum
 /**
  * XML:result
  * 
- * @author loveapple
+ * 
  *
  */
-class RwsResponseResult implements ApiResponseNode {
+class RwsResponseXmlResult implements ApiResponseNode {
 
     /**
      * XMLのレスポンスstatus
@@ -19,7 +19,7 @@ class RwsResponseResult implements ApiResponseNode {
     /**
      * API Response status
      * 
-     * @author loveapple
+     * 
      *
      */
     static class Status implements ApiResponseNode{

@@ -9,8 +9,8 @@ import org.junit.Test
 
 import com.happinesea.ec.rws.lib.RwsResponseParser
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
-import com.happinesea.ec.rws.lib.bean.RwsResponseResult
-import com.happinesea.ec.rws.lib.bean.RwsResponseResult.Status
+import com.happinesea.ec.rws.lib.bean.RwsResponseXmlResult
+import com.happinesea.ec.rws.lib.bean.RwsResponseXmlResult.Status
 import com.happinesea.ec.rws.lib.bean.node.RwsItemGetResponseResult
 import com.happinesea.ec.rws.lib.bean.node.RwsItemGetResult
 import com.happinesea.ec.rws.lib.bean.node.RwsItemSearchResult
@@ -31,7 +31,7 @@ class ClassUtilsTest {
 
 	// Test have not superclass
 
-	Field[] fields = ClassUtils.getFieldsApiResponse(RwsResponseResult)
+	Field[] fields = ClassUtils.getFieldsApiResponse(RwsResponseXmlResult)
 
 	assertEquals 1, fields.length
 	assertEquals 'status', fields[0].getName()

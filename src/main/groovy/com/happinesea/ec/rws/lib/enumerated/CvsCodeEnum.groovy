@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.enumerated;
 
 /**
- * @author loveapple
+ * 
  *
  */
 public enum CvsCodeEnum implements ApiResponseEnum{
