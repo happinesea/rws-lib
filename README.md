@@ -22,10 +22,15 @@ Groovyで開発しているので、Javaをフルサポートです。
 [Guides and Tutorials](https://github.com/happinesea/rws-lib/)(作成中)
 
 ### Insatallation
-Gradle、Mavenを利用する場合、依存関係を追記するだけでよい
-    dependencies {
-        compile 'com.happinesea:rws-lib:0.0.2'
-    }
+Gradle、Mavenを利用する場合、MavenCentralの依存関係を追記するだけでよい
+<pre>
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile 'com.happinesea:rws-lib:0.0.2'
+}
+</pre>
 
 ## About support
 rws-libのバグをお見つけた場合、issuesの起票をお願いします。<br>
