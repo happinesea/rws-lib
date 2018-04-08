@@ -3,6 +3,7 @@ package com.happinesea.ec.rws.lib
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 
+import org.apache.commons.lang.StringUtils
 import org.apache.http.Header
 import org.apache.http.HttpEntity
 import org.apache.http.HttpResponse
@@ -68,20 +69,32 @@ class RwsCrawler {
      * @return
      */
     public <R extends RwsResponseXmlResult>R getApiContents(RwsParameter parameter, RwsResponseParser parser, Class<R> clz) {
+	if(parser == null) {
+	    throw new IllegalArgumentException('invalide parser.')
+	}
 	HttpEntity entity = getApiRequest(parameter).entity
+	if(clz == null) {
+	    clz = RwsResponseXmlResult
+	}
 
 	BufferedReader br
 
 	try {
-	    br = new BufferedReader(entity.getContent());
+	    br = new BufferedReader(new InputStreamReader(entity.getContent()));
 
 	    StringBuilder sb = new StringBuilder()
 	    String line
 	    while ((line = br.readLine()) != null) {
 		sb.append(line);
 	    }
-
-	    return parser.parse(sb.toString(), clz)
+	    String contentStr = sb.toString()
+	    if(log.isDebugEnabled()) {
+		log.debug('contents str: {}', contentStr)
+	    }
+	    if(StringUtils.isEmpty(contentStr)) {
+		return null
+	    }
+	    return parser.parse(contentStr, clz)
 	}finally{
 	    if(br != null) {
 		br.close()
