@@ -5,8 +5,8 @@ import static org.junit.Assert.*
 
 import org.junit.Test
 
-import com.happinesea.ec.rws.lib.bean.RwsResponseXmlResult.Status
-import com.happinesea.ec.rws.lib.enumerated.SystemStatusElementEnum
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult.Status
+import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.SystemStatusElementEnum
 
 class EnumUtilsTest {
 

@@ -15,9 +15,9 @@ import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.message.BasicHeader
 
 import com.happinesea.HappineseaConfig
-import com.happinesea.ec.rws.lib.bean.RwsParameter
-import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
-import com.happinesea.ec.rws.lib.bean.RwsResponseXmlResult
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
 
 import groovy.util.logging.Log4j2
 

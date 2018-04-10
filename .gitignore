@@ -42,3 +42,5 @@ gradle.properties
 # Ignore built Java stuff
 build/
 bin/
+
+.classpath

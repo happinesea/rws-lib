@@ -2,6 +2,8 @@ package com.happinesea.ec.rws.lib.bean
 
 import static org.junit.Assert.*
 
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
+
 import spock.lang.Specification
 
 /**

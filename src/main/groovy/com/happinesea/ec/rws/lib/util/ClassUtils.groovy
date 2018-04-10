@@ -6,7 +6,7 @@ import java.util.HashSet
 import org.apache.commons.lang.ArrayUtils
 
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
-import com.happinesea.ec.rws.lib.enumerated.ApiResponseEnum
+import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.ApiResponseEnum
 
 import groovy.util.logging.Log4j2
 

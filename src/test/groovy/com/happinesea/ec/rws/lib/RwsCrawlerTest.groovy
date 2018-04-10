@@ -13,11 +13,11 @@ import org.apache.http.entity.BasicHttpEntity
 import org.junit.Before
 import org.junit.Test
 
-import com.happinesea.ec.rws.lib.bean.RwsParameter
-import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
-import com.happinesea.ec.rws.lib.bean.RwsResponseXmlResult
-import com.happinesea.ec.rws.lib.bean.form.RwsItemApiSearchForm
-import com.happinesea.ec.rws.lib.bean.node.RwsItemSearchResponseResult
+import com.happinesea.ec.rws.lib.bean.form.rakuten.RwsItemApiSearchForm
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemSearchResponseResult
 
 import groovy.util.logging.Log4j2
 import groovyx.net.http.ContentType

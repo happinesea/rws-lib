@@ -6,15 +6,15 @@ import static org.junit.Assert.*
 import org.apache.commons.collections.CollectionUtils
 import org.junit.Test
 
-import com.happinesea.ec.rws.lib.bean.node.RwsCategoriesGetResponseResult
-import com.happinesea.ec.rws.lib.bean.node.RwsCategoriesGetResult
-import com.happinesea.ec.rws.lib.bean.node.RwsCategorysetsGetResponseResult
-import com.happinesea.ec.rws.lib.bean.node.RwsCategorysetsGetResult
-import com.happinesea.ec.rws.lib.bean.node.RwsItemSearchResponseResult
-import com.happinesea.ec.rws.lib.bean.node.RwsCategoriesGetResult.Category
-import com.happinesea.ec.rws.lib.bean.node.RwsCategorysetsGetResult.CategorySet
-import com.happinesea.ec.rws.lib.enumerated.MessageElementEnum
-import com.happinesea.ec.rws.lib.enumerated.SystemStatusElementEnum
+import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.MessageElementEnum
+import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.SystemStatusElementEnum
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategoriesGetResponseResult
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategoriesGetResult
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategorysetsGetResponseResult
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategorysetsGetResult
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemSearchResponseResult
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategoriesGetResult.Category
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategorysetsGetResult.CategorySet
 
 import groovy.util.logging.Log4j2
 import groovy.util.slurpersupport.GPathResult

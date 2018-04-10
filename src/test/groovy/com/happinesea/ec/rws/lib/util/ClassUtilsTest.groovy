@@ -9,14 +9,14 @@ import org.junit.Test
 
 import com.happinesea.ec.rws.lib.RwsResponseParser
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
-import com.happinesea.ec.rws.lib.bean.RwsResponseXmlResult
-import com.happinesea.ec.rws.lib.bean.RwsResponseXmlResult.Status
-import com.happinesea.ec.rws.lib.bean.node.RwsItemGetResponseResult
-import com.happinesea.ec.rws.lib.bean.node.RwsItemGetResult
-import com.happinesea.ec.rws.lib.bean.node.RwsItemSearchResult
-import com.happinesea.ec.rws.lib.bean.node.RwsResponseItem
-import com.happinesea.ec.rws.lib.enumerated.MessageElementEnum
-import com.happinesea.ec.rws.lib.enumerated.SystemStatusElementEnum
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult.Status
+import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.MessageElementEnum
+import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.SystemStatusElementEnum
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemGetResponseResult
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemGetResult
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemSearchResult
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsResponseItem
 
 class ClassUtilsTest {
 
