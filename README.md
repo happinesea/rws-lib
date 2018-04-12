@@ -1,7 +1,7 @@
 # rws-lib
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.happinesea/rws-lib/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.happinesea/rws-lib)
-[![CircleCI](https://circleci.com/gh/happinesea/rws-lib/tree/release.svg)](https://circleci.com/gh/happinesea/rws-lib/tree/release)
+[![CircleCI](https://circleci.com/gh/happinesea/rws-lib/tree/release.svg?style=shield)](https://circleci.com/gh/happinesea/rws-lib/tree/release)
 [![Coverage Status](https://coveralls.io/repos/github/happinesea/rws-lib/badge.svg)](https://coveralls.io/github/happinesea/rws-lib)
 
 
