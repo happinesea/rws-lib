@@ -19,7 +19,7 @@ Groovyで開発しているので、Javaをフルサポートです。
 </dl>
 
 ## Documentation
-[Groovy docs](https://github.com/happinesea/rws-lib/)(作成中)<br>
+[Groovy docs](http://lab.happinesea.com/docs/rws-lib/0.0.3/groovydoc/)<br>
 [Guides and Tutorials](https://github.com/happinesea/rws-lib/)(作成中)
 
 ### Insatallation
