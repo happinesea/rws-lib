@@ -15,7 +15,6 @@ class RwsCrawlerItemSearch<RwsItemApiSearchForm, RwsItemSearchResponseResult> ex
 	rwsResponseParser = new RwsResponseXmlParser()
     }
 
-    @Override
     public RwsResponseXmlResult excute(RwsParameter parameter) {
 	if(rwsResponseParser == null) {
 	    return null
