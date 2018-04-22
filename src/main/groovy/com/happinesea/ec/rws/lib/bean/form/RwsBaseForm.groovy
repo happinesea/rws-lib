@@ -6,5 +6,5 @@ package com.happinesea.ec.rws.lib.bean.form
  * 
  *
  */
-abstract class AbstractRwsForm {
+class RwsBaseForm {
 }

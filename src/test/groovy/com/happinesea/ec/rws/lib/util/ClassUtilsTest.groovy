@@ -9,6 +9,7 @@ import org.junit.Test
 
 import com.happinesea.ec.rws.lib.RwsResponseParser
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
+import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult.Status
 import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.MessageElementEnum
@@ -17,6 +18,9 @@ import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemGetResponseResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemGetResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemSearchResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsResponseItem
+import com.happinesea.ec.rws.lib.rakuten.CategoryapiShopCategoriesGet
+
+import groovy.beans.Bindable
 
 class ClassUtilsTest {
 
@@ -110,7 +114,6 @@ class ClassUtilsTest {
     @Test
     public void testGetFieldGenertics() {
 	def expectedException = shouldFail(IllegalArgumentException){ ClassUtils.getFieldGenertics(null) }
-
 	assertEquals 'field is null.', expectedException.message
 
 	// テストデータ初期化
@@ -126,5 +129,33 @@ class ClassUtilsTest {
 
     private class TestClz{
 	List<? > testlist
+    }
+
+    @Test
+    public void testGetClassesByGenericSignature() {
+	assertNull ClassUtils.getClassesByGenericSignature(null)
+	assertNull ClassUtils.getClassesByGenericSignature(TestClz)
+
+	Class[] result = ClassUtils.getClassesByGenericSignature(CategoryapiShopCategoriesGet)
+	assertNotNull result
+
+	String typeName = '<RwsBaseForm:Ljava/lang/Object;RwsCategorysetsGetResponseResult:Ljava/lang/Object;>Lcom/happinesea/ec/rws/lib/AbstractApiProxy;'
+
+    }
+
+    @Test
+    public void testGetBeanClassByName() throws Exception{
+	Class rwsBaseForm = ClassUtils.getBeanClassByName(null, 'RwsBaseForm')
+	assertNotNull rwsBaseForm
+	assertEquals RwsBaseForm, rwsBaseForm
+
+	Class status = ClassUtils.getBeanClassByName('Status')
+	assertNotNull status
+	assertEquals Status, status
+
+	Class bindable = ClassUtils.getBeanClassByName('groovy/beans', 'Bindable')
+	assertNotNull bindable
+	assertEquals Bindable, bindable
+
     }
 }

@@ -68,6 +68,10 @@ public class RwsResponseXmlParser implements RwsResponseParser {
 	    throw new RuntimeException(e)
 	}
 
+	if(log.isDebugEnabled()) {
+	    log.debug('rootNode : {}', rootNode.toString())
+	    log.debug('clz : {}', clz.getName())
+	}
 	return parse(rootNode, clz)
     }
 

@@ -33,7 +33,7 @@ class RwsCrawler {
     /**
      * 設定情報
      */
-    private HappineseaConfig config
+    HappineseaConfig config
 
     /**
      * コンストラクタ

@@ -1,52 +1,61 @@
 package com.happinesea.ec.rws.lib
 
 import com.happinesea.HappineseaConfig
+import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
+import com.happinesea.ec.rws.lib.util.ClassUtils
+
+import groovy.util.logging.Log4j2
 
 /**
  * API通信を行うプロキシ
  */
-abstract class AbstractApiProxy<P extends RwsParameter, R extends RwsResponseXmlResult> {
-    
+@Log4j2
+abstract class AbstractApiProxy<F extends RwsBaseForm, R extends RwsResponseXmlResult> {
+
     String requestUri
     String path
     String defaultEncode
+    HttpMethod httpMethod
+    RwsRequestHeaderBean header
+    enum HttpMethod{GET, POST, HEAD}
     RwsCrawler crawler
     RwsResponseParser rwsResponseParser
-    
-    AbstractApiProxy(String requestUri, String path, String defaultEncode) {
-	this.requestUri = requestUri
-	this.path = path
-	this.defaultEncode = defaultEncode
-    }
-    
-    AbstractApiProxy(String requestUri, String path) {
-	this(requestUri, path, HappineseaConfig.getInstance().defaultEncode)
-    }
-    
+    HappineseaConfig config = HappineseaConfig.getInstance()
+
+    AbstractApiProxy(String path, RwsRequestHeaderBean header) {
+	 this.requestUri = config.rmsApiUrl
+	 this.path = path
+	 this.defaultEncode = config.defaultEncode
+	 this.header = header
+     }
+
     /**
      * 実行するメソッド
      * 
      * @param parameter
      * @return
      */
-    public R run(P parameter) {
-	if(crawler == null) {
-	    return null
-	}
+    public R run(F form) {
+
+	// valdation check
+
+
+	RwsParameter<F> parameter = new RwsParameter<F>()
+	parameter.header = header
 	
 	crawler.init(parameter)
 	
-	R result = excute(parameter)
+	Class[] types = ClassUtils.getClassesByGenericSignature(this.getClass())
 	
+	def result = crawler.getApiContents(parameter, rwsResponseParser, types[1])
+	
+	log.info('R type : {}', this.getClass().getGenericSignature0())
+	log.info('result type : {}', result.getClass().getName())
 	return result
     }
-    
-    /**
-     * 
-     * @param parameter
-     * @return
-     */
-    abstract R excute(P parameter)
+
+ 
 }

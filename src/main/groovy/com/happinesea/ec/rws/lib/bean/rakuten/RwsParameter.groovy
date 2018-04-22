@@ -2,7 +2,7 @@ package com.happinesea.ec.rws.lib.bean.rakuten
 
 import java.nio.charset.StandardCharsets
 
-import com.happinesea.ec.rws.lib.bean.form.AbstractRwsForm
+import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
 
 
 /**
@@ -12,7 +12,7 @@ import com.happinesea.ec.rws.lib.bean.form.AbstractRwsForm
  *
  * @param <F>
  */
-class RwsParameter<F extends AbstractRwsForm> {
+class RwsParameter<F extends RwsBaseForm> {
     /**
      * リクエストヘッダー
      */

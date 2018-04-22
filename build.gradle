@@ -9,7 +9,7 @@ apply plugin: 'signing'
 
 
 def jdkVersion = 1.9
-def targetJdkVersion = 1.8
+def targetJdkVersion = 1.9
 sourceCompatibility = jdkVersion
 targetCompatibility = targetJdkVersion
 
