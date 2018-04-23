@@ -145,6 +145,11 @@ class ClassUtilsTest {
 
     @Test
     public void testGetBeanClassByName() throws Exception{
+	def expectedException = shouldFail(IllegalArgumentException){ ClassUtils.getBeanClassByName(null) }
+	assertEquals 'class name is empty.', expectedException.message
+
+	assertNull ClassUtils.getBeanClassByName('hoge', 'hoge')
+
 	Class rwsBaseForm = ClassUtils.getBeanClassByName(null, 'RwsBaseForm')
 	assertNotNull rwsBaseForm
 	assertEquals RwsBaseForm, rwsBaseForm
