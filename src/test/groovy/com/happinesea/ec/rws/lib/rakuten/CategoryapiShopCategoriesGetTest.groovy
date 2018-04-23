@@ -15,7 +15,7 @@ import com.happinesea.ec.rws.lib.AbstractApiProxy.HttpMethod
 import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
-import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategorysetsGetResponseResult
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategoriesGetResponseResult
 
 import groovyx.net.http.ContentType
 
@@ -153,8 +153,11 @@ class CategoryapiShopCategoriesGetTest {
 
 	proxy.crawler = crawlerMock
 
-	RwsCategorysetsGetResponseResult result = proxy.run(new RwsBaseForm())
+	RwsCategoriesGetResponseResult result = proxy.run(new RwsBaseForm())
 	assertNotNull result
-	// TODO add test cases
+	assertNotNull result.status
+	assertNotNull result.categoriesGetResult
+	assertEquals 'shop.categories.get', result.status.interfaceId
+	assertEquals 117, result.categoriesGetResult.categoryList[0].categoryId
     }
 }
