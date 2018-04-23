@@ -169,7 +169,7 @@ sourceSets {
     }
 
     test {
-	groovy { srcDirs = ['src/test/groovy']}
+	groovy { srcDirs = ['src/test/groovy', 'src/main/groovy']}
     }
     
     groovydoc {

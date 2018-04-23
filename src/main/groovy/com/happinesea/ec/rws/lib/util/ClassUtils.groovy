@@ -241,7 +241,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	    file.eachFile {
 		traverseDir(packageName, it.path)
 	    }
-	}else if(file && file.name.endsWith('.class')) {
+	}else if(file && file.name.endsWith('.class') || file.name.endsWith('.groovy')) {
 	    String classStr = replaceClasspath(packageName, file.path)
 	    if(classStr) {
 		Class clz = classLoader.loadClass(classStr)
@@ -290,7 +290,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	    return null
 	}
 
-	return fileClassPath.substring(point).replace('/', '.').replaceAll(/\.class$/, '')
+	return fileClassPath.substring(point).replace('/', '.').replaceAll(/(\.class|\.groovy)$/, '')
     }
 
     /**
