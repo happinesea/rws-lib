@@ -13,9 +13,8 @@ class RwsItemApiUpdateItemListForm extends RwsBaseForm{
     ItemsUpdateRequest itemsUpdateRequest
 
     /**
-     * 商品情報リスト更新要求
+     * 商品情報リスト更新リクエスト
      */
-
     static class ItemsUpdateRequest implements ApiResponseNode{
 	List<RwsItem> items
     }

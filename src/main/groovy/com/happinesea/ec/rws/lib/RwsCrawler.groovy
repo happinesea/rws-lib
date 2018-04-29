@@ -145,7 +145,8 @@ class RwsCrawler {
 	HttpPost httpPost = new HttpPost(parameter.getRequestUri() + parameter.getPath());
 	httpPost.setEntity(new StringEntity(parameter.getXmlString(), config.defaultEncode))
 
-	return httpClient.execute(httpPost);
+	HttpResponse response = httpClient.execute(httpPost)
+	return response
     }
     /**
      * RWS特化したHTTP通信用のヘッダー情報を作成する

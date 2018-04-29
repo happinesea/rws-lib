@@ -11,10 +11,10 @@ import org.junit.Test
 
 import com.happinesea.ec.rws.lib.RwsCrawler
 import com.happinesea.ec.rws.lib.RwsResponseXmlParser
-import com.happinesea.ec.rws.lib.AbstractApiProxy.HttpMethod
 import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategoriesGetResponseResult
 
 import groovyx.net.http.ContentType
@@ -141,8 +141,6 @@ class RwsCrawlerCategoryapiShopCategoriesGetApiTest {
 
     @Test
     public void testExcute() {
-
-
 	BasicHttpEntity entity = new BasicHttpEntity()
 	entity.setContent(new ByteArrayInputStream(categoriesGetResponseResult.getBytes('UTF-8')))
 

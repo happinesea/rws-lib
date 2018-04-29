@@ -49,6 +49,7 @@ abstract class AbstractApiProxy<F extends RwsBaseForm, R extends RwsResponseXmlR
 	if(httpMethod) {
 	    parameter.httpMethod = httpMethod
 	}
+	parameter.requestForm = form
 	
 	crawler.init(parameter)
 	
