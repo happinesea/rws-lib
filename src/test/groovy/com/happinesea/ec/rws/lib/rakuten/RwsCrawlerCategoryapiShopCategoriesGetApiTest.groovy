@@ -19,8 +19,8 @@ import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategoriesGetResponseResul
 
 import groovyx.net.http.ContentType
 
-class CategoryapiShopCategoriesGetTest {
-    CategoryapiShopCategoriesGet proxy
+class RwsCrawlerCategoryapiShopCategoriesGetApiTest {
+    RwsCrawlerCategoryapiShopCategoriesGetApi proxy
 
     @Before
     void before() {
@@ -30,7 +30,7 @@ class CategoryapiShopCategoriesGetTest {
 	header.acceptCharset = 'utf-8'
 	header.contentType = ContentType.XML
 
-	proxy = new CategoryapiShopCategoriesGet(header)
+	proxy = new RwsCrawlerCategoryapiShopCategoriesGetApi(header)
     }
 
     @Test

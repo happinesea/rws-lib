@@ -11,6 +11,8 @@ import org.apache.http.client.ClientProtocolException
 import org.apache.http.client.HttpClient
 import org.apache.http.client.config.RequestConfig
 import org.apache.http.client.methods.HttpGet
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.message.BasicHeader
 
@@ -122,6 +124,15 @@ class RwsCrawler {
 	return httpClient.execute(httpGet);
     }
 
+    public HttpResponse postXmlRequest(RwsParameter parameter) throws IOException, ClientProtocolException{
+
+	HttpClient httpClient = init(parameter)
+
+	HttpPost httpPost = new HttpPost(parameter.getRequestUri() + parameter.getPath());
+	httpPost.setEntity(new StringEntity(parameter.getXmlString(), config.defaultEncode))
+
+	return httpClient.execute(httpPost);
+    }
     /**
      * RWS特化したHTTP通信用のヘッダー情報を作成する
      * 

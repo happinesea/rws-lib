@@ -5,10 +5,37 @@ import static org.junit.Assert.*
 import org.junit.Test
 
 import com.happinesea.ec.rws.lib.bean.form.rakuten.RwsItemApiGetForm
+import com.happinesea.ec.rws.lib.bean.form.rakuten.RwsItemApiUpdateItemListForm
+import com.happinesea.ec.rws.lib.bean.form.rakuten.RwsItemApiUpdateItemListForm.ItemsUpdateRequest
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItem
 
 
 class RwsParameterTest {
+
+    @Test
+    public void testGetXmlString() {
+	RwsParameter parameter = new RwsParameter()
+	// test null
+	assertEquals '', parameter.getXmlString()
+
+	RwsItemApiUpdateItemListForm form = new RwsItemApiUpdateItemListForm()
+	form.itemsUpdateRequest = new ItemsUpdateRequest()
+	RwsItem item1 = new RwsItem()
+	item1.itemUrl = 'test-itemurl'
+	List<RwsItem> itemList = new ArrayList()
+	itemList.add(item1)
+	form.itemsUpdateRequest.items = itemList
+
+	parameter.requestForm = form
+
+	String val ='''
+<?xml version="1.0" encoding="UTF-8"?><request><items><item><itemUrl>test-itemurl</itemUrl></item></items></request>
+'''
+	assertEquals val.trim() ,parameter.getXmlString(true)
+
+
+    }
 
     @Test
     public void testGetQueryString() {

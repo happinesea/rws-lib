@@ -30,6 +30,7 @@ abstract class AbstractApiProxy<F extends RwsBaseForm, R extends RwsResponseXmlR
 	 this.path = path
 	 this.defaultEncode = config.defaultEncode
 	 this.header = header
+	 this.rwsResponseParser = new RwsResponseXmlParser()
      }
 
     /**

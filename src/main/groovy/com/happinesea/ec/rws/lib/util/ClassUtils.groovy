@@ -290,7 +290,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	    return null
 	}
 
-	return fileClassPath.substring(point).replace('/', '.').replaceAll(/(\.class|\.groovy)$/, '')
+	return fileClassPath.substring(point).replace('/', '.').replaceAll(/(\.class|\.groovy|\.java)$/, '')
     }
 
     /**

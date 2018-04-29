@@ -107,14 +107,14 @@ class RwsResponseXmlParserTest {
 	assertEquals '200-00', result.itemSearchResult.code
 	assertEquals 10, result.itemSearchResult.numFound
 
-	assertNotNull result.itemSearchResult.items
-	assertEquals 3, result.itemSearchResult.items.size()
-	assertNotNull result.itemSearchResult.items[0]
-	assertNotNull result.itemSearchResult.items[1]
-	assertNotNull result.itemSearchResult.items[2]
-	assertEquals 'a1', result.itemSearchResult.items[0].itemUrl
-	assertEquals 'a2', result.itemSearchResult.items[1].itemUrl
-	assertEquals 'a3', result.itemSearchResult.items[2].itemUrl
+	assertNotNull result.itemSearchResult.rwsItems
+	assertEquals 3, result.itemSearchResult.rwsItems.size()
+	assertNotNull result.itemSearchResult.rwsItems[0]
+	assertNotNull result.itemSearchResult.rwsItems[1]
+	assertNotNull result.itemSearchResult.rwsItems[2]
+	assertEquals 'a1', result.itemSearchResult.rwsItems[0].itemUrl
+	assertEquals 'a2', result.itemSearchResult.rwsItems[1].itemUrl
+	assertEquals 'a3', result.itemSearchResult.rwsItems[2].itemUrl
     }
 
     def categorysetsGetResult = '''

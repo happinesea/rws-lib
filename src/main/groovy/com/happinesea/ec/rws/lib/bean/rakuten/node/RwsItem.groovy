@@ -6,7 +6,7 @@ import com.happinesea.ec.rws.lib.bean.ApiResponseNode
  * 
  *
  */
-class RwsResponseItem implements ApiResponseNode {
+class RwsItem implements ApiResponseNode {
     String itemUrl
     String itemNumber
     String itemName

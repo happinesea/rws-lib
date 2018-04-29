@@ -17,8 +17,8 @@ import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.SystemStatusElementEnum
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemGetResponseResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemGetResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemSearchResult
-import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsResponseItem
-import com.happinesea.ec.rws.lib.rakuten.CategoryapiShopCategoriesGet
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItem
+import com.happinesea.ec.rws.lib.rakuten.RwsCrawlerCategoryapiShopCategoriesGetApi
 
 import groovy.beans.Bindable
 
@@ -121,7 +121,7 @@ class ClassUtilsTest {
 	Field listField = RwsItemSearchResult.getDeclaredField('items')
 
 	assertEquals String, ClassUtils.getFieldGenertics(stringField)
-	assertEquals RwsResponseItem, ClassUtils.getFieldGenertics(listField)
+	assertEquals RwsItem, ClassUtils.getFieldGenertics(listField)
 
 	listField = TestClz.getDeclaredField('testlist')
 	assertEquals List, ClassUtils.getFieldGenertics(listField)
@@ -136,7 +136,7 @@ class ClassUtilsTest {
 	assertNull ClassUtils.getClassesByGenericSignature(null)
 	assertNull ClassUtils.getClassesByGenericSignature(TestClz)
 
-	Class[] result = ClassUtils.getClassesByGenericSignature(CategoryapiShopCategoriesGet)
+	Class[] result = ClassUtils.getClassesByGenericSignature(RwsCrawlerCategoryapiShopCategoriesGetApi)
 	assertNotNull result
 
 	String typeName = '<RwsBaseForm:Ljava/lang/Object;RwsCategorysetsGetResponseResult:Ljava/lang/Object;>Lcom/happinesea/ec/rws/lib/AbstractApiProxy;'
