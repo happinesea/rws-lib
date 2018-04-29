@@ -26,12 +26,12 @@ class RwsParameter<F extends RwsBaseForm> {
     /**
      * リクエストヘッダー
      */
-    private RwsRequestHeaderBean header
+    RwsRequestHeaderBean header
 
     /**
      * リクエストパス<br>デフォルト：空文字
      */
-    private String path = ''
+    String path = ''
 
     /**
      * リクエストフォーム
@@ -41,7 +41,7 @@ class RwsParameter<F extends RwsBaseForm> {
     /**
      * リクエストURI
      */
-    private String requestUri
+    String requestUri
 
     /**
      * リクエストのQuery String
