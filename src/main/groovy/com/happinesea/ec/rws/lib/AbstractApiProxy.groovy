@@ -5,6 +5,7 @@ import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 import com.happinesea.ec.rws.lib.util.ClassUtils
 
 import groovy.util.logging.Log4j2
@@ -20,7 +21,6 @@ abstract class AbstractApiProxy<F extends RwsBaseForm, R extends RwsResponseXmlR
     String defaultEncode
     HttpMethod httpMethod
     RwsRequestHeaderBean header
-    enum HttpMethod{GET, POST, HEAD}
     RwsCrawler crawler
     RwsResponseParser rwsResponseParser
     HappineseaConfig config = HappineseaConfig.getInstance()
@@ -46,6 +46,9 @@ abstract class AbstractApiProxy<F extends RwsBaseForm, R extends RwsResponseXmlR
 
 	RwsParameter<F> parameter = new RwsParameter<F>()
 	parameter.header = header
+	if(httpMethod) {
+	    parameter.httpMethod = httpMethod
+	}
 	
 	crawler.init(parameter)
 	

@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets
 
 import com.happinesea.HappineseaConfig
 import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 import com.happinesea.ec.rws.lib.util.ClassUtils
 
 import groovy.util.logging.Log4j2
@@ -19,6 +20,27 @@ import groovy.util.logging.Log4j2
  */
 @Log4j2
 class RwsParameter<F extends RwsBaseForm> {
+    /**
+     * 通信メソッドの列挙
+     */
+    enum HttpMethod{
+	/**
+	 * GETメソッド
+	 */
+	GET
+	/**
+	 * POSTメソッド(XML body)
+	 */
+	, XML_POST
+	/**
+	 * HEADE
+	 */
+	, HEAD
+    }
+    /**
+     * 通信メソッド
+     */
+    HttpMethod httpMethod = HttpMethod.GET
     /**
      * 設定情報
      */

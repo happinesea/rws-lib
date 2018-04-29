@@ -20,6 +20,7 @@ import com.happinesea.HappineseaConfig
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 
 import groovy.util.logging.Log4j2
 
@@ -74,7 +75,12 @@ class RwsCrawler {
 	if(parser == null) {
 	    throw new IllegalArgumentException('invalide parser.')
 	}
-	HttpEntity entity = getApiRequest(parameter).entity
+	HttpEntity entity = null
+	if(parameter && parameter.httpMethod == HttpMethod.XML_POST){
+	    entity = postXmlRequest(parameter).entity
+	}else {
+	    entity = getApiRequest(parameter).entity
+	}
 	if(clz == null) {
 	    clz = RwsResponseXmlResult
 	}
@@ -124,6 +130,14 @@ class RwsCrawler {
 	return httpClient.execute(httpGet);
     }
 
+    /**
+     * HTTP通信POSTメソッド、送信bodyはXMLで送信したレスポンスを返す<br>
+     * 
+     * @param parameter
+     * @return
+     * @throws IOException
+     * @throws ClientProtocolException
+     */
     public HttpResponse postXmlRequest(RwsParameter parameter) throws IOException, ClientProtocolException{
 
 	HttpClient httpClient = init(parameter)
