@@ -34,7 +34,7 @@ class RwsParameterTest {
 '''
 	assertEquals val.trim() ,parameter.getXmlString(true)
 
-
+	assertEquals parameter.getXmlString(), parameter.getXmlString(true)
     }
 
     @Test
