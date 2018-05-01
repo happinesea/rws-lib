@@ -5,7 +5,6 @@ import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 /**
  * RWS responseパーサーのマーカーIF
  * 
- * 
  *
  */
 interface RwsResponseParser {

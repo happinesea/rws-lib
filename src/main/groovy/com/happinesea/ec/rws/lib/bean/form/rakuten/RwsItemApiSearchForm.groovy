@@ -4,7 +4,8 @@ import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.SortKeyItemEnum
 import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.SortOrderItemEnum
 
 /**
- * 
+ * 「RMS WEB SERVICE : item.search」で利用する通信フォーム<br>
+ * https://api.rms.rakuten.co.jp/es/1.0/item/search
  *
  */
 class RwsItemApiSearchForm extends RwsItemApiGetForm{

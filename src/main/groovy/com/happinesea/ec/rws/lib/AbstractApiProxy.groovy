@@ -16,15 +16,44 @@ import groovy.util.logging.Log4j2
 @Log4j2
 abstract class AbstractApiProxy<F extends RwsBaseForm, R extends RwsResponseXmlResult> {
 
+    /**
+     * スキーマからホストまでのURI
+     */
     String requestUri
+    /**
+     * APIのパス
+     */
     String path
+    /**
+     * デフォルトエンコード
+     */
     String defaultEncode
+    /**
+     * HTTPメソッド
+     */
     HttpMethod httpMethod
+    /**
+     * ヘッダー情報
+     */
     RwsRequestHeaderBean header
+    /**
+     * クローラとなるHTTPクライアントオブジェクト
+     */
     RwsCrawler crawler
+    /**
+     * レスポンスデータをオブジェクトにパースするオブジェクト
+     */
     RwsResponseParser rwsResponseParser
+    /**
+     * 設定情報
+     */
     HappineseaConfig config = HappineseaConfig.getInstance()
 
+    /**
+     * APIのパス、ヘッダー情報を指定して、インスタンスを初期化
+     * @param path APIのパス
+     * @param header ヘッダー情報
+     */
     AbstractApiProxy(String path, RwsRequestHeaderBean header) {
 	 this.requestUri = config.rmsApiUrl
 	 this.path = path

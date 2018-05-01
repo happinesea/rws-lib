@@ -1,9 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.form
 
 /**
- * RWSリクエストフォームのAbstractクラス
- * 
- * 
+ * RWSリクエストフォームの親クラス
  *
  */
 class RwsBaseForm {

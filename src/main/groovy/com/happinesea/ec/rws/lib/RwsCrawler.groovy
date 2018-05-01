@@ -25,10 +25,7 @@ import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 import groovy.util.logging.Log4j2
 
 /**
- * RWSクローラー
- * 
- * 
- * 
+ * RWSクローラーのHTTPクライアントクラス
  *
  */
 @Log4j2
@@ -65,10 +62,11 @@ class RwsCrawler {
     }
 
     /**
+     * API通信して、取得した内容をパースされたオブジェクトとして取得する
      * 
-     * @param parameter
-     * @param parser
-     * @param clz
+     * @param parameter API通信パラメータ
+     * @param parser パーサーインスタンス
+     * @param clz パース結果のオブジェクト
      * @return
      */
     public <R extends RwsResponseXmlResult>R getApiContents(RwsParameter parameter, RwsResponseParser parser, Class<R> clz) {

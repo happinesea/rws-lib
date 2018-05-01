@@ -13,7 +13,8 @@ import groovy.util.logging.Log4j2
 import groovy.util.slurpersupport.GPathResult
 
 /**
- * 
+ * あらゆるXMLをオブジェクトに変換するパーサー。<br>
+ * 尚、タグ内のattributeをサポートしない。
  *
  */
 @Log4j2
