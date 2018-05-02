@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * メール送信種別の列挙
  *
  */
 enum MailSendTypeEnum implements ApiResponseEnum{

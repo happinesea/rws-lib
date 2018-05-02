@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * 配送業者の列挙
  *
  */
 enum DeliveryCompanyEnum implements ApiResponseEnum{

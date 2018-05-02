@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * 決済方法の列挙
  *
  */
 enum SettlementMethodEnum implements ApiResponseEnum{

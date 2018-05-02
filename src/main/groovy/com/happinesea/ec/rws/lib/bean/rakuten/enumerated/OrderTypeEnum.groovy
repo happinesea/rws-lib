@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * 受注検索種別の列挙
  *
  */
 enum OrderTypeEnum implements ApiResponseEnum{

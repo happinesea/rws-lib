@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated
 
 /**
- * 
+ * 注文経路サイトの列挙
  *
  */
 enum PurchaseSiteTypeEnum implements ApiResponseEnum{

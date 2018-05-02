@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * 端末のキャリアの列挙 
  *
  */
 enum CarrierCodeEnum implements ApiResponseEnum {

@@ -3,8 +3,7 @@ package com.happinesea.ec.rws.lib.bean.rakuten.node
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 
 /**
- * 
- *
+ * 商品ノード
  */
 class RwsItem implements ApiResponseNode {
     String itemUrl

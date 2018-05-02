@@ -77,7 +77,7 @@ class RwsParameter<F extends RwsBaseForm> {
 
     /**
      * フォーム値のquery stringを取得する<br>
-     * {@linkplain #queryString}が<code>null</code>の場合、{@linkplain #requestForm}の値をもとに、新たに生成したものを取得する
+     * {@link #queryString}が<code>null</code>の場合、{@link #requestForm}の値をもとに、新たに生成したものを取得する
      * 
      * @return Query Stringを戻す
      */
@@ -87,7 +87,7 @@ class RwsParameter<F extends RwsBaseForm> {
 
     /**
      * フォームオブジェクトをXML文字列を取得する<br>
-     * {@linkplain #xmlString}が<code>null</code>の場合、{@linkplain #requestForm}の値をもとに、新たに生成したものを取得する
+     * {@link #xmlString}が<code>null</code>の場合、{@link #requestForm}の値をもとに、新たに生成したものを取得する
      * 
      * @return xmlの文字列を戻す
      */
@@ -97,11 +97,11 @@ class RwsParameter<F extends RwsBaseForm> {
 
     /**
      * フォームオブジェクトのXMLを文字列として取得する<br>
-     * {@linkplain #xmlString}が<code>null</code>の場合、{@linkplain #requestForm}の値をもとに、新たに生成したものを取得する
+     * {@link #xmlString}が<code>null</code>の場合、{@link #requestForm}の値をもとに、新たに生成したものを取得する
      * 
-     * @param refresh {@linkplain #requestForm}の値をもとにリフレッシュするか否かを指定する。<br>
+     * @param refresh {@link #requestForm}の値をもとにリフレッシュするか否かを指定する。<br>
      * <code>true</code>を指定する場合、強制的に」リフレッシュ<br>
-     * <code>false</code>を指定する、かつ、{@linkplain #queryString}が<code>null</code>でない場合、{@linkplain #queryString}の値をそのまま返す
+     * <code>false</code>を指定する、かつ、{@link #queryString}が<code>null</code>でない場合、{@link #queryString}の値をそのまま返す
      * 
      * @return xmlの文字列を戻す
      */
@@ -179,11 +179,11 @@ class RwsParameter<F extends RwsBaseForm> {
 
     /**
      * フォーム値のquery stringを取得する<br>
-     * {@linkplain #queryString}が<code>null</code>の場合、{@linkplain #requestForm}の値をもとに、新たに生成したものを取得する
+     * {@link #queryString}が<code>null</code>の場合、{@link #requestForm}の値をもとに、新たに生成したものを取得する
      * 
-     * @param refresh {@linkplain #requestForm}の値をもとにリフレッシュするか否かを指定する。<br>
+     * @param refresh {@link #requestForm}の値をもとにリフレッシュするか否かを指定する。<br>
      * <code>true</code>を指定する場合、強制的に」リフレッシュ<br>
-     * <code>false</code>を指定する、かつ、{@linkplain #queryString}が<code>null</code>でない場合、{@linkplain #queryString}の値をそのまま返す
+     * <code>false</code>を指定する、かつ、{@link #queryString}が<code>null</code>でない場合、{@link #queryString}の値をそのまま返す
      * 
      * @return Query Stringを戻す
      */

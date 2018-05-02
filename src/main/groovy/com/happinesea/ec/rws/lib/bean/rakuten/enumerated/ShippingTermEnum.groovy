@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * お届け時間帯(午前・午後)の列挙
  *
  */
 enum ShippingTermEnum implements ApiResponseEnum{

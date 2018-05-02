@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * CVS(コンビニ)の列挙
  *
  */
 enum CvsCodeEnum implements ApiResponseEnum{

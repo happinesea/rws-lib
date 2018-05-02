@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * ソートキーの列挙
  *
  */
 enum SortKeyItemEnum implements ApiResponseEnum{

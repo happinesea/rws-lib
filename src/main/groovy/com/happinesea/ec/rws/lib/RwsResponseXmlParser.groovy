@@ -28,7 +28,7 @@ public class RwsResponseXmlParser implements RwsResponseParser {
      * XMLレスポンス結果をパース<br>
      * パース仕様：<br>
      * 1．XMLノード名称をもとに、マッチするObjectの属性に値を代入する<br>
-     * 2．Objectの属性が{@linkplain String}の場合、ノードの値を設定する<br>
+     * 2．Objectの属性が{@link String}の場合、ノードの値を設定する<br>
      * 3．Objectの属性がObjectの場合、型の属性に合わせて、再帰的にパースを行う<br>
      * <br>
      * 例：

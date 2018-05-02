@@ -13,16 +13,23 @@ import groovy.util.logging.Log4j2
 /**
  * Class操作関連のUtils
  * 
- * 
- *
  */
 @Log4j2
 public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 
+    /**
+     * BEANを格納するルートパッケージ
+     */
     private static final String BEAN_PACKAGE_NAME = 'com/happinesea/ec/rws/lib/bean'
 
+    /**
+     * デフォルト除外するメソッドの接頭辞
+     */
     private static final String NO_TARGET_METHOD_FIX = '_'
 
+    /**
+     * 基本型のラッパーを格納するセット
+     */
     private static final Set<Class> PRIMITIVE_WARPPER;
     static {
 	PRIMITIVE_WARPPER = new HashSet()
@@ -37,10 +44,10 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * 親クラスの定義を含めて、{@linkplain ApiResponse}型、および、プリミティブ型の{@linkplain Field}を結果に戻す。
+     * 親クラスの定義を含めて、{@link ApiResponse}型、および、プリミティブ型の{@link Field}を結果に戻す。
      * 
      * @param clz 対象クラス
-     * @return {@linkplain Field}の配列を戻す。{@linkplain ApiResponse}型がない場合、空の配列を戻す
+     * @return {@link Field}の配列を戻す。{@link ApiResponse}型がない場合、空の配列を戻す
      */
     public static Field[] getFieldsApiResponse(Class clz) {
 	if(clz == null) {
@@ -95,7 +102,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * {@linkplain ApiResponse}の実装クラスかどうかを判定する
+     * {@link ApiResponse}の実装クラスかどうかを判定する
      * 
      * @param clz 対象クラス
      * @return 判定結果。<code>null</code>の場合、<code>false</code>を戻す
@@ -106,7 +113,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * <s>{@linkplain ApiResponseEnum}の実装クラスかどうかを判定する</s>
+     * <s>{@link ApiResponseEnum}の実装クラスかどうかを判定する</s>
      *
      * @param clz 対象クラス
      * @return 判定結果。<code>null</code>の場合、<code>false</code>を戻す
@@ -120,7 +127,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * {@linkplain String}、又は、プリミティブ型のラッパークラスかどうかを判定する
+     * {@link String}、又は、プリミティブ型のラッパークラスかどうかを判定する
      * 
      * @param clz 対象クラス
      * @return 判定結果。<code>null</code>の場合、<code>false</code>を戻す
@@ -149,7 +156,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * 対象{@linkplain Field}のジェネクスの型を取得する<br>
+     * 対象{@link Field}のジェネクスの型を取得する<br>
      * ジェネクスが定義されないものは自分自身の型を戻す
      * 
      * @param field
@@ -185,9 +192,10 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
+     * クラスのジェネリック定義のリストを取得する
      * 
-     * @param clz
-     * @return
+     * @param clz 対象となるクラス
+     * @return 取得結果。ジェネリックを定義しない場合、自分自身を返す
      */
     public static List<Class> getClassesByGenericSignature(Class clz) {
 	if(clz == null ) {
@@ -220,7 +228,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * クラスを格納するストレージ
+     * BEANクラスを格納するストレージ
      */
     private static Map<String, Class> beanClassStorae = new HashMap();
 
@@ -230,10 +238,10 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     private static ClassLoader classLoader = Thread.currentThread().contextClassLoader
 
     /**
-     * ファイルシステムから対象クラス{@linkplain #BEAN_PACKAGE_NAME ストレージ}を設定する
+     * ファイルシステムから対象クラス{@link #BEAN_PACKAGE_NAME ストレージ}を設定する
      * 
-     * @param packageName
-     * @param fileName
+     * @param packageName 処理対象パッケージ
+     * @param fileName ファイルパス
      */
     private static void traverseDir(String packageName, String fileName) {
 	File file = new File(fileName)
@@ -251,10 +259,10 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * jarファイルから、対象クラスを{@linkplain #BEAN_PACKAGE_NAME ストレージ}に設定する
+     * jarファイルから、対象クラスを{@link #BEAN_PACKAGE_NAME ストレージ}に設定する
      * 
-     * @param packageName
-     * @param connection
+     * @param packageName 処理対象パッケージ
+     * @param connection パッケージのURLを取得するためのコネクション
      */
     private static void findClassesWithJar(String packageName, URLConnection connection) {
 
@@ -279,9 +287,9 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     /**
      * パス名の文字列をクラスに変換できる文字列に変更
      * 
-     * @param packageName
-     * @param fileName
-     * @return
+     * @param packageName 処理対象パッケージ
+     * @param fileName 処理対象ファイルパス
+     * @return 置換の結果
      */
     private static String replaceClasspath(String packageName, String fileName) {
 	String fileClassPath = fileName.replace(File.separator, '/')
@@ -294,11 +302,11 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * {@linkplain #BEAN_PACKAGE_NAME}からクラスを取得する
+     * {@link #BEAN_PACKAGE_NAME}からクラスを取得する
      * 
      * @see #getBeanClassByName(String, String)
-     * @param className
-     * @return
+     * @param className 取得しようとするクラス名
+     * @return 取得結果
      */
     public static Class getBeanClassByName(String className) {
 	return getBeanClassByName(null, className)
@@ -309,7 +317,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
      * 指定されたクラスが存在しない場合、<code>null</code>を戻す<br>
      * 尚、同じクラス名の場合、片方しか認識できないことを注意してください。
      * 
-     * @param packageName 対象パッケージ名。指定しない場合、{@linkplain #BEAN_PACKAGE_NAME}をデフォルトとして設定する
+     * @param packageName 対象パッケージ名。指定しない場合、{@link #BEAN_PACKAGE_NAME}をデフォルトとして設定する
      * @param className クラス名
      * @return 対象となるクラス
      */

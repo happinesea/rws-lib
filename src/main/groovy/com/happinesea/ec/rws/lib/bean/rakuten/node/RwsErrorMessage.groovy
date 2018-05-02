@@ -3,7 +3,7 @@ package com.happinesea.ec.rws.lib.bean.rakuten.node
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 
 /**
- * 
+ * エラーメッセージのノード
  *
  */
 class RwsErrorMessage implements ApiResponseNode {
