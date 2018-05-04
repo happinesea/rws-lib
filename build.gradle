@@ -9,7 +9,8 @@ apply plugin: 'signing'
 
 
 def jdkVersion = 1.9
-def targetJdkVersion = 1.8
+def targetJdkVersion = 1.9
+def defaultEncoding = 'UTF-8'
 sourceCompatibility = jdkVersion
 targetCompatibility = targetJdkVersion
 
@@ -168,25 +169,39 @@ sourceSets {
     }
 
     test {
-	groovy { srcDirs = ['src/test/groovy']}
+	groovy { srcDirs = ['src/test/groovy', 'src/main/groovy']}
+    }
+    
+    groovydoc {
+	resources {
+	    srcDirs = ['src/templates/groovy']
+	}
     }
 }
-
 
 groovydoc{
     use=true
     source = sourceSets.main.groovy
     groovyClasspath = configurations.compile
+    classpath = sourceSets.groovydoc.output + classpath
     windowTitle = "happinesea ${archivesBaseName} groovy docs"
     docTitle = "${archivesBaseName} API(v-${version})"
     header = '<a href="http://lab.happinesea.com" target="_blank">happinsea</a>'
     footer = '<a href="http://lab.happinesea.com" target="_blank">happinsea</a> API documentation was generated at ' + "$time on $date."
-    link 'http://download.oracle.com/javase/7/docs/api/', 'java.'
-    link 'http://docs.groovy-lang.org/latest/html/gapi/', 'groovy.', 'org.codehaus.groovy.'
+    link 'https://docs.oracle.com/javase/jp/9/docs/api/', 'java.'
+    link 'http://docs.groovy-lang.org/latest/html/gapi/', 'groovy.', 'org.codehaus.groovy.' 
 }
 
 jar {
     manifest {
 	attributes 'Implementation-Title': 'RWS(RMS WEB SERVICE) Library','Implementation-Version': version,'Built-By': 'http://lab.happinesea.com/rws-lib.html','Build-Jdk': targetJdkVersion
     }
+}
+compileGroovy {
+    groovyOptions.encoding = defaultEncoding
+    options.encoding = defaultEncoding
+}
+compileTestGroovy {
+    groovyOptions.encoding = defaultEncoding
+    options.encoding = defaultEncoding
 }

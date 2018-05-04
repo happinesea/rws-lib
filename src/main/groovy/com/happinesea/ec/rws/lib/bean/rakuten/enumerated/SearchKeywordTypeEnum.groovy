@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * キーワード検索対象種別の列挙
  *
  */
 enum SearchKeywordTypeEnum implements ApiResponseEnum{

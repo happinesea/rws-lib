@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * 受注プロセス状態の列挙
  *
  */
 enum OrderProgressEnum implements ApiResponseEnum{

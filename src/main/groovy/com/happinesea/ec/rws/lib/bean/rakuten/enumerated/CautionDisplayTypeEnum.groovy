@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * 通知表示の列挙
  *
  */
 enum CautionDisplayTypeEnum implements ApiResponseEnum{

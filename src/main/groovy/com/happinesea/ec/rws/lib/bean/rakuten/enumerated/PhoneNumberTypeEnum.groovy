@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * 電話番号検索種別の列挙
  *
  */
 enum PhoneNumberTypeEnum implements ApiResponseEnum{

@@ -1,8 +1,14 @@
 package com.happinesea.ec.rws.lib.bean.rakuten
 
+import java.lang.reflect.Field
 import java.nio.charset.StandardCharsets
 
-import com.happinesea.ec.rws.lib.bean.form.AbstractRwsForm
+import com.happinesea.HappineseaConfig
+import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
+import com.happinesea.ec.rws.lib.util.ClassUtils
+
+import groovy.util.logging.Log4j2
 
 
 /**
@@ -12,7 +18,33 @@ import com.happinesea.ec.rws.lib.bean.form.AbstractRwsForm
  *
  * @param <F>
  */
-class RwsParameter<F extends AbstractRwsForm> {
+@Log4j2
+class RwsParameter<F extends RwsBaseForm> {
+    /**
+     * 通信メソッドの列挙
+     */
+    enum HttpMethod{
+	/**
+	 * GETメソッド
+	 */
+	GET
+	/**
+	 * POSTメソッド(XML body)
+	 */
+	, XML_POST
+	/**
+	 * HEADE
+	 */
+	, HEAD
+    }
+    /**
+     * 通信メソッド
+     */
+    HttpMethod httpMethod = HttpMethod.GET
+    /**
+     * 設定情報
+     */
+    private HappineseaConfig config = HappineseaConfig.getInstance()
     /**
      * リクエストヘッダー
      */
@@ -26,7 +58,7 @@ class RwsParameter<F extends AbstractRwsForm> {
     /**
      * リクエストフォーム
      */
-    F requestForm
+    private F requestForm
 
     /**
      * リクエストURI
@@ -39,8 +71,13 @@ class RwsParameter<F extends AbstractRwsForm> {
     private String queryString
 
     /**
+     * フォームオブジェクトのXML
+     */
+    private String xmlString
+
+    /**
      * フォーム値のquery stringを取得する<br>
-     * {@linkplain #queryString}が<code>null</code>の場合、{@linkplain #requestForm}の値をもとに、新たに生成したものを取得する
+     * {@link #queryString}が<code>null</code>の場合、{@link #requestForm}の値をもとに、新たに生成したものを取得する
      * 
      * @return Query Stringを戻す
      */
@@ -49,12 +86,104 @@ class RwsParameter<F extends AbstractRwsForm> {
     }
 
     /**
-     * フォーム値のquery stringを取得する<br>
-     * {@linkplain #queryString}が<code>null</code>の場合、{@linkplain #requestForm}の値をもとに、新たに生成したものを取得する
+     * フォームオブジェクトをXML文字列を取得する<br>
+     * {@link #xmlString}が<code>null</code>の場合、{@link #requestForm}の値をもとに、新たに生成したものを取得する
      * 
-     * @param refresh {@linkplain #requestForm}の値をもとにリフレッシュするか否かを指定する。<br>
+     * @return xmlの文字列を戻す
+     */
+    String getXmlString() {
+	return getXmlString(false)
+    }
+
+    /**
+     * フォームオブジェクトのXMLを文字列として取得する<br>
+     * {@link #xmlString}が<code>null</code>の場合、{@link #requestForm}の値をもとに、新たに生成したものを取得する
+     * 
+     * @param refresh {@link #requestForm}の値をもとにリフレッシュするか否かを指定する。<br>
      * <code>true</code>を指定する場合、強制的に」リフレッシュ<br>
-     * <code>false</code>を指定する、かつ、{@linkplain #queryString}が<code>null</code>でない場合、{@linkplain #queryString}の値をそのまま返す
+     * <code>false</code>を指定する、かつ、{@link #queryString}が<code>null</code>でない場合、{@link #queryString}の値をそのまま返す
+     * 
+     * @return xmlの文字列を戻す
+     */
+    String getXmlString(boolean refresh) {
+
+	if(!refresh && xmlString != null) {
+	    return xmlString
+	}
+
+	// XML Stringを生成しなおす
+	if(requestForm == null) {
+	    return ''
+	}
+
+	StringWriter result = new StringWriter()
+	result.append("<?xml version=\"1.0\" encoding=\"${config.defaultEncode}\"?>")
+	result.append("<request>")
+	Field[] fields = ClassUtils.getFieldsApiResponse(requestForm.getClass())
+	if(log.isDebugEnabled()) {
+	    log.debug('request form: {}', fields)
+	}
+	for(Field field in fields) {
+	    encodeXmlFromObj(field, requestForm, result)
+	}
+
+	result.append("</request>")
+
+	return result.toString()
+    }
+
+    private void encodeXmlFromObj(Field field, Object obj, StringWriter sw) {
+	field.setAccessible(true)
+	if(log.isDebugEnabled()) {
+	    log.debug('encodeXmlFromObj -> {}', field)
+	}
+	Object val = field.get(obj)
+	if(val == null) {
+	}else if(ClassUtils.isPrimitveAndString(field.getType())) {
+	    if(log.isDebugEnabled()) {
+		log.debug("test content -> <${field.name}>${field.get(obj)}</${field.name}>")
+	    }
+	    sw.append("<${field.name}>${field.get(obj)}</${field.name}>")
+
+	}else if(ClassUtils.isApiResponseNode(field.getType())) {
+	    if(log.isDebugEnabled()) {
+		log.debug("test content is node")
+	    }
+	    Field[] fields = ClassUtils.getFieldsApiResponse(field.get(obj).getClass())
+	    for(Field f in fields) {
+		encodeXmlFromObj(f, val, sw)
+	    }
+	}else if(val instanceof Collection) {
+	    if(log.isDebugEnabled()) {
+		log.debug("test content is List")
+	    }
+	    sw.append("<${field.name}>")
+	    Collection valList = (Collection)val
+	    for(Object o in valList) {
+		Field[] fields = ClassUtils.getFieldsApiResponse(o.getClass())
+		String name = field.name.replaceAll(/s$/, '')
+		sw.append("<${name}>")
+		for(Field f in fields) {
+		    encodeXmlFromObj(f, o, sw)
+		}
+		sw.append("</${name}>")
+	    }
+	    sw.append("</${field.name}>")
+	}else {
+	    if(log.isDebugEnabled()) {
+		log.debug("test content other {}", val)
+	    }
+
+	}
+    }
+
+    /**
+     * フォーム値のquery stringを取得する<br>
+     * {@link #queryString}が<code>null</code>の場合、{@link #requestForm}の値をもとに、新たに生成したものを取得する
+     * 
+     * @param refresh {@link #requestForm}の値をもとにリフレッシュするか否かを指定する。<br>
+     * <code>true</code>を指定する場合、強制的に」リフレッシュ<br>
+     * <code>false</code>を指定する、かつ、{@link #queryString}が<code>null</code>でない場合、{@link #queryString}の値をそのまま返す
      * 
      * @return Query Stringを戻す
      */

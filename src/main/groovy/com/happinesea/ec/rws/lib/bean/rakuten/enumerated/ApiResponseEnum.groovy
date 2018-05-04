@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated
 
 /**
- * APIレスポンスの表すEnum値
+ * APIレスポンスの列挙のマーカIF
  * 
  * 
  *

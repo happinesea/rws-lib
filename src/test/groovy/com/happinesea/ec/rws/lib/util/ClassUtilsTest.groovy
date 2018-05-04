@@ -9,6 +9,7 @@ import org.junit.Test
 
 import com.happinesea.ec.rws.lib.RwsResponseParser
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
+import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult.Status
 import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.MessageElementEnum
@@ -16,7 +17,10 @@ import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.SystemStatusElementEnum
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemGetResponseResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemGetResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemSearchResult
-import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsResponseItem
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItem
+import com.happinesea.ec.rws.lib.rakuten.RwsCrawlerCategoryapiShopCategoriesGetApi
+
+import groovy.beans.Bindable
 
 class ClassUtilsTest {
 
@@ -110,7 +114,6 @@ class ClassUtilsTest {
     @Test
     public void testGetFieldGenertics() {
 	def expectedException = shouldFail(IllegalArgumentException){ ClassUtils.getFieldGenertics(null) }
-
 	assertEquals 'field is null.', expectedException.message
 
 	// テストデータ初期化
@@ -118,7 +121,7 @@ class ClassUtilsTest {
 	Field listField = RwsItemSearchResult.getDeclaredField('items')
 
 	assertEquals String, ClassUtils.getFieldGenertics(stringField)
-	assertEquals RwsResponseItem, ClassUtils.getFieldGenertics(listField)
+	assertEquals RwsItem, ClassUtils.getFieldGenertics(listField)
 
 	listField = TestClz.getDeclaredField('testlist')
 	assertEquals List, ClassUtils.getFieldGenertics(listField)
@@ -126,5 +129,38 @@ class ClassUtilsTest {
 
     private class TestClz{
 	List<? > testlist
+    }
+
+    @Test
+    public void testGetClassesByGenericSignature() {
+	assertNull ClassUtils.getClassesByGenericSignature(null)
+	assertNull ClassUtils.getClassesByGenericSignature(TestClz)
+
+	Class[] result = ClassUtils.getClassesByGenericSignature(RwsCrawlerCategoryapiShopCategoriesGetApi)
+	assertNotNull result
+
+	String typeName = '<RwsBaseForm:Ljava/lang/Object;RwsCategorysetsGetResponseResult:Ljava/lang/Object;>Lcom/happinesea/ec/rws/lib/AbstractApiProxy;'
+
+    }
+
+    @Test
+    public void testGetBeanClassByName() throws Exception{
+	def expectedException = shouldFail(IllegalArgumentException){ ClassUtils.getBeanClassByName(null) }
+	assertEquals 'class name is empty.', expectedException.message
+
+	assertNull ClassUtils.getBeanClassByName('hoge', 'hoge')
+
+	Class rwsBaseForm = ClassUtils.getBeanClassByName(null, 'RwsBaseForm')
+	assertNotNull rwsBaseForm
+	assertEquals RwsBaseForm, rwsBaseForm
+
+	Class status = ClassUtils.getBeanClassByName('Status')
+	assertNotNull status
+	assertEquals Status, status
+
+	Class bindable = ClassUtils.getBeanClassByName('groovy/beans', 'Bindable')
+	assertNotNull bindable
+	assertEquals Bindable, bindable
+
     }
 }

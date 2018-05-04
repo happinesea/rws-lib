@@ -11,6 +11,8 @@ import org.apache.http.client.ClientProtocolException
 import org.apache.http.client.HttpClient
 import org.apache.http.client.config.RequestConfig
 import org.apache.http.client.methods.HttpGet
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.message.BasicHeader
 
@@ -18,14 +20,12 @@ import com.happinesea.HappineseaConfig
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 
 import groovy.util.logging.Log4j2
 
 /**
- * RWSクローラー
- * 
- * 
- * 
+ * RWSクローラーのHTTPクライアントクラス
  *
  */
 @Log4j2
@@ -33,7 +33,7 @@ class RwsCrawler {
     /**
      * 設定情報
      */
-    private HappineseaConfig config
+    HappineseaConfig config
 
     /**
      * コンストラクタ
@@ -62,17 +62,31 @@ class RwsCrawler {
     }
 
     /**
+     * API通信して、取得した内容をパースされたオブジェクトとして取得する
      * 
-     * @param parameter
-     * @param parser
-     * @param clz
+     * @param parameter API通信パラメータ
+     * @param parser パーサーインスタンス
+     * @param clz パース結果のオブジェクト
      * @return
      */
-    public <R extends RwsResponseXmlResult>R getApiContents(RwsParameter parameter, RwsResponseParser parser, Class<R> clz) {
+    public <R extends RwsResponseXmlResult>R getApiContents(RwsParameter parameter
+	    , RwsResponseParser parser, Class<R> clz) throws IOException{
 	if(parser == null) {
 	    throw new IllegalArgumentException('invalide parser.')
 	}
-	HttpEntity entity = getApiRequest(parameter).entity
+	if(parameter == null) {
+	    throw new IllegalArgumentException('invalide header info.')
+	}
+	HttpEntity entity = null
+	try {
+	    if(parameter && parameter.httpMethod == HttpMethod.XML_POST){
+		entity = postXmlRequest(parameter).entity
+	    }else {
+		entity = getApiRequest(parameter).entity
+	    }
+	}catch(Exception e) {
+	    throw new IOException(e)
+	}
 	if(clz == null) {
 	    clz = RwsResponseXmlResult
 	}
@@ -119,9 +133,31 @@ class RwsCrawler {
 
 	HttpGet httpGet = new HttpGet(parameter.getRequestUri() + parameter.getPath() + "?" + parameter.getQueryString());
 
+	if(log.isDebugEnabled()) {
+	    log.debug("http get: ${httpGet}")
+	}
+
 	return httpClient.execute(httpGet);
     }
 
+    /**
+     * HTTP通信POSTメソッド、送信bodyはXMLで送信したレスポンスを返す<br>
+     * 
+     * @param parameter
+     * @return
+     * @throws IOException
+     * @throws ClientProtocolException
+     */
+    public HttpResponse postXmlRequest(RwsParameter parameter) throws IOException, ClientProtocolException{
+
+	HttpClient httpClient = init(parameter)
+
+	HttpPost httpPost = new HttpPost(parameter.getRequestUri() + parameter.getPath());
+	httpPost.setEntity(new StringEntity(parameter.getXmlString(), config.defaultEncode))
+
+	HttpResponse response = httpClient.execute(httpPost)
+	return response
+    }
     /**
      * RWS特化したHTTP通信用のヘッダー情報を作成する
      * 

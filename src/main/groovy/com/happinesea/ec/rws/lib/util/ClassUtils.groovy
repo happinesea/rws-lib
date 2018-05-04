@@ -1,9 +1,9 @@
 package com.happinesea.ec.rws.lib.util;
 
 import java.lang.reflect.Field
-import java.util.HashSet
 
 import org.apache.commons.lang.ArrayUtils
+import org.apache.commons.lang.StringUtils
 
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.ApiResponseEnum
@@ -13,14 +13,23 @@ import groovy.util.logging.Log4j2
 /**
  * Class操作関連のUtils
  * 
- * 
- *
  */
 @Log4j2
 public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 
+    /**
+     * BEANを格納するルートパッケージ
+     */
+    private static final String BEAN_PACKAGE_NAME = 'com/happinesea/ec/rws/lib/bean'
+
+    /**
+     * デフォルト除外するメソッドの接頭辞
+     */
     private static final String NO_TARGET_METHOD_FIX = '_'
 
+    /**
+     * 基本型のラッパーを格納するセット
+     */
     private static final Set<Class> PRIMITIVE_WARPPER;
     static {
 	PRIMITIVE_WARPPER = new HashSet()
@@ -35,10 +44,10 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * 親クラスの定義を含めて、{@linkplain ApiResponse}型、および、プリミティブ型の{@linkplain Field}を結果に戻す。
+     * 親クラスの定義を含めて、{@link ApiResponse}型、および、プリミティブ型の{@link Field}を結果に戻す。
      * 
      * @param clz 対象クラス
-     * @return {@linkplain Field}の配列を戻す。{@linkplain ApiResponse}型がない場合、空の配列を戻す
+     * @return {@link Field}の配列を戻す。{@link ApiResponse}型がない場合、空の配列を戻す
      */
     public static Field[] getFieldsApiResponse(Class clz) {
 	if(clz == null) {
@@ -93,7 +102,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * {@linkplain ApiResponse}の実装クラスかどうかを判定する
+     * {@link ApiResponse}の実装クラスかどうかを判定する
      * 
      * @param clz 対象クラス
      * @return 判定結果。<code>null</code>の場合、<code>false</code>を戻す
@@ -104,7 +113,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * <s>{@linkplain ApiResponseEnum}の実装クラスかどうかを判定する</s>
+     * <s>{@link ApiResponseEnum}の実装クラスかどうかを判定する</s>
      *
      * @param clz 対象クラス
      * @return 判定結果。<code>null</code>の場合、<code>false</code>を戻す
@@ -118,7 +127,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * {@linkplain String}、又は、プリミティブ型のラッパークラスかどうかを判定する
+     * {@link String}、又は、プリミティブ型のラッパークラスかどうかを判定する
      * 
      * @param clz 対象クラス
      * @return 判定結果。<code>null</code>の場合、<code>false</code>を戻す
@@ -147,7 +156,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
     }
 
     /**
-     * 対象{@linkplain Field}のジェネクスの型を取得する<br>
+     * 対象{@link Field}のジェネクスの型を取得する<br>
      * ジェネクスが定義されないものは自分自身の型を戻す
      * 
      * @param field
@@ -180,5 +189,167 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	}else {
 	    Class.forName(targetName)
 	}
+    }
+
+    /**
+     * クラスのジェネリック定義のリストを取得する
+     * 
+     * @param clz 対象となるクラス
+     * @return 取得結果。ジェネリックを定義しない場合、自分自身を返す
+     */
+    public static List<Class> getClassesByGenericSignature(Class clz) {
+	if(clz == null ) {
+	    return null
+	}
+
+	String typeName = clz.getGenericSignature0()
+	if(StringUtils.isEmpty(typeName)) {
+	    return null
+	}
+
+	int startPoint = typeName.indexOf('<')
+
+	int endPoint = typeName.indexOf('>')
+	if(endPoint < 0) {
+	    throw new RuntimeException(String.format('invalid class name of [{}]', typeName))
+	}
+
+	String targetName = typeName.substring(startPoint + 1, endPoint)
+	String[] types = targetName.split(';')
+	List<Class> result = []
+	for(String type : types) {
+	    if(StringUtils.isEmpty(type)) {
+		continue
+	    }
+	    result << getBeanClassByName(type.substring(0, type.indexOf(':')))
+	}
+
+	return result
+    }
+
+    /**
+     * BEANクラスを格納するストレージ
+     */
+    private static Map<String, Class> beanClassStorae = new HashMap();
+
+    /**
+     * クラスローダー
+     */
+    private static ClassLoader classLoader = Thread.currentThread().contextClassLoader
+
+    /**
+     * ファイルシステムから対象クラス{@link #BEAN_PACKAGE_NAME ストレージ}を設定する
+     * 
+     * @param packageName 処理対象パッケージ
+     * @param fileName ファイルパス
+     */
+    private static void traverseDir(String packageName, String fileName) {
+	File file = new File(fileName)
+	if(file.isDirectory()) {
+	    file.eachFile {
+		traverseDir(packageName, it.path)
+	    }
+	}else if(file && file.name.endsWith('.class') || file.name.endsWith('.groovy')) {
+	    String classStr = replaceClasspath(packageName, file.path)
+	    if(classStr) {
+		Class clz = classLoader.loadClass(classStr)
+		beanClassStorae.put clz.getSimpleName(), clz
+	    }
+	}
+    }
+
+    /**
+     * jarファイルから、対象クラスを{@link #BEAN_PACKAGE_NAME ストレージ}に設定する
+     * 
+     * @param packageName 処理対象パッケージ
+     * @param connection パッケージのURLを取得するためのコネクション
+     */
+    private static void findClassesWithJar(String packageName, URLConnection connection) {
+
+	def jarFile = connection.jarFile
+	try {
+	    for (jarEntry in jarFile.entries()) {
+		if(jarEntry.name.startsWith(packageName) && jarEntry.name.endsWith('.class')) {
+		    String classStr = replaceClasspath(packageName, jarEntry.name)
+		    if(classStr) {
+			Class clz = classLoader.loadClass(classStr)
+			beanClassStorae.put clz.getSimpleName(), clz
+		    }
+		}
+	    }
+	}finally {
+	    if(jarFile) {
+		jarFile.close()
+	    }
+	}
+    }
+
+    /**
+     * パス名の文字列をクラスに変換できる文字列に変更
+     * 
+     * @param packageName 処理対象パッケージ
+     * @param fileName 処理対象ファイルパス
+     * @return 置換の結果
+     */
+    private static String replaceClasspath(String packageName, String fileName) {
+	String fileClassPath = fileName.replace(File.separator, '/')
+	int point = fileClassPath.indexOf(packageName)
+	if(point < 0) {
+	    return null
+	}
+
+	return fileClassPath.substring(point).replace('/', '.').replaceAll(/(\.class|\.groovy|\.java)$/, '')
+    }
+
+    /**
+     * {@link #BEAN_PACKAGE_NAME}からクラスを取得する
+     * 
+     * @see #getBeanClassByName(String, String)
+     * @param className 取得しようとするクラス名
+     * @return 取得結果
+     */
+    public static Class getBeanClassByName(String className) {
+	return getBeanClassByName(null, className)
+    }
+
+    /**
+     * Beanのクラス名をもとに、指定されたパッケージから、Classを取得する。<br>
+     * 指定されたクラスが存在しない場合、<code>null</code>を戻す<br>
+     * 尚、同じクラス名の場合、片方しか認識できないことを注意してください。
+     * 
+     * @param packageName 対象パッケージ名。指定しない場合、{@link #BEAN_PACKAGE_NAME}をデフォルトとして設定する
+     * @param className クラス名
+     * @return 対象となるクラス
+     */
+    public static Class getBeanClassByName(String packageName, String className) {
+	if(StringUtils.isEmpty(className)) {
+	    throw new IllegalArgumentException('class name is empty.')
+	}
+	Class beanClz = beanClassStorae.get(className)
+	if(beanClz) {
+	    return beanClz
+	}
+	if(!packageName) {
+	    packageName = BEAN_PACKAGE_NAME
+	}
+
+
+	URL packageUrl = classLoader.getResource(packageName)
+
+	if(packageUrl == null) {
+	    return null
+	}
+	switch (packageUrl.protocol) {
+	    case 'file':
+		traverseDir(packageName, packageUrl.getFile())
+		break
+	    case 'jar':
+		findClassesWithJar(packageName, packageUrl.openConnection())
+		break
+	    default:
+		return null
+	}
+
+	return beanClassStorae.get(className)
     }
 }
