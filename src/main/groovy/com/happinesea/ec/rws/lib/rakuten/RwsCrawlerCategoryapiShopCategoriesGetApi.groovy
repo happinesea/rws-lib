@@ -16,7 +16,7 @@ class RwsCrawlerCategoryapiShopCategoriesGetApi<RwsBaseForm, RwsCategoriesGetRes
      * @param header 通信ヘッダー情報
      */
     public RwsCrawlerCategoryapiShopCategoriesGetApi(RwsRequestHeaderBean header){
-	super('/es/1.0/categoryapi/shop/category/get', header)
+	super('/es/1.0/categoryapi/shop/categories/get', header)
 	httpMethod = HttpMethod.GET
     }
 }

@@ -68,13 +68,15 @@ abstract class AbstractApiProxy<F extends RwsBaseForm, R extends RwsResponseXmlR
      * @param parameter
      * @return
      */
-    public R run(F form) {
+    public R run(F form) throws IOException {
 
 	// valdation check
 
 
 	RwsParameter<F> parameter = new RwsParameter<F>()
 	parameter.header = header
+	parameter.requestUri = requestUri
+	parameter.path = path
 	if(httpMethod) {
 	    parameter.httpMethod = httpMethod
 	}
@@ -83,8 +85,12 @@ abstract class AbstractApiProxy<F extends RwsBaseForm, R extends RwsResponseXmlR
 	crawler.init(parameter)
 	
 	Class[] types = ClassUtils.getClassesByGenericSignature(this.getClass())
-	
-	def result = crawler.getApiContents(parameter, rwsResponseParser, types[1])
+	def result = null
+	try {
+	    result = crawler.getApiContents(parameter, rwsResponseParser, types[1])
+	}catch(IOException e) {
+	    throw e
+	}
 	
 	log.info('R type : {}', this.getClass().getGenericSignature0())
 	log.info('result type : {}', result.getClass().getName())

@@ -188,7 +188,7 @@ groovydoc{
     docTitle = "${archivesBaseName} API(v-${version})"
     header = '<a href="http://lab.happinesea.com" target="_blank">happinsea</a>'
     footer = '<a href="http://lab.happinesea.com" target="_blank">happinsea</a> API documentation was generated at ' + "$time on $date."
-    link 'http://download.oracle.com/javase/7/docs/api/', 'java.'
+    link 'https://docs.oracle.com/javase/jp/9/docs/api/', 'java.'
     link 'http://docs.groovy-lang.org/latest/html/gapi/', 'groovy.', 'org.codehaus.groovy.' 
 }
 

@@ -69,15 +69,20 @@ class RwsCrawler {
      * @param clz パース結果のオブジェクト
      * @return
      */
-    public <R extends RwsResponseXmlResult>R getApiContents(RwsParameter parameter, RwsResponseParser parser, Class<R> clz) {
+    public <R extends RwsResponseXmlResult>R getApiContents(RwsParameter parameter
+	    , RwsResponseParser parser, Class<R> clz) throws IOException{
 	if(parser == null) {
 	    throw new IllegalArgumentException('invalide parser.')
 	}
 	HttpEntity entity = null
-	if(parameter && parameter.httpMethod == HttpMethod.XML_POST){
-	    entity = postXmlRequest(parameter).entity
-	}else {
-	    entity = getApiRequest(parameter).entity
+	try {
+	    if(parameter && parameter.httpMethod == HttpMethod.XML_POST){
+		entity = postXmlRequest(parameter).entity
+	    }else {
+		entity = getApiRequest(parameter).entity
+	    }
+	}catch(Exception e) {
+	    throw new IOException(e)
 	}
 	if(clz == null) {
 	    clz = RwsResponseXmlResult
@@ -124,6 +129,10 @@ class RwsCrawler {
 	HttpClient httpClient = init(parameter)
 
 	HttpGet httpGet = new HttpGet(parameter.getRequestUri() + parameter.getPath() + "?" + parameter.getQueryString());
+
+	if(log.isDebugEnabled()) {
+	    log.debug("http get: ${httpGet}")
+	}
 
 	return httpClient.execute(httpGet);
     }
