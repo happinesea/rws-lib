@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * 在庫数連動フラグの列挙
  *
  */
 enum RestoreInventoryFlagEnum implements ApiResponseEnum{

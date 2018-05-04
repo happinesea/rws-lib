@@ -1,8 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated
 
 /**
- * 
- * 
+ * メッセージの列挙
  *
  */
 enum MessageElementEnum implements ApiResponseEnum {

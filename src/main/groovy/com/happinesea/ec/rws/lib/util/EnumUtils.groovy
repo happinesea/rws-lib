@@ -8,6 +8,13 @@ import groovy.util.logging.Log4j2
  */
 @Log4j2
 class EnumUtils {
+    /**
+     * API通信用の列挙を取得する
+     * 
+     * @param clz　対象となる列挙のクラス
+     * @param code 取得したい列挙を表すコード
+     * @return 取得した列挙
+     */
     public static <T> T getApiResponseEnum(Class<T> clz, String code) {
 	if(clz == null || code == null) {
 	    throw new IllegalArgumentException('Enum class or code is null')

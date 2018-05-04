@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * クーポン発行元の列挙
  *
  */
 enum CouponCapitalEnum implements ApiResponseEnum{

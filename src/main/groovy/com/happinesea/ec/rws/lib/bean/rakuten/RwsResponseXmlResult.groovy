@@ -5,8 +5,7 @@ import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.MessageElementEnum
 import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.SystemStatusElementEnum
 
 /**
- * XML:result
- * 
+ * RMSのXMLレスポンスの基底クラス
  * 
  *
  */

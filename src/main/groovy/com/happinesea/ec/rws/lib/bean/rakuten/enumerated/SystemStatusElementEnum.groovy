@@ -1,8 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated
 
 /**
- * 
- * 
+ * ステータスの列挙
  *
  */
 enum SystemStatusElementEnum implements ApiResponseEnum{

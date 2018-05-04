@@ -4,7 +4,7 @@ import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
 
 /**
- *RMS WEB SERVICE : shop.categorysets.get<br>
+ *　「RMS WEB SERVICE : shop.categorysets.get」のレスポンス結果<br>
  *https://api.rms.rakuten.co.jp/es/1.0/categoryapi/shop/categorysets/get
  *
  */

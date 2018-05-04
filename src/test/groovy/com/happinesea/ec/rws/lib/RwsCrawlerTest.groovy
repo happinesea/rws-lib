@@ -137,7 +137,7 @@ class RwsCrawlerTest {
 	assertEquals 'invalide parser.', expectedException.message
 
 	expectedException = shouldFail(IllegalArgumentException){crawler.getApiContents(null, new RwsResponseXmlParser(), null)}
-	assertEquals 'invalide request info.', expectedException.message
+	assertEquals 'invalide header info.', expectedException.message
 
 
 	BasicHttpEntity entity = new BasicHttpEntity()

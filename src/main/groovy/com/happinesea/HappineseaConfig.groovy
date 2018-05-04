@@ -35,6 +35,16 @@ class HappineseaConfig {
     def connectionTimeout
 
     /**
+     * デフォルトエンコード
+     */
+    def defaultEncode
+
+    /**
+     * RMS Web service apiのURL
+     */
+    def rmsApiUrl
+
+    /**
      * 設定情報を取り込み、インスタンス化を行う
      */
     private HappineseaConfig() {
@@ -44,6 +54,8 @@ class HappineseaConfig {
 	httpClientAgent = conf.happinesea.ec.rws.tool.agent
 	socketTimeout = conf.happinesea.ec.rws.tool.socket.timeout
 	connectionTimeout = conf.happinesea.ec.rws.tool.connection.timeout
+	defaultEncode = conf.happinesea.ec.rws.tool.default.encode
+	rmsApiUrl = conf.happinesea.ec.rws.tool.rms.api.url
     }
 
     /**

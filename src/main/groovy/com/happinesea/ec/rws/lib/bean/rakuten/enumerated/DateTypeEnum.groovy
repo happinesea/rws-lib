@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * 受注経路の列挙
  *
  */
 enum DateTypeEnum implements ApiResponseEnum{

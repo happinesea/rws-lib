@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * 受注の会員種別の列挙
  *
  */
 enum MembershipTypeEnum implements ApiResponseEnum{

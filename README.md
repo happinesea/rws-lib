@@ -1,6 +1,7 @@
 # rws-lib
 
-[![Build Status](https://circleci.com/gh/happinesea/rws-lib/tree/master.png?circle-token=d72dbc6c6c9905c4c73e9d25c6dc501ac99ae01a)](https://circleci.com/gh/happinesea/rws-lib)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.happinesea/rws-lib/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.happinesea/rws-lib)
+[![CircleCI](https://circleci.com/gh/happinesea/rws-lib/tree/release.svg?style=shield)](https://circleci.com/gh/happinesea/rws-lib/tree/release)
 [![Coverage Status](https://coveralls.io/repos/github/happinesea/rws-lib/badge.svg)](https://coveralls.io/github/happinesea/rws-lib)
 
 
@@ -18,8 +19,8 @@ Groovyで開発しているので、Javaをフルサポートです。
 </dl>
 
 ## Documentation
-[Groovy docs](https://github.com/happinesea/rws-lib/)(作成中)<br>
-[Guides and Tutorials](https://github.com/happinesea/rws-lib/)(作成中)
+[Groovy docs](http://lab.happinesea.com/docs/rws-lib/0.0.3/groovydoc/)<br>
+[Guides and Tutorials](https://github.com/happinesea/rws-lib-tutorial)(作成中)
 
 ### Insatallation
 Gradle、Mavenを利用する場合、MavenCentralの依存関係を追記するだけでよい

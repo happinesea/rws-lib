@@ -1,12 +1,11 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * ソート順の列挙
  *
  */
 enum SortOrderItemEnum implements ApiResponseEnum{
     ASC('asc', '昇順（小さい順、古い順）'),  DESC('desc', '降順（大きい順、新しい順）')
-
 
     SortOrderItemEnum(String id, String description){
 	this.id = id

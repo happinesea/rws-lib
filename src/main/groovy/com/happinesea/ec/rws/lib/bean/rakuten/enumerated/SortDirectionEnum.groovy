@@ -1,7 +1,7 @@
 package com.happinesea.ec.rws.lib.bean.rakuten.enumerated;
 
 /**
- * 
+ * 検索結果ソート順の列挙
  *
  */
 enum SortDirectionEnum implements ApiResponseEnum{
