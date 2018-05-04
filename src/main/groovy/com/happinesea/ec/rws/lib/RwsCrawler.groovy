@@ -74,6 +74,9 @@ class RwsCrawler {
 	if(parser == null) {
 	    throw new IllegalArgumentException('invalide parser.')
 	}
+	if(parameter == null) {
+	    throw new IllegalArgumentException('invalide header info.')
+	}
 	HttpEntity entity = null
 	try {
 	    if(parameter && parameter.httpMethod == HttpMethod.XML_POST){

@@ -36,7 +36,7 @@ class RwsCrawlerCategoryapiShopCategoriesGetApiTest {
     @Test
     public void testInitClass() {
 
-	assertEquals '/es/1.0/categoryapi/shop/category/get', proxy.path
+	assertEquals '/es/1.0/categoryapi/shop/categories/get', proxy.path
 	assertEquals 'https://api.rms.rakuten.co.jp', proxy.requestUri
 	assertNotNull proxy.rwsResponseParser
 	assertTrue proxy.rwsResponseParser instanceof RwsResponseXmlParser
