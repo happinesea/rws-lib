@@ -30,7 +30,7 @@ class RwsParameterTest {
 	parameter.requestForm = form
 
 	String val ='''
-<?xml version="1.0" encoding="UTF-8"?><request><items><item><itemUrl>test-itemurl</itemUrl></item></items></request>
+<?xml version="1.0" encoding="UTF-8"?><request><itemsUpdateRequest><items><item><itemUrl>test-itemurl</itemUrl></item></items></itemsUpdateRequest></request>
 '''
 	assertEquals val.trim() ,parameter.getXmlString(true)
 
