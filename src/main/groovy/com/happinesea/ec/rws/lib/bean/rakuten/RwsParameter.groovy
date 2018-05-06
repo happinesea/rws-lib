@@ -129,7 +129,9 @@ class RwsParameter<F extends RwsBaseForm> {
 
 	result.append("</request>")
 
-	return result.toString()
+	xmlString = result.toString()
+
+	return xmlString
     }
 
     private void encodeXmlFromObj(Field field, Object obj, StringWriter sw) {
@@ -149,10 +151,12 @@ class RwsParameter<F extends RwsBaseForm> {
 	    if(log.isDebugEnabled()) {
 		log.debug("test content is node")
 	    }
+	    sw.append("<${field.name}>")
 	    Field[] fields = ClassUtils.getFieldsApiResponse(field.get(obj).getClass())
 	    for(Field f in fields) {
 		encodeXmlFromObj(f, val, sw)
 	    }
+	    sw.append("</${field.name}>")
 	}else if(val instanceof Collection) {
 	    if(log.isDebugEnabled()) {
 		log.debug("test content is List")

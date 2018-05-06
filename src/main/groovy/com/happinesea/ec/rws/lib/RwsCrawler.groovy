@@ -153,7 +153,12 @@ class RwsCrawler {
 	HttpClient httpClient = init(parameter)
 
 	HttpPost httpPost = new HttpPost(parameter.getRequestUri() + parameter.getPath());
-	httpPost.setEntity(new StringEntity(parameter.getXmlString(), config.defaultEncode))
+	StringEntity entity = new StringEntity(parameter.getXmlString(), config.defaultEncode)
+	httpPost.setEntity(entity)
+
+	if(log.isDebugEnabled()) {
+	    log.debug("request xml body({}) string ->{} ", entity.getContentLength(), parameter.getXmlString())
+	}
 
 	HttpResponse response = httpClient.execute(httpPost)
 	return response
