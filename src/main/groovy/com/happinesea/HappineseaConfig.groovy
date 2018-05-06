@@ -48,7 +48,8 @@ class HappineseaConfig {
      * 設定情報を取り込み、インスタンス化を行う
      */
     private HappineseaConfig() {
-	def loaderUrls = this.class.classLoader.getResource('com/happinesea/happinesea.config')
+	ClassLoader classLoader = Thread.currentThread().contextClassLoader
+	def loaderUrls = classLoader.getResource('com/happinesea/happinesea.config')
 	ConfigObject conf = new ConfigSlurper().parse(loaderUrls);
 	version = conf.happinesea.ec.rws.tool.version
 	httpClientAgent = conf.happinesea.ec.rws.tool.agent
