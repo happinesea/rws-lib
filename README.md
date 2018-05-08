@@ -4,10 +4,18 @@
 [![CircleCI](https://circleci.com/gh/happinesea/rws-lib/tree/release.svg?style=shield)](https://circleci.com/gh/happinesea/rws-lib/tree/release)
 [![Coverage Status](https://coveralls.io/repos/github/happinesea/rws-lib/badge.svg)](https://coveralls.io/github/happinesea/rws-lib)
 
+rws-libは楽天市場を中心として、ECサイト管理するために共通と思われる課題を解決するためのものです。
 
-rws-libは、楽天ペイAPI(RakutenPayOrderAPI)を含めて、RWS(RMS WEB SERVICE)で通信するデータをGroovy/Javaから使いやすい形に変換するライブラリです。
+楽天ペイAPI(RakutenPayOrderAPI)を含めて、RWS(RMS WEB SERVICE)で通信するデータをGroovy/Javaから使いやすい形に変換するライブラリです。
+
+rws-libから、具体的なサービスを何も提供しません。あくまで、CSV、XMLや、JSONのパーサーフレームワーク、API通信フレームワークを含んでおり、ECカートのサードパーティー開発しやすいために、提供するオープンソースライブラリーです。
+
+[MITライセンス](https://github.com/happinesea/rws-lib/blob/master/LICENSE)をもとに提供しておりますので、個人でも、商用でもご自由に利用できます。
+
 
 Groovyで開発しているので、Javaをフルサポートです。
+
+開発関連、詳しい内容について、[wiki](https://github.com/happinesea/rws-lib/wiki)をご参照ください。
 
 ## What's new
 <dl>
