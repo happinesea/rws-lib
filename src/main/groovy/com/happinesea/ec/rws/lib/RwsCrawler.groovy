@@ -17,8 +17,8 @@ import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.message.BasicHeader
 
 import com.happinesea.HappineseaConfig
+import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
-import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 
@@ -29,7 +29,7 @@ import groovy.util.logging.Log4j2
  *
  */
 @Log4j2
-class RwsCrawler {
+public class RwsCrawler {
     /**
      * 設定情報
      */

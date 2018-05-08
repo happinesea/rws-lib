@@ -6,7 +6,7 @@ import org.junit.Before
 import org.junit.Test
 
 import com.happinesea.ec.rws.lib.RwsResponseXmlParser
-import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
+import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 
 import groovyx.net.http.ContentType
