@@ -15,6 +15,8 @@ rws-libから、具体的なサービスを何も提供しません。あくま�
 
 Groovyで開発しているので、Javaをフルサポートです。
 
+開発関連、詳しい内容について、[wiki](https://github.com/happinesea/rws-lib/wiki)をご参照ください。
+
 ## What's new
 <dl>
   <dt>2018/2/15</dt>
