@@ -45,6 +45,11 @@ class HappineseaConfig {
     def rmsApiUrl
 
     /**
+     * EC-Cubeの商品マスタのCSVファイルレイアウト
+     */
+    def csvLayoutEccubeItem
+
+    /**
      * 設定情報を取り込み、インスタンス化を行う
      */
     private HappineseaConfig() {
@@ -57,6 +62,7 @@ class HappineseaConfig {
 	connectionTimeout = conf.happinesea.ec.rws.tool.connection.timeout
 	defaultEncode = conf.happinesea.ec.rws.tool.default.encode
 	rmsApiUrl = conf.happinesea.ec.rws.tool.rms.api.url
+	csvLayoutEccubeItem = conf.happinesea.ec.rws.tool.csv.layout.eccube.item
     }
 
     /**
