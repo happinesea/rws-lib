@@ -10,10 +10,10 @@ import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.MessageElementEnum
 import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.SystemStatusElementEnum
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategoriesGetResponseResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategoriesGetResult
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategory
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategorysetsGetResponseResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategorysetsGetResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemSearchResponseResult
-import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategoriesGetResult.Category
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategorysetsGetResult.CategorySet
 
 import groovy.util.logging.Log4j2
@@ -302,13 +302,13 @@ class RwsResponseXmlParserTest {
 	assertEquals 'N000', categoriesGetResult.code
 	assertEquals '1', categoriesGetResult.categorySetManageNumber
 
-	List<Category> categoryList = categoriesGetResult.categoryList
+	List<RwsCategory> categoryList = categoriesGetResult.categoryList
 
 	assertTrue CollectionUtils.isNotEmpty(categoryList)
 	assertEquals 3, categoryList.size()
-	Category category1 = categoryList[0]
-	Category category2 = categoryList[1]
-	Category category3 = categoryList[2]
+	RwsCategory category1 = categoryList[0]
+	RwsCategory category2 = categoryList[1]
+	RwsCategory category3 = categoryList[2]
 
 	assertEquals 117, category1.categoryId
 	assertEquals 1, category1.categoryLevel
@@ -332,8 +332,8 @@ class RwsResponseXmlParserTest {
 	assertNotNull category3.childCategories
 
 	assertEquals 2, category3.childCategories.size()
-	Category category3_1 = category3.childCategories[0]
-	Category category3_2 = category3.childCategories[1]
+	RwsCategory category3_1 = category3.childCategories[0]
+	RwsCategory category3_2 = category3.childCategories[1]
 
 	// 1つ目再帰の掘り下げ
 	assertEquals 1191, category3_1.categoryId
@@ -344,7 +344,7 @@ class RwsResponseXmlParserTest {
 	assertNotNull category3_1.childCategories
 
 	assertEquals 1, category3_1.childCategories.size()
-	Category category3_1_1 = category3_1.childCategories[0]
+	RwsCategory category3_1_1 = category3_1.childCategories[0]
 
 	assertEquals 11911, category3_1_1.categoryId
 	assertEquals 3, category3_1_1.categoryLevel
@@ -354,7 +354,7 @@ class RwsResponseXmlParserTest {
 	assertNotNull category3_1_1.childCategories
 
 	assertEquals 1, category3_1.childCategories.size()
-	Category category3_1_1_1 = category3_1_1.childCategories[0]
+	RwsCategory category3_1_1_1 = category3_1_1.childCategories[0]
 
 	assertEquals 119111, category3_1_1_1.categoryId
 	assertEquals 4, category3_1_1_1.categoryLevel
@@ -374,7 +374,7 @@ class RwsResponseXmlParserTest {
 	assertNotNull category3_2.childCategories
 
 	assertEquals 1, category3_2.childCategories.size()
-	Category category3_2_1 = category3_2.childCategories[0]
+	RwsCategory category3_2_1 = category3_2.childCategories[0]
 
 	assertEquals 11954, category3_2_1.categoryId
 	assertEquals 3, category3_2_1.categoryLevel

@@ -50,6 +50,11 @@ class HappineseaConfig {
     def csvLayoutEccubeItem
 
     /**
+     * EC-CubeのカテゴリマスタのCSVファイルレイアウト
+     */
+    def csvLayoutEccubeCategory
+
+    /**
      * 設定情報を取り込み、インスタンス化を行う
      */
     private HappineseaConfig() {
@@ -63,6 +68,7 @@ class HappineseaConfig {
 	defaultEncode = conf.happinesea.ec.rws.tool.default.encode
 	rmsApiUrl = conf.happinesea.ec.rws.tool.rms.api.url
 	csvLayoutEccubeItem = conf.happinesea.ec.rws.tool.csv.layout.eccube.item
+	csvLayoutEccubeCategory = conf.happinesea.ec.rws.tool.csv.layout.eccube.category
     }
 
     /**
