@@ -33,8 +33,10 @@ abstract class RwsCsvHelper<S> {
 	for(String key : csvKeyList) {
 	    try {
 		String val = null
-		if(Constant.DUMMY_STR == key) {
+		if(Constant.CSV_DUMMY_STR == key) {
 		    val = ""
+		}else if(key.startsWith(Constant.CSV_FIX_STR)){
+		    val = key.replaceFirst(Constant.CSV_FIX_STR, "")
 		}else {
 		    val = BeanUtils.getProperty(source, key)
 		}

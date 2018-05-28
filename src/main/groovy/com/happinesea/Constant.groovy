@@ -22,5 +22,9 @@ class Constant {
     /**
      * ダミーを表す文字
      */
-    final static def DUMMY_STR = "dummy"
+    final static def CSV_DUMMY_STR = "dummy"
+    /**
+     * CSV固定文字を表す添え字
+     */
+    final static def CSV_FIX_STR = "fix:"
 }

@@ -4,6 +4,7 @@ import static org.junit.Assert.*
 
 import org.junit.Test
 
+import com.happinesea.Constant
 import com.happinesea.HappineseaConfig
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategory
 
@@ -40,6 +41,14 @@ class RwsCsvCategoryHelperTest {
 	// レイアウト存在しないテスト
 	helper.csvKeyList = null
 	assertNull helper.convert(category)
+
+	// 固定値テスト
+	layout[1] = "${Constant.CSV_FIX_STR}fix"
+	helper.csvKeyList = layout
+	result = helper.convert(category)
+
+	assertEquals String.valueOf(category.categoryId), result[0]
+	assertEquals "fix", result[1]
 
     }
 }
