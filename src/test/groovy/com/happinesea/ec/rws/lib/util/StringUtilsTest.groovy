@@ -18,4 +18,11 @@ class StringUtilsTest {
 	expected = ['1', '', '3']
 	assertEquals expected, StringUtils.convertStringList(longList)
     }
+
+    @Test
+    public void testChangeNull2Empty(){
+	assertEquals '', StringUtils.changeNull2Empty(null)
+	assertEquals '', StringUtils.changeNull2Empty('')
+	assertEquals 'a', StringUtils.changeNull2Empty('a')
+    }
 }

@@ -13,7 +13,7 @@ class RwsCsvCategoryHelperTest {
     @Test
     public void testConvert() {
 
-	RwsCsvCategoryHelper<RwsCategory> helper = new RwsCsvCategoryHelper()
+	RwsCsvCategoryHelper helper = new RwsCsvCategoryHelper()
 
 	assertNull helper.convert(null)
 

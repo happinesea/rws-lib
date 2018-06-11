@@ -7,6 +7,6 @@ import com.happinesea.HappineseaConfig
  */
 class RwsCsvCategoryHelper<RwsCategory> extends RwsCsvHelper {
     RwsCsvCategoryHelper(){
-	csvKeyList = HappineseaConfig.getInstance().csvLayoutEccubeCategory
+	setCsvKeyList(HappineseaConfig.getInstance().csvLayoutEccubeCategory)
     }
 }

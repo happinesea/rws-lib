@@ -31,4 +31,44 @@ class StringUtils {
 
 	return result
     }
+
+    /**
+     * nullの文字列を空文字に変換
+     * 
+     * @param source 対象となる文字列
+     * @return 変換結果
+     */
+    public static String changeNull2Empty(String source) {
+	return source == null ? '' : source
+    }
+
+    /* public static boolean isEqualsStringList(List<String> a1, List<String> a2) {
+     boolean isEmptyA1 = CollectionUtils.isEmpty(a1)
+     boolean isEmptyA2 = CollectionUtils.isEmpty(a2)
+     if(isEmptyA1 && isEmptyA2) {
+     return true
+     }
+     if(isEmptyA1 || isEmptyA2) {
+     return false
+     }
+     if(a1.size() != a2.size()) {
+     println '[' + a1.size() + ']->[' + a2.size() + ']'
+     return false
+     }
+     for(int i = 0; i < a1.size(); i++) {
+     String str1 = a1.get(i)
+     String str2 = a2.get(i)
+     println '[' + str1 + ']->[' + str2 + ']'
+     if(str1 == null && str2 == null) {
+     continue
+     }
+     if(str1 == null || str2 == null) {
+     return false
+     }
+     if(!str1.equals(str2)) {
+     return false
+     }
+     }
+     return true
+     }*/
 }
