@@ -5,6 +5,7 @@ import org.apache.commons.collections.CollectionUtils
 
 import com.happinesea.Constant
 import com.happinesea.ec.rws.lib.util.StringUtils
+import com.orangesignal.csv.CsvConfig
 
 import groovy.util.logging.Log4j2
 
@@ -30,6 +31,11 @@ abstract class RwsCsvHelper<S> {
      * 商品のタグなど、1レコード、n値で対応して、かつ、1セルにまとめるもので、オブジェクトにネストされた値のキーを可能するリスト
      */
     protected Map<String, Integer> nestRowValKeyStorage = null;
+
+    /**
+     * セルの中に出力するCSV形式の設定
+     */
+    CsvConfig cellConfig = new CsvConfig(CsvConfig.DEFAULT_SEPARATOR, CsvConfig.DEFAULT_QUOTE, CsvConfig.DEFAULT_ESCAPE, true, false)
 
     /**
      * {@link #nestValKeyList}にキーを追加する

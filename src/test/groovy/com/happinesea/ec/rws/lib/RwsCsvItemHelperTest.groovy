@@ -25,12 +25,12 @@ class RwsCsvItemHelperTest {
 	RwsCategory category1 = new RwsCategory()
 	CategoryInfo categoryInfo1 = new CategoryInfo()
 	category1.categoryId = 1
-	category1.name = 'カテゴリ2'
+	category1.name = 'カテゴリ1'
 	categoryInfo1.categoryId = 1
 	RwsCategory category2 = new RwsCategory()
 	CategoryInfo categoryInfo2 = new CategoryInfo()
 	category2.categoryId = 2
-	category2.name = 'カテゴリ2'
+	category2.name = 'カテ,ゴリ2'
 	categoryInfo2.categoryId = 2
 	categoryList.add(category1)
 	categoryList.add(category2)
@@ -115,23 +115,22 @@ class RwsCsvItemHelperTest {
 	    '',
 	    '',
 	    '',
-	    ''	    ,
+	    '',
 	    '',
 	    '',
 	    '0',
 	    '0',
-	    '',
 	    '',
 	    '',
 	    '',
 	    "1,2",
+	    'カテゴリ1,カテ\\,ゴリ2',
 	    '',
 	    '',
 	    '',
 	    ''
 	]
 	assertEquals expected, helper.convert(item)
-	result = helper.convertNestRowVal(item, helper.convert(item))
-	println result
+	result = helper.convert(item)
     }
 }

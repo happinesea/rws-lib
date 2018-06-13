@@ -1,7 +1,5 @@
 package com.happinesea.ec.rws.lib
 
-import org.apache.commons.collections.CollectionUtils
-
 import com.happinesea.HappineseaConfig
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategory
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemRequest.CategoryInfo
@@ -69,38 +67,34 @@ class RwsCsvItemHelper<RwsItem> extends RwsCsvHelper {
 	    }
 
 	    // csv形式でカテゴリID、カテゴリ名称を出力
-	    StringWriter writer = new StringWriter()
-	    CsvWriter cw = new CsvWriter(writer)
 
+
+	    StringWriter idWriter = new StringWriter()
+	    CsvWriter idCw = new CsvWriter(idWriter, cellConfig)
+	    StringWriter nameWriter = new StringWriter()
+	    CsvWriter nameCw = new CsvWriter(nameWriter, cellConfig)
 	    try {
-		cw.writeValues(StringUtils.convertStringList(categoryIdList))
-		result.add(nestRowValKeyStorage['categories.categoryInfo.categoryId'], writer.toString().trim())
-		writer.flush()
-		cw.flush()
-		cw.writeValues(categoryNameList)
-		result.add(nestRowValKeyStorage['categories.categoryInfo.name'], writer.toString().trim())
+
+		idCw.writeValues(StringUtils.convertStringList(categoryIdList))
+		idWriter.flush()
+		idCw.flush()
+		String idsStr = idWriter.toString().trim()
+		result.add(nestRowValKeyStorage['categories.categoryInfo.categoryId'], idsStr)
+
+		nameCw.writeValues(StringUtils.convertStringList(categoryNameList))
+		nameWriter.flush()
+		nameCw.flush()
+		String namesStr = nameWriter.toString().trim()
+		result.add(nestRowValKeyStorage['categories.categoryInfo.name'], namesStr)
+		namesStr = nameWriter.toString().trim()
 	    }finally {
 		try {
-		    writer.close()
-		    cw.close()
+		    idCw.close()
+		    idWriter.close()
+		    nameCw.close()
+		    nameWriter.close()
 		}catch(Exception e) {}
 	    }
-	}
-
-	return result
-    }
-
-    /**
-     * 商品マスタをCSVに変換するために、独自処理でオーバライド
-     * 
-     * @param source 
-     * @return
-     */
-    @Override
-    List<String> convert(RwsItem source){
-	List<String> result = super.convert(source)
-	if(CollectionUtils.isEmpty(result)) {
-	    return result
 	}
 
 	return result
