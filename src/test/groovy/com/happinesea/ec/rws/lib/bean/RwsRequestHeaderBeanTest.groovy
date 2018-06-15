@@ -26,7 +26,7 @@ class RwsRequestHeaderBeanTest extends Specification{
 	null == target.getAuthorization()
     }
 
-    def testGetAuthorization_success() {
+    def testGetAuthorization_success1() {
 
 	def target = new RwsRequestHeaderBean()
 
@@ -34,12 +34,17 @@ class RwsRequestHeaderBeanTest extends Specification{
 	target.licenseKey = 1
 	target.apiKey = 2
 
-	assertEquals "ESA "+"1:1".bytes.encodeBase64().toString(), target.getAuthorization()
+	expect :
+	"ESA "+"1:1".bytes.encodeBase64().toString() == target.getAuthorization()
+    }
+    def testGetAuthorization_success2() {
+	def target = new RwsRequestHeaderBean(ApiTypeEnum.WOWMA)
 
-	target = new RwsRequestHeaderBean(ApiTypeEnum.WOWMA)
 	target.serviceSecret = 1
 	target.licenseKey = 1
 	target.apiKey = 2
-	assertEquals "Bearer "+"2", target.getAuthorization()
+
+	expect :
+	"Bearer "+"2" == target.getAuthorization()
     }
 }

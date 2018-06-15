@@ -38,7 +38,8 @@ class RwsCsvBuilder<S> {
 		List<String> recode = helper.convert(s)
 		writer.writeValues(recode)
 	    }
-	    return out.getBuffer().toString()
+	    writer.flush()
+	    return out.toString()
 	}finally {
 	    out.close()
 	    writer.close()
