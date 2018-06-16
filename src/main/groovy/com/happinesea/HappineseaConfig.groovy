@@ -45,10 +45,21 @@ class HappineseaConfig {
     def rmsApiUrl
 
     /**
+     * EC-Cubeの商品マスタのCSVファイルレイアウト
+     */
+    def csvLayoutEccubeItem
+
+    /**
+     * EC-CubeのカテゴリマスタのCSVファイルレイアウト
+     */
+    def csvLayoutEccubeCategory
+
+    /**
      * 設定情報を取り込み、インスタンス化を行う
      */
     private HappineseaConfig() {
-	def loaderUrls = this.class.classLoader.getResource('com/happinesea/happinesea.config')
+	ClassLoader classLoader = Thread.currentThread().contextClassLoader
+	def loaderUrls = classLoader.getResource('com/happinesea/happinesea.config')
 	ConfigObject conf = new ConfigSlurper().parse(loaderUrls);
 	version = conf.happinesea.ec.rws.tool.version
 	httpClientAgent = conf.happinesea.ec.rws.tool.agent
@@ -56,6 +67,8 @@ class HappineseaConfig {
 	connectionTimeout = conf.happinesea.ec.rws.tool.connection.timeout
 	defaultEncode = conf.happinesea.ec.rws.tool.default.encode
 	rmsApiUrl = conf.happinesea.ec.rws.tool.rms.api.url
+	csvLayoutEccubeItem = conf.happinesea.ec.rws.tool.csv.layout.eccube.item
+	csvLayoutEccubeCategory = conf.happinesea.ec.rws.tool.csv.layout.eccube.category
     }
 
     /**

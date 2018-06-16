@@ -36,8 +36,7 @@ class RwsItemRequest implements ApiResponseNode {
     }
     static class ItemInventory{
 	String inventoryType
-	String inventories
-	Inventory inventory
+	List<Inventory> inventories
 	String verticalName
 	String horizontalName
 	String inventoryQuantityFlag
@@ -64,7 +63,7 @@ class RwsItemRequest implements ApiResponseNode {
     }
     static class CategoryInfo{
 	String categorySetManageNumber
-	String categoryId
+	Integer categoryId
 	String isPluralItemPage
     }
 }

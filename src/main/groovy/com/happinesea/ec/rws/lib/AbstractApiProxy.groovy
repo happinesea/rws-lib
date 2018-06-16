@@ -1,9 +1,9 @@
 package com.happinesea.ec.rws.lib
 
 import com.happinesea.HappineseaConfig
+import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
-import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 import com.happinesea.ec.rws.lib.util.ClassUtils

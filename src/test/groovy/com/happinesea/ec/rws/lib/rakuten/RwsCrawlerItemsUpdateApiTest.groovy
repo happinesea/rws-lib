@@ -11,9 +11,9 @@ import org.junit.Test
 
 import com.happinesea.ec.rws.lib.RwsCrawler
 import com.happinesea.ec.rws.lib.RwsResponseXmlParser
+import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.form.rakuten.RwsItemApiUpdateItemListForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
-import com.happinesea.ec.rws.lib.bean.rakuten.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemsUpdateResult
 
