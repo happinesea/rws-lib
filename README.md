@@ -37,7 +37,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.happinesea:rws-lib:0.0.3'
+    compile 'com.happinesea:rws-lib:0.0.6'
 }
 </pre>
 
