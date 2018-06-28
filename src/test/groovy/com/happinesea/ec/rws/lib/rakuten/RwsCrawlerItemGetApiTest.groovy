@@ -11,11 +11,8 @@ import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 
 import groovyx.net.http.ContentType
 
-/**
- *
- */
-class RwsCrawlerItemsSearchApiTest {
-    RwsCrawlerItemSearchApi proxy
+class RwsCrawlerItemGetApiTest {
+    RwsCrawlerItemGetApi proxy
     @Before
     void before() {
 	RwsRequestHeaderBean header = new RwsRequestHeaderBean()
@@ -24,12 +21,12 @@ class RwsCrawlerItemsSearchApiTest {
 	header.acceptCharset = 'utf-8'
 	header.contentType = ContentType.XML
 
-	proxy = new RwsCrawlerItemSearchApi(header)
+	proxy = new RwsCrawlerItemGetApi(header)
     }
 
     @Test
     public void testInitClass() {
-	assertEquals '/es/1.0/item/search', proxy.path
+	assertEquals '/es/1.0/item/get', proxy.path
 	assertEquals 'https://api.rms.rakuten.co.jp', proxy.requestUri
 	assertNotNull proxy.rwsResponseParser
 	assertTrue proxy.rwsResponseParser instanceof RwsResponseXmlParser

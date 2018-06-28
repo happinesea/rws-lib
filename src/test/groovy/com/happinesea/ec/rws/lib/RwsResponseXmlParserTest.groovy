@@ -13,8 +13,10 @@ import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategoriesGetResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategory
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategorysetsGetResponseResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategorysetsGetResult
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemGetResponseResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemSearchResponseResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsCategorysetsGetResult.CategorySet
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemRequest.ItemInventory.Inventory
 
 import groovy.util.logging.Log4j2
 import groovy.util.slurpersupport.GPathResult
@@ -383,5 +385,125 @@ class RwsResponseXmlParserTest {
 	assertEquals 3, category3_2_1.categoryWeight
 	assertNull category3_2_1.childCategories
 
+    }
+    def itemGetXmlSuccess = '''<?xml version="1.0" encoding="UTF-8"?>
+<result>
+         <status>
+              <interfaceId>item.get</interfaceId>
+              <systemStatus>OK</systemStatus>
+              <message>OK</message>
+              <requestId>714a4983-555f-42d9-aeea-89dae89f2f45</requestId>
+              <requests>
+                     <itemUrl>item-url-201</itemUrl>
+              </requests>
+          </status>
+          <itemGetResult>
+              <code>N000</code>
+              <item>
+                     <itemNumber></itemNumber>
+                     <itemName>TEST ITEM 1</itemName>
+                     <itemPrice>10000</itemPrice>
+                     <genreId>999999</genreId>
+                     <descriptionForPC>descriptionForPC_1</descriptionForPC>
+                     <descriptionForMobile></descriptionForMobile>
+                     <itemUrl>item-url-201</itemUrl>
+                     <catchCopyForPC></catchCopyForPC>
+                     <catchCopyForMobile></catchCopyForMobile>
+                     <descriptionBySalesMethod></descriptionBySalesMethod>
+                     <isSaleButton>true</isSaleButton>
+                     <isDocumentButton>false</isDocumentButton>
+                     <isInquiryButton>true</isInquiryButton>
+                     <isStockNoticeButton>false</isStockNoticeButton>
+                     <displayMakerContents>false</displayMakerContents>
+                     <itemLayout>1</itemLayout>
+                     <isIncludedTax>true</isIncludedTax>
+                     <isIncludedPostage>false</isIncludedPostage>
+                     <isIncludedCashOnDeliveryPostage>false</isIncludedCashOnDeliveryPostage>
+                     <regularPrice>-1</regularPrice>
+                     <orderLimit>-1</orderLimit>
+                     <postage>-1</postage>
+                     <postageSegment1>0</postageSegment1>
+                     <postageSegment2>0</postageSegment2>
+                     <isNoshiEnable>false</isNoshiEnable>
+                     <isTimeSale>false</isTimeSale>
+                     <isUnavailableForSearch>false</isUnavailableForSearch>
+                     <isAvailableForMobile>true</isAvailableForMobile>
+                     <isDepot>false</isDepot>
+                     <releaseDate>2015-10-05</releaseDate>
+                     <itemInventory>
+                            <inventoryType>0</inventoryType>
+                            <inventories>
+                                   <inventory>
+                                          <images>
+                                                 <image>
+                                                        <imageUrl>image-url-qa1</imageUrl>
+                                                 </image>
+                                                 <image>
+                                                        <imageUrl>image-url-qa2</imageUrl>
+                                                 </image>
+                                                 <image>
+                                                        <imageUrl>image-url-qa3</imageUrl>
+                                                 </image>
+                                                 <image>
+                                                        <imageUrl>image-url-qa4</imageUrl>
+                                                 </image>
+                                          </images>
+                                          <tagIds>
+                                                 <tagId>101</tagId>
+                                                 <tagId>102</tagId>
+                                          </tagIds>
+                                   </inventory>
+                            </inventories>
+                            <inventoryQuantityFlag>0</inventoryQuantityFlag>
+                     </itemInventory>
+                     <asurakuDeliveryId></asurakuDeliveryId>
+                     <asurakuDelvAreas></asurakuDelvAreas>
+                     <sizeChartLink></sizeChartLink>
+                     <reviewDisp></reviewDisp>
+                     <medicine>
+                         <medCaption>医薬品説明文</medCaption>
+                         <medAttention>医薬品注意事項</medAttention>
+                     </medicine>
+                     <dualPrice>
+                         <dualPriceId></dualPriceId>
+                     </dualPrice>
+                 </item>
+          </itemGetResult>
+ </result>
+'''
+
+    @Test
+    public void testParseItemGet() {
+
+	RwsResponseXmlParser parser = new RwsResponseXmlParser()
+
+	RwsItemGetResponseResult result = parser.parse(itemGetXmlSuccess, RwsItemGetResponseResult)
+
+	assertNotNull result
+	assertNotNull result.status
+	assertEquals 'item.get', result.status.interfaceId
+	assertEquals SystemStatusElementEnum.OK, result.status.systemStatus
+	assertEquals MessageElementEnum.OK, result.status.message
+	assertEquals '714a4983-555f-42d9-aeea-89dae89f2f45', result.status.requestId
+
+	assertTrue CollectionUtils.isNotEmpty(result.status.requests)
+
+	assertNotNull result.itemGetResult
+	assertEquals 'N000', result.itemGetResult.code
+
+	assertNotNull result.itemGetResult.item
+	assertEquals 'item-url-201', result.itemGetResult.item.itemUrl
+
+	assertNotNull result.itemGetResult.item.itemInventory
+	assertEquals '0', result.itemGetResult.item.itemInventory.inventoryType
+	assertNotNull result.itemGetResult.item.itemInventory.inventories
+	List<Inventory> inventories = result.itemGetResult.item.itemInventory.inventories
+	assertEquals 1, inventories.size()
+	assertNotNull inventories[0].images
+	assertEquals 4, inventories[0].images.size()
+	assertEquals 'image-url-qa1', inventories[0].images[0].imageUrl
+	assertEquals 'image-url-qa2', inventories[0].images[1].imageUrl
+	assertEquals 'image-url-qa3', inventories[0].images[2].imageUrl
+	assertEquals 'image-url-qa4', inventories[0].images[3].imageUrl
     }
 }

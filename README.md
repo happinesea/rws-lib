@@ -27,7 +27,7 @@ Groovyで開発しているので、Javaをフルサポートです。
 </dl>
 
 ## Documentation
-[Groovy docs](http://lab.happinesea.com/docs/rws-lib/0.0.4/groovydoc/)<br>
+[Groovy docs](http://lab.happinesea.com/docs/rws-lib/0.0.6/groovydoc/)<br>
 [Guides and Tutorials](https://github.com/happinesea/rws-lib-tutorial)(作成中)
 
 ### Insatallation
@@ -37,7 +37,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.happinesea:rws-lib:0.0.3'
+    compile 'com.happinesea:rws-lib:0.0.6'
 }
 </pre>
 
