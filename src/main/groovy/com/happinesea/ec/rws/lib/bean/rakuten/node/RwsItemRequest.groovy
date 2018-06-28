@@ -11,11 +11,11 @@ class RwsItemRequest implements ApiResponseNode {
     String itemName
     Integer itemPrice
 
-    static class Image{
+    static class Image implements ApiResponseNode{
 	String imageUrl
 	String imageAlt
     }
-    static class Option{
+    static class Option implements ApiResponseNode{
 	String optionName
 	String optionStyle
 	List<OptionValues> optionValues
@@ -26,15 +26,15 @@ class RwsItemRequest implements ApiResponseNode {
 	    }
 	}
     }
-    static class TagId{
+    static class TagId implements ApiResponseNode{
 	String tagId
     }
-    static class Point{
+    static class Point implements ApiResponseNode{
 	String pointRate
 	String pointRateStart
 	String pointRateEnd
     }
-    static class ItemInventory{
+    static class ItemInventory implements ApiResponseNode{
 	String inventoryType
 	List<Inventory> inventories
 	String verticalName
@@ -42,7 +42,7 @@ class RwsItemRequest implements ApiResponseNode {
 	String inventoryQuantityFlag
 	String inventoryDisplayFlag
 
-	static class Inventory{
+	static class Inventory implements ApiResponseNode{
 	    String inventoryCount
 	    String childNoVertical
 	    String childNoHorizontal
@@ -57,11 +57,11 @@ class RwsItemRequest implements ApiResponseNode {
 	    List<TagId> tagIds
 	}
     }
-    static class Medicine{
+    static class Medicine implements ApiResponseNode{
 	String medCaption
 	String medAttention
     }
-    static class CategoryInfo{
+    static class CategoryInfo implements ApiResponseNode{
 	String categorySetManageNumber
 	Integer categoryId
 	String isPluralItemPage
