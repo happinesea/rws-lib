@@ -9,6 +9,7 @@ import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 import com.happinesea.ec.rws.lib.util.ClassUtils
 
+import groovy.json.JsonBuilder
 import groovy.util.logging.Log4j2
 
 
@@ -77,6 +78,11 @@ class RwsParameter<F extends RwsBaseForm> {
     private String xmlString
 
     /**
+     * フォームオブジェクトのJSON
+     */
+    private String jsonString
+
+    /**
      * フォーム値のquery stringを取得する<br>
      * {@link #queryString}が<code>null</code>の場合、{@link #requestForm}の値をもとに、新たに生成したものを取得する
      * 
@@ -102,7 +108,7 @@ class RwsParameter<F extends RwsBaseForm> {
      * 
      * @param refresh {@link #requestForm}の値をもとにリフレッシュするか否かを指定する。<br>
      * <code>true</code>を指定する場合、強制的に」リフレッシュ<br>
-     * <code>false</code>を指定する、かつ、{@link #queryString}が<code>null</code>でない場合、{@link #queryString}の値をそのまま返す
+     * <code>false</code>を指定する、かつ、{@link #xmlString}が<code>null</code>でない場合、{@link #xmlString}の値をそのまま返す
      * 
      * @return xmlの文字列を戻す
      */
@@ -112,10 +118,11 @@ class RwsParameter<F extends RwsBaseForm> {
 	    return xmlString
 	}
 
-	// XML Stringを生成しなおす
 	if(requestForm == null) {
 	    return ''
 	}
+
+	// XML Stringを生成しなおす
 
 	StringWriter result = new StringWriter()
 	result.append("<?xml version=\"1.0\" encoding=\"${config.defaultEncode}\"?>")
@@ -135,6 +142,13 @@ class RwsParameter<F extends RwsBaseForm> {
 	return xmlString
     }
 
+    /**
+     * オブジェクトから、再帰的にXMLに変換する
+     * 
+     * @param field
+     * @param obj
+     * @param sw
+     */
     private void encodeXmlFromObj(Field field, Object obj, StringWriter sw) {
 	field.setAccessible(true)
 	if(log.isDebugEnabled()) {
@@ -183,6 +197,16 @@ class RwsParameter<F extends RwsBaseForm> {
     }
 
     /**
+     * フォームオブジェクトをXML文字列を取得する<br>
+     * {@link #jsonString}が<code>null</code>の場合、{@link #requestForm}の値をもとに、新たに生成したものを取得する
+     * 
+     * @return jsonの文字列を戻す
+     */
+    String getJsonString() {
+	return getJsonString(false)
+    }
+
+    /**
      * フォーム値のquery stringを取得する<br>
      * {@link #queryString}が<code>null</code>の場合、{@link #requestForm}の値をもとに、新たに生成したものを取得する
      * 
@@ -223,5 +247,28 @@ class RwsParameter<F extends RwsBaseForm> {
 	queryString = resultStr
 
 	return queryString
+    }
+
+    /**
+     * フォームオブジェクトのJSONを文字列として取得する<br>
+     * {@link #jsonString}が<code>null</code>の場合、{@link #requestForm}の値をもとに、新たに生成したものを取得する
+     * 
+     * @param refresh {@link #requestForm}の値をもとにリフレッシュするか否かを指定する。<br>
+     * <code>true</code>を指定する場合、強制的に」リフレッシュ<br>
+     * <code>false</code>を指定する、かつ、{@link #jsonString}が<code>null</code>でない場合、{@link #jsonString}の値をそのまま返す
+     * 
+     * @return xmlの文字列を戻す
+     */
+    String getJsonString(boolean refresh) {
+	if(!refresh && jsonString != null) {
+	    return jsonString
+	}
+	if(requestForm == null) {
+	    return ''
+	}
+	def builder = new JsonBuilder(requestForm)
+
+	jsonString = builder.toString()
+	return jsonString
     }
 }
