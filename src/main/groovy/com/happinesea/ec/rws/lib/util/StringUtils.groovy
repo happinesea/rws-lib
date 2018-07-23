@@ -42,6 +42,26 @@ class StringUtils {
 	return source == null ? '' : source
     }
 
+    /**
+     * 対象文字列の先頭1文字を大文字から、小文字へ変換する
+     * 
+     * @param source 変換対象文字列
+     * @return 変換結果を戻す。空で指定される場合、指定されたものをそのまま返す
+     */
+    public static String changeFirstCharToLower(String source) {
+	if(source) {
+	    char firstChar = source.charAt(0)
+	    if('A' <= firstChar && firstChar <= 'Z') {
+		StringBuilder bf = new StringBuilder(source)
+		bf.deleteCharAt(0)
+		bf.insert(0, Character.toLowerCase(firstChar))
+		return bf.toString()
+	    }
+	}
+
+	return source
+    }
+
     /* public static boolean isEqualsStringList(List<String> a1, List<String> a2) {
      boolean isEmptyA1 = CollectionUtils.isEmpty(a1)
      boolean isEmptyA2 = CollectionUtils.isEmpty(a2)

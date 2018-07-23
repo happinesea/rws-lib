@@ -38,6 +38,7 @@ class RwsParameter<F extends RwsBaseForm> {
 	 * HEADE
 	 */
 	, HEAD
+	, JSON_POST
     }
     /**
      * 通信メソッド

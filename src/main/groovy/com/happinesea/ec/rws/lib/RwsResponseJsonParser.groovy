@@ -2,16 +2,15 @@ package com.happinesea.ec.rws.lib;
 
 import java.lang.reflect.Field
 
-import org.apache.commons.beanutils.BeanUtils
 import org.apache.commons.lang.ArrayUtils
 
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 import com.happinesea.ec.rws.lib.util.ClassUtils
 import com.happinesea.ec.rws.lib.util.EnumUtils
+import com.happinesea.ec.rws.lib.util.StringUtils
 
 import groovy.json.JsonSlurper
 import groovy.util.logging.Log4j2
-import groovy.util.slurpersupport.GPathResult
 
 /**
  * あらゆるJSONをオブジェクトに変換するパーサー。<br>
@@ -56,7 +55,7 @@ public class RwsResponseJsonParser implements RwsResponseParser {
      * @param clz パース結果のクラス
      * @return パースした結果
      */
-    public <R> R parse(GPathResult node, Class<R> clz) {
+    public <R> R parse(Map node, Class<R> clz) {
 
 	if(node == null) {
 	    return null
@@ -81,50 +80,62 @@ public class RwsResponseJsonParser implements RwsResponseParser {
 	    log.debug('target field: {}/{}', name, f.getType())
 	}
 
-	String name = node.name()
 	if(log.isDebugEnabled()) {
 	    log.debug('fieldMap->{}', fieldMap)
-	    log.debug('node name: {}', name)
+	    log.debug('node name: {}', node.keySet())
 	}
-
-	node.children().each{ v->
-	    Field f = fieldMap[v.name()]
+	for(Map.Entry entry: node.entrySet()) {
+	    def key = entry.key
+	    def value = entry.value
+	    Field f = fieldMap[key]
 
 	    if(log.isDebugEnabled()) {
-		log.debug('{}-> child: {} target field: {}', name, v.name(), f?.getName())
+		log.debug('{}-> child: {} target field: {}', node, key, f?.getName())
 	    }
 
 	    if(f== null) {
-		return
+		continue
 	    }
 
 
 	    f.setAccessible(true)
 	    if(ClassUtils.isPrimitveAndString(f.getType())) {
 		if(log.isDebugEnabled()) {
-		    log.debug('Set element: {}', v.name())
+		    log.debug('Set element: {}', key)
 		}
-		BeanUtils.copyProperty(result, f.getName(),v.text())
+		result[StringUtils.changeFirstCharToLower(f.getName())] = value
 	    }else if(ClassUtils.isApiResponseEnum(f.getType())) {
-		f.set(result, EnumUtils.getApiResponseEnum(f.getType(), v.text()))
+		f.set(result, EnumUtils.getApiResponseEnum(f.getType(), value))
 	    }else if(ClassUtils.isTargetInterface(f.getType(), Collection)) {
-		GPathResult tmp = v.children()
-		if(tmp != null && !tmp.isEmpty()) {
-		    List elements = []
-		    Class elementType = ClassUtils.getFieldGenertics(f)
-		    v.children().each {
-			if(log.isDebugEnabled()) {
-			    log.debug('element parse -> {}/{}', it, elementType)
+		if(value instanceof List) {
+		    List tmp = new ArrayList()
+		    for(Object v: (List)value) {
+			if(ClassUtils.isPrimitveAndString(ClassUtils.getFieldGenertics(f))) {
+			    tmp.add(v)
+			}else {
+			    tmp.add(parse(v, ClassUtils.getFieldGenertics(f)))
 			}
-			elements.add(parse(it, elementType))
 		    }
-		    f.set(result, elements)
+		    result[StringUtils.changeFirstCharToLower(f.getName())] = tmp
+		}else {
+		    Map tmp = value
+		    if(tmp != null && !tmp.isEmpty()) {
+			List elements = []
+			Class elementType = ClassUtils.getFieldGenertics(f)
+			for(Map.Entry child: tmp.entrySet()) {
+			    if(log.isDebugEnabled()) {
+				log.debug('element parse -> {}/{}', child, elementType)
+			    }
+			    elements.add(parse(child, elementType))
+			}
+			f.set(result, elements)
+		    }
 		}
 	    }else {
 		if(log.isDebugEnabled()) {
-		    log.debug('Recursive element: {}', v.name())
+		    log.debug('Recursive element: {}', value)
 		}
-		f.set(result, parse(v, f.getType()))
+		f.set(result, parse(value, f.getType()))
 	    }
 	}
 

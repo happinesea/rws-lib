@@ -25,4 +25,14 @@ class StringUtilsTest {
 	assertEquals '', StringUtils.changeNull2Empty('')
 	assertEquals 'a', StringUtils.changeNull2Empty('a')
     }
+
+    @Test
+    public void testChangeFirstCharToLower() {
+	assertNull StringUtils.changeFirstCharToLower(null)
+	assertEquals '', StringUtils.changeFirstCharToLower('')
+	assertEquals 'abc', StringUtils.changeFirstCharToLower('abc')
+	assertEquals 'abc', StringUtils.changeFirstCharToLower('Abc')
+	assertEquals 'あいう', StringUtils.changeFirstCharToLower('あいう')
+	assertEquals '1bc', StringUtils.changeFirstCharToLower('1bc')
+    }
 }

@@ -11,13 +11,15 @@ import com.happinesea.ec.rws.lib.RwsResponseParser
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
+import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseJsonResult.MessageModel
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult.Status
 import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.MessageElementEnum
 import com.happinesea.ec.rws.lib.bean.rakuten.enumerated.SystemStatusElementEnum
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItem
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemGetResponseResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemGetResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemSearchResult
-import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItem
+import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsSearchOrderResult
 import com.happinesea.ec.rws.lib.rakuten.RwsCrawlerCategoryapiShopCategoriesGetApi
 
 import groovy.beans.Bindable
@@ -68,6 +70,26 @@ class ClassUtilsTest {
     }
 
     @Test
+    public void testGetFieldsApiResponse_forJsonReuslt() {
+	Field[] fields = ClassUtils.getFieldsApiResponse(RwsSearchOrderResult)
+
+	assertEquals 3, fields.length
+	assertEquals 'orderNumberList', fields[0].getName()
+	assertEquals 'PaginationResponseModel', fields[1].getName()
+	assertEquals 'MessageModelList', fields[2].getName()
+
+	def result = new RwsSearchOrderResult()
+	List<MessageModel> msgList = new ArrayList<MessageModel>()
+	MessageModel msg = new MessageModel()
+	msg.messageCode = 'test'
+	msgList.add(e: msg)
+	result['MessageModelList'] = msgList
+
+	assertNotNull result.MessageModelList
+	assertEquals msgList, result.MessageModelList
+    }
+
+    @Test
     public void testIsApiResponseNode() {
 	assertFalse ClassUtils.isApiResponseNode(null)
 
@@ -102,6 +124,7 @@ class ClassUtilsTest {
     @Test
     public void testIsPrimimitveAndString() {
 	assertFalse ClassUtils.isPrimitveAndString(null)
+	assertFalse ClassUtils.isPrimitve(null)
 
 	assertFalse ClassUtils.isPrimitveAndString(ApiResponseNode)
 	assertFalse ClassUtils.isPrimitveAndString(Status)
@@ -119,9 +142,11 @@ class ClassUtilsTest {
 	// テストデータ初期化
 	Field stringField = RwsItemSearchResult.getDeclaredField('code')
 	Field listField = RwsItemSearchResult.getDeclaredField('items')
+	Field stringListField = RwsSearchOrderResult.getDeclaredField('orderNumberList')
 
 	assertEquals String, ClassUtils.getFieldGenertics(stringField)
 	assertEquals RwsItem, ClassUtils.getFieldGenertics(listField)
+	assertEquals String, ClassUtils.getFieldGenertics(stringListField)
 
 	listField = TestClz.getDeclaredField('testlist')
 	assertEquals List, ClassUtils.getFieldGenertics(listField)
@@ -161,6 +186,21 @@ class ClassUtilsTest {
 	Class bindable = ClassUtils.getBeanClassByName('groovy/beans', 'Bindable')
 	assertNotNull bindable
 	assertEquals Bindable, bindable
+
+    }
+
+    @Test
+    public void testGetFieldApiResponse() {
+	assertNull ClassUtils.getFieldApiResponse(null, null)
+	assertNull ClassUtils.getFieldApiResponse(RwsSearchOrderResult, null)
+	assertNull ClassUtils.getFieldApiResponse(null, 'orderNumberList')
+	assertNull ClassUtils.getFieldApiResponse(RwsSearchOrderResult, 'hoge')
+	assertNotNull ClassUtils.getFieldApiResponse(RwsSearchOrderResult, 'orderNumberList')
+	Field f1 = ClassUtils.getFieldApiResponse(RwsSearchOrderResult, 'orderNumberList')
+	assertEquals 'orderNumberList', f1.getName()
+	assertNotNull ClassUtils.getFieldApiResponse(RwsSearchOrderResult, 'MessageModelList')
+	Field f2 = ClassUtils.getFieldApiResponse(RwsSearchOrderResult, 'MessageModelList')
+	assertEquals 'MessageModelList', f2.getName()
 
     }
 }
