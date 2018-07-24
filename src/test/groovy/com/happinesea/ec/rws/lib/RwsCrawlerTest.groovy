@@ -3,6 +3,7 @@ package com.happinesea.ec.rws.lib
 import static groovy.test.GroovyAssert.*
 import static org.junit.Assert.*
 
+import org.apache.commons.beanutils.BeanUtils
 import org.apache.commons.collections.CollectionUtils
 import org.apache.http.Header
 import org.apache.http.HttpEntity
@@ -45,6 +46,9 @@ class RwsCrawlerTest {
 	rwsItemApiSearchparamter.header = header
 	rwsItemApiSearchparamter.requestForm = new RwsItemApiSearchForm()
 	rwsItemApiSearchparamter.requestForm.itemName = '馬油'
+
+	rwsRakutenPayOrderAPISearchOrderparamter = new RwsParameter<RwsRakutenPayOrderAPISearchOrderForm>()
+	BeanUtils.copyProperties(rwsRakutenPayOrderAPISearchOrderparamter, rwsItemApiSearchparamter)
     }
 
     @Test

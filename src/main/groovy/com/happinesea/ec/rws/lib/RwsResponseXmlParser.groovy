@@ -2,6 +2,7 @@ package com.happinesea.ec.rws.lib;
 
 import java.lang.reflect.Field
 
+import org.apache.commons.beanutils.BeanUtils
 import org.apache.commons.lang.ArrayUtils
 
 import com.happinesea.ec.rws.lib.bean.ApiResponseNode
@@ -130,7 +131,7 @@ public class RwsResponseXmlParser implements RwsResponseParser {
 		if(log.isDebugEnabled()) {
 		    log.debug('Set element: {}', v.name())
 		}
-		result[f.getName()] = v.text()
+		BeanUtils.copyProperty(result, f.getName(),v.text())
 	    }else if(ClassUtils.isApiResponseEnum(f.getType())) {
 		f.set(result, EnumUtils.getApiResponseEnum(f.getType(), v.text()))
 	    }else if(ClassUtils.isTargetInterface(f.getType(), Collection)) {
