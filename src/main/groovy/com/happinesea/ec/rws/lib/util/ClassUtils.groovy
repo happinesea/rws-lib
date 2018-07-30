@@ -137,7 +137,25 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	    return false
 	}
 
-	return (String.class == clz || PRIMITIVE_WARPPER.contains(clz)) && !clz.getName().startsWith(NO_TARGET_METHOD_FIX)
+	if(String.class == clz ) {
+	    return true
+	}
+
+	return isPrimitve(clz)
+    }
+
+    /**
+     * プリミティブ型のラッパークラスかどうかを判定する
+     * 
+     * @param clz 対象クラス
+     * @return 判定結果。<code>null</code>の場合、<code>false</code>を戻す
+     */
+    public static boolean isPrimitve(Class clz) {
+	if(clz == null) {
+	    return false
+	}
+
+	return (PRIMITIVE_WARPPER.contains(clz)) && !clz.getName().startsWith(NO_TARGET_METHOD_FIX)
     }
 
     /**
@@ -351,5 +369,29 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	}
 
 	return beanClassStorae.get(className)
+    }
+
+    /**
+     * 再帰的に、親クラスを含めて対象クラスのメソッドを取得する
+     * 
+     * @param clz
+     * @param fieldName
+     * @return
+     */
+    public static Field getFieldApiResponse(Class clz, String fieldName) {
+	if(!clz || !fieldName) {
+	    return null
+	}
+
+	Field[] fields = getFieldsApiResponse(clz)
+	if(fields) {
+	    for(Field f : fields) {
+		if(f.getName().equals(fieldName)) {
+		    return f
+		}
+	    }
+	}
+
+	return null
     }
 }

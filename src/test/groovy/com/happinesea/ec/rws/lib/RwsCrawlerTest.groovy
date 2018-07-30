@@ -3,18 +3,21 @@ package com.happinesea.ec.rws.lib
 import static groovy.test.GroovyAssert.*
 import static org.junit.Assert.*
 
+import org.apache.commons.beanutils.BeanUtils
 import org.apache.commons.collections.CollectionUtils
 import org.apache.http.Header
 import org.apache.http.HttpEntity
 import org.apache.http.HttpResponse
 import org.apache.http.client.HttpClient
 import org.apache.http.client.methods.HttpGet
+import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.BasicHttpEntity
 import org.junit.Before
 import org.junit.Test
 
 import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.form.rakuten.RwsItemApiSearchForm
+import com.happinesea.ec.rws.lib.bean.form.rakuten.RwsRakutenPayOrderAPISearchOrderForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
 import com.happinesea.ec.rws.lib.bean.rakuten.node.RwsItemSearchResponseResult
@@ -27,6 +30,7 @@ class RwsCrawlerTest {
 
     RwsCrawler crawler
     RwsParameter<RwsItemApiSearchForm> rwsItemApiSearchparamter
+    RwsParameter<RwsRakutenPayOrderAPISearchOrderForm> rwsRakutenPayOrderAPISearchOrderparamter
 
     @Before
     void before() {
@@ -42,6 +46,9 @@ class RwsCrawlerTest {
 	rwsItemApiSearchparamter.header = header
 	rwsItemApiSearchparamter.requestForm = new RwsItemApiSearchForm()
 	rwsItemApiSearchparamter.requestForm.itemName = '馬油'
+
+	rwsRakutenPayOrderAPISearchOrderparamter = new RwsParameter<RwsRakutenPayOrderAPISearchOrderForm>()
+	BeanUtils.copyProperties(rwsRakutenPayOrderAPISearchOrderparamter, rwsItemApiSearchparamter)
     }
 
     @Test
@@ -193,5 +200,36 @@ class RwsCrawlerTest {
 	assertEquals 'a1', result.itemSearchResult.items[0].itemUrl
 	assertEquals 'a2', result.itemSearchResult.items[1].itemUrl
 	assertEquals 'a3', result.itemSearchResult.items[2].itemUrl
+    }
+
+
+    def searchOrderSuccess = '''{
+    "orderNumberList": ["289999-20171117-00065901","289999-20171117-00064901"],
+    "MessageModelList": [
+        {
+            "messageType": "INFO",
+            "messageCode": "ORDER_EXT_API_SEARCH_ORDER_INFO_101",
+            "message": "注文検索に成功しました。"
+        }
+    ],
+    "PaginationResponseModel": {
+        "totalRecordsAmount": 79,
+        "totalPages": 3,
+        "requestPage": 1
+    }
+}'''
+
+    @Test
+    public void testPostJsonRequest_searchOrder() {
+	BasicHttpEntity entity = new BasicHttpEntity()
+	entity.setContent(new ByteArrayInputStream(searchOrderSuccess.getBytes('UTF-8')))
+
+
+	def httpResponseMock = [getEntity:{return entity}] as HttpResponse
+	def httpClientMock = [execute:{HttpPost httpPost -> return httpResponseMock}] as HttpClient
+
+	def crawlerMock = [init:{RwsParameter parameter -> return httpClientMock}] as RwsCrawler
+
+	def result = crawlerMock.postJsonRequest(rwsRakutenPayOrderAPISearchOrderparamter)
     }
 }

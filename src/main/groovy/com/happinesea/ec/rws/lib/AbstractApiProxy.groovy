@@ -1,10 +1,10 @@
 package com.happinesea.ec.rws.lib
 
 import com.happinesea.HappineseaConfig
+import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
-import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
 import com.happinesea.ec.rws.lib.util.ClassUtils
 
@@ -14,7 +14,7 @@ import groovy.util.logging.Log4j2
  * API通信を行うプロキシ
  */
 @Log4j2
-abstract class AbstractApiProxy<F extends RwsBaseForm, R extends RwsResponseXmlResult> {
+abstract class AbstractApiProxy<F extends RwsBaseForm, R extends ApiResponseNode> {
 
     /**
      * スキーマからホストまでのURI

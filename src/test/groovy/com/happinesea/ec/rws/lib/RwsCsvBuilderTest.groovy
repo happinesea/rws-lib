@@ -14,10 +14,12 @@ class RwsCsvBuilderTest {
 	List<RwsCategory> categoryList = new ArrayList()
 	RwsCategory category1 = new RwsCategory()
 	category1.categoryId = 1
-	category1.name = 'カテゴリ1'
+	// TODO ci用設定ファイルロード処理が必要
+	category1.name = 'fix'
 	RwsCategory category2 = new RwsCategory()
 	category2.categoryId = 2
-	category2.name = 'カテゴリ2'
+	// TODO ci用設定ファイルロード処理が必要
+	category2.name = 'fix'
 	categoryList.add(category1)
 	categoryList.add(category2)
 

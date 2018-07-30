@@ -17,6 +17,7 @@ import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.message.BasicHeader
 
 import com.happinesea.HappineseaConfig
+import com.happinesea.ec.rws.lib.bean.ApiResponseNode
 import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsResponseXmlResult
@@ -69,7 +70,7 @@ public class RwsCrawler {
      * @param clz パース結果のオブジェクト
      * @return
      */
-    public <R extends RwsResponseXmlResult>R getApiContents(RwsParameter parameter
+    public <R extends ApiResponseNode>R getApiContents(RwsParameter parameter
 	    , RwsResponseParser parser, Class<R> clz) throws IOException{
 	if(parser == null) {
 	    throw new IllegalArgumentException('invalide parser.')
@@ -81,6 +82,8 @@ public class RwsCrawler {
 	try {
 	    if(parameter && parameter.httpMethod == HttpMethod.XML_POST){
 		entity = postXmlRequest(parameter).entity
+	    }else if(parameter && parameter.httpMethod == HttpMethod.JSON_POST) {
+		entity = postJsonRequest(parameter).entity
 	    }else {
 		entity = getApiRequest(parameter).entity
 	    }
@@ -188,5 +191,30 @@ public class RwsCrawler {
 	}
 
 	return headers
+    }
+
+
+    /**
+     * HTTP通信POSTメソッド、送信bodyはJSONで送信したレスポンスを返す<br>
+     *
+     * @param parameter
+     * @return
+     * @throws IOException
+     * @throws ClientProtocolException
+     */
+    public HttpResponse postJsonRequest(RwsParameter parameter) throws IOException, ClientProtocolException{
+
+	HttpClient httpClient = init(parameter)
+
+	HttpPost httpPost = new HttpPost(parameter.getRequestUri() + parameter.getPath());
+	StringEntity entity = new StringEntity(parameter.getJsonString(), config.defaultEncode)
+	httpPost.setEntity(entity)
+
+	if(log.isDebugEnabled()) {
+	    log.debug("request json body({}) string ->{} ", entity.getContentLength(), parameter.getJsonString())
+	}
+
+	HttpResponse response = httpClient.execute(httpPost)
+	return response
     }
 }
