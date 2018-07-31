@@ -14,11 +14,14 @@ class RwsResponseJsonResult implements ApiResponseNode {
      */
     public List<MessageModel> MessageModelList
 
+    /**
+     * MessageModelListのセッター
+     * 
+     * @param messageModelList
+     * @return
+     */
     public setMessageModelList(List<MessageModel> messageModelList) {
 	this.MessageModelList = messageModelList
-    }
-    public List<MessageModel> getMessageModelList(){
-	return MessageModelList
     }
     /**
      * メッセージモデル
