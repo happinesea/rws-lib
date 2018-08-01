@@ -23,6 +23,10 @@ Groovyで開発しているので、Javaをフルサポートです。
   <dl>
     楽天よりAPIのドキュメントを公開されているので、できるところから、開発は順次スタートします。
   </dl>
+  <dt>2018/8/1</dt>
+  <dl>
+    プレビュー版をリリースします。<br>JSON、XMLのパーサーフレームワークを整えました。
+  </dl>
 
 </dl>
 
@@ -37,7 +41,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.happinesea:rws-lib:0.0.6'
+    compile 'com.happinesea:rws-lib:1.0.0_preview'
 }
 </pre>
 
