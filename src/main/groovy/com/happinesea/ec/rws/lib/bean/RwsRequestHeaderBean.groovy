@@ -15,6 +15,9 @@ class RwsRequestHeaderBean {
     String licenseKey
     ContentType contentType
     String acceptCharset
+    String authorizationMethod
+    String userName
+    String password
 
     RwsRequestHeaderBean() {
 	this(ApiTypeEnum.RAKUTEN)
@@ -37,6 +40,8 @@ class RwsRequestHeaderBean {
     String getAuthorization() {
 	if(apiType == ApiTypeEnum.WOWMA) {
 	    return "Bearer ${apiKey}"
+	}else if(apiType == ApiTypeEnum.BASIC) {
+	    return "Basic " + "${userName}:${password}".bytes.encodeBase64().toString()
 	}else {
 	    if(!serviceSecret?.trim() || !licenseKey?.trim()) {
 		return null;

@@ -8,11 +8,12 @@ enum ApiTypeEnum {
     /**
      * API種別：楽天
      */
-    RAKUTEN('rakuten', '注文日')
+    RAKUTEN('rakuten', '')
     /**
      * API種別：WOWMA
      */
-    , WOWMA('wowma', '注文確認日')
+    , WOWMA('wowma', '')
+    , BASIC('Basic', '')
 
     ApiTypeEnum(String id, String description){
 	this.id = id

@@ -15,7 +15,10 @@ import org.apache.http.entity.BasicHttpEntity
 import org.junit.Before
 import org.junit.Test
 
+import com.happinesea.ec.rws.cs.bean.form.MediaPostForm
+import com.happinesea.ec.rws.cs.bean.form.WpPostForm
 import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
+import com.happinesea.ec.rws.lib.bean.enumerated.ApiTypeEnum
 import com.happinesea.ec.rws.lib.bean.form.rakuten.RwsItemApiSearchForm
 import com.happinesea.ec.rws.lib.bean.form.rakuten.RwsRakutenPayOrderAPISearchOrderForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
@@ -231,5 +234,69 @@ class RwsCrawlerTest {
 	def crawlerMock = [init:{RwsParameter parameter -> return httpClientMock}] as RwsCrawler
 
 	def result = crawlerMock.postJsonRequest(rwsRakutenPayOrderAPISearchOrderparamter)
+    }
+
+    @Test
+    public void testPostRestRequest() {
+	RwsRequestHeaderBean header = new RwsRequestHeaderBean()
+	header.apiType = ApiTypeEnum.BASIC
+	header.userName = 'jc-writer@happinesea.com'
+	header.password = '3GrF nTA2 9JNP 51zN jzni rqCo' // 2MC445sH
+
+	rwsItemApiSearchparamter.header = header
+	rwsItemApiSearchparamter.requestUri = 'http://test2.happinesea.com'
+	//rwsItemApiSearchparamter.path = '/wp-json/wp/v2/posts'
+	rwsItemApiSearchparamter.path = '/wp-json/wp/v2/media'
+	//rwsItemApiSearchparamter.path = '/info.php'
+	//rwsItemApiSearchparamter.httpMethod = HttpMethod.PO
+
+	WpPostForm form = new WpPostForm()
+	form.title = "测试用标题"
+	form.content = "<h1>测试内容</h2>"
+	form.status = "publish"
+	form.categories = new ArrayList()
+	form.categories.add(10)
+
+
+	rwsItemApiSearchparamter.requestForm = form
+
+	HttpResponse response = crawler.postRestRequest(rwsItemApiSearchparamter)
+	HttpEntity entity =response.entity;
+	println response
+
+	BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));
+	StringBuilder sb = new StringBuilder()
+	String line
+	while ((line = br.readLine()) != null) {
+	    sb.append(line);
+	}
+	println sb
+
+    }
+
+    public static void main(String[] arg) throws Exception {
+	URL url = new URL("http://n.sinaimg.cn/news/transform/61/w550h311/20180917/WanF-hkhfqns0811885.jpg")
+
+
+	HttpURLConnection conn =
+		(HttpURLConnection) url.openConnection();
+	conn.setAllowUserInteraction(false);
+	conn.setInstanceFollowRedirects(true);
+	conn.setRequestMethod("GET");
+	conn.connect();
+
+	InputStream is = new DataInputStream(conn.getInputStream())
+
+	println URLConnection.guessContentTypeFromStream(is)
+	MediaPostForm form = null
+	println form?.title
+	form = new MediaPostForm()
+	println form?.title
+	form.title = "title"
+	println form?.title
+
+	println url.openConnection().getContentType()
+
+
     }
 }

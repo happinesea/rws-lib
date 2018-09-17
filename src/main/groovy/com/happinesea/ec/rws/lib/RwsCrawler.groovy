@@ -3,6 +3,8 @@ package com.happinesea.ec.rws.lib
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 
+import java.nio.charset.StandardCharsets
+
 import org.apache.commons.lang.StringUtils
 import org.apache.http.Header
 import org.apache.http.HttpEntity
@@ -13,6 +15,8 @@ import org.apache.http.client.config.RequestConfig
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.StringEntity
+import org.apache.http.entity.mime.HttpMultipartMode
+import org.apache.http.entity.mime.MultipartEntityBuilder
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.message.BasicHeader
 
@@ -213,6 +217,31 @@ public class RwsCrawler {
 	if(log.isDebugEnabled()) {
 	    log.debug("request json body({}) string ->{} ", entity.getContentLength(), parameter.getJsonString())
 	}
+
+	HttpResponse response = httpClient.execute(httpPost)
+	return response
+    }
+
+    /**
+     * 
+     * @param parameter
+     * @return
+     * @throws IOException
+     * @throws ClientProtocolException
+     */
+    public HttpResponse postRestRequest(RwsParameter parameter) throws IOException, ClientProtocolException{
+	HttpClient httpClient = init(parameter)
+
+
+	HttpPost httpPost = new HttpPost(parameter.getRequestUri() + parameter.getPath());
+	//httpPost.addHeader("Content-Type", "multipart/form-data;charset=UTF-8")
+
+	MultipartEntityBuilder builder = MultipartEntityBuilder.create()
+	builder.setCharset(StandardCharsets.UTF_8);
+	builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+
+	httpPost.setEntity(parameter.getFormEntity(builder))
 
 	HttpResponse response = httpClient.execute(httpPost)
 	return response

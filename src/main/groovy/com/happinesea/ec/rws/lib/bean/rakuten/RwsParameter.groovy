@@ -1,9 +1,15 @@
 package com.happinesea.ec.rws.lib.bean.rakuten
 
 import java.lang.reflect.Field
-import java.nio.charset.StandardCharsets
+import java.nio.charset.Charset
+
+import org.apache.commons.collections.CollectionUtils
+import org.apache.http.HttpEntity
+import org.apache.http.entity.ContentType
+import org.apache.http.entity.mime.MultipartEntityBuilder
 
 import com.happinesea.HappineseaConfig
+import com.happinesea.ec.rws.cs.bean.form.MediaPostForm
 import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.form.RwsBaseForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter.HttpMethod
@@ -82,6 +88,8 @@ class RwsParameter<F extends RwsBaseForm> {
      * フォームオブジェクトのJSON
      */
     private String jsonString
+
+    ContentType DEFAULT_TEXT = ContentType.create("text/plain", Charset.forName(config.defaultEncode))
 
     /**
      * フォーム値のquery stringを取得する<br>
@@ -231,10 +239,10 @@ class RwsParameter<F extends RwsBaseForm> {
 	Map params = requestForm.properties
 	params.each { k,v->
 	    if(k && k != 'class') {
-		String kStr = URLEncoder.encode(k.toString(), StandardCharsets.UTF_8.toString()) + '='
+		String kStr = URLEncoder.encode(k.toString(), config.defaultEncode) + '='
 		resultStr += kStr
 		if(v) {
-		    resultStr += URLEncoder.encode(v.toString(), StandardCharsets.UTF_8.toString())
+		    resultStr += URLEncoder.encode(v.toString(), config.defaultEncode)
 		}
 		resultStr += '&'
 	    }
@@ -248,6 +256,72 @@ class RwsParameter<F extends RwsBaseForm> {
 	queryString = resultStr
 
 	return queryString
+    }
+
+    MultipartEntityBuilder getMultipartEntity() {
+	MultipartEntityBuilder meb = MultipartEntityBuilder.create()
+	if(requestForm == null) {
+	    return meb
+	}
+	Map params = requestForm.properties
+	params.each { k,v->
+	    if(k && k != 'class') {
+		if(v) {
+		    if(v instanceof Collection) {
+			Collection c = (Collection)v
+			if(CollectionUtils.isNotEmpty(c)) {
+			    String keyStr = k.toString() + "[]"
+			    for(Object obj : c) {
+				meb.addTextBody(name: keyStr, text: obj.toString(), DEFAULT_TEXT)
+			    }
+			}
+		    }else if(v instanceof InputStream){
+			meb.addBinaryBody(name: k.toString(), stream: v)
+		    }else {
+			meb.addTextBody(name: k.toString(), text: v.toString(), DEFAULT_TEXT)
+		    }
+		}
+
+	    }
+	}
+
+	return meb
+    }
+
+    HttpEntity getFormEntity(MultipartEntityBuilder builder) {
+
+	if(requestForm == null) {
+	    return null
+	}
+
+	Map params = requestForm.properties
+
+	params.each { k,v->
+	    if(k && k != 'class') {
+		if(v) {
+		    if(v instanceof Collection) {
+			Collection c = (Collection)v
+			if(CollectionUtils.isNotEmpty(c)) {
+			    String keyStr = k.toString() + "[]"
+			    for(Object obj : c) {
+				builder.addTextBody(keyStr, obj.toString(), MediaPostForm.MP_TEXT_PLAIN)
+			    }
+			}
+		    }else if(v instanceof InputStream) {
+			builder.addBinaryBody(
+				"file"
+				, v
+				, ContentType.create(requestForm?.mimeType ? requestForm.mimeType : "image/jpeg")
+				, requestForm?.title ? requestForm?.title : "" )
+		    }else {
+			builder.addTextBody(k.toString(), v.toString(), MediaPostForm.MP_TEXT_PLAIN)
+		    }
+		}
+
+	    }
+	}
+
+	return builder.build()
     }
 
     /**
@@ -272,4 +346,5 @@ class RwsParameter<F extends RwsBaseForm> {
 	jsonString = builder.toString()
 	return jsonString
     }
+
 }
