@@ -195,7 +195,24 @@ class SinaRwsCrawler extends RwsCrawler {
 	}
     }
 
+    //TODO tag update
+    public boolean updateTags(Sql db, String[] tags) {
+	String selectSql = "select tags"
+	return
+
+    }
+
     public static void main(String[] arv) {
+
+	// TMP DB登録
+	def db = Sql.newInstance(
+		'jdbc:mysql://happinesea.com:3306/news?useUnicode=true&characterEncoding=utf8',          // DB接続文字列
+		'news',           // ユーザ名
+		'lTBltwGSHXBckQBG',         // パスワード
+		'com.mysql.jdbc.Driver'  // JDBCドライバ
+		)
+
+
 	SinaRwsCrawler crawler = new SinaRwsCrawler()
 	for(ContentProviderConfig cpc : crawler.cpcs) {
 	    List<Content> contents = crawler.getContentList(cpc)
@@ -213,6 +230,14 @@ class SinaRwsCrawler extends RwsCrawler {
 		    if(!ele) {
 			continue
 		    }
+
+		    // TODO 一時対応
+		    String selectSql = "select * from content_tmp where url = :url"
+		    List result = db.rows(selectSql, [url: c.url])
+		    if(CollectionUtils.isNotEmpty(result)) {
+			continue
+		    }
+
 		    c.body = ele.html()
 		    c.keywords = doc.selectFirst("meta[name=\"keywords\"]").attr("content")
 		    if(c.keywords) {
@@ -287,13 +312,6 @@ class SinaRwsCrawler extends RwsCrawler {
 		}
 	    }
 	    /**/
-	    // TMP DB登録
-	    def db = Sql.newInstance(
-		    'jdbc:mysql://happinesea.com:3306/news?useUnicode=true&characterEncoding=utf8',          // DB接続文字列
-		    'news',           // ユーザ名
-		    'lTBltwGSHXBckQBG',         // パスワード
-		    'com.mysql.jdbc.Driver'  // JDBCドライバ
-		    )
 	    for(Content c : contents) {
 		Map<String, String> params = new HashMap()
 		String selectSql = "select * from content_tmp where url = :url"
@@ -334,10 +352,11 @@ class SinaRwsCrawler extends RwsCrawler {
 		    form.content = obj.body
 		    form.status = STATUS_PUBLISH
 		    form.featured_media = obj.featured_media
-		    if(obj.keywords) {
-			String[] tags = obj.keywords.split(',')
-			form.tags = Arrays.asList(tags)
-		    }
+		    /*TODO add tags
+		     * if(obj.keywords) {
+		     String[] tags = obj.keywords.split(',')
+		     form.tags = Arrays.asList(tags)
+		     }*/
 
 		    List targetCatgories = db.rows("select * from content_tmp_term_rel where content_id = ${obj.id}")
 		    if(CollectionUtils.isNotEmpty(targetCatgories)) {
@@ -346,11 +365,12 @@ class SinaRwsCrawler extends RwsCrawler {
 			    form.categories.add(cat.term_taxonomy_id)
 			}
 		    }
-		    if(obj.has_img_flg == Constant.FLAG_ON) {
+		    if(obj.has_img_flg == Constant.FLAG_ON || obj.has_img_flg == true) {
 			form.categories.add(6)
 		    }
 		    parameter.requestForm = form
-		    crawler.postRestRequest(parameter)
+		    HttpResponse response = crawler.postRestRequest(parameter)
+		    String result = EntityUtils.toString(response.entity)
 		    db.executeUpdate("update content_tmp set status = 1 where id = ${obj.id}")
 		}
 	    }
