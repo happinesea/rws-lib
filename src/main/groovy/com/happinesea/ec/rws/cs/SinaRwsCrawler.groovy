@@ -1,6 +1,7 @@
 
 package com.happinesea.ec.rws.cs
 import org.apache.commons.collections.CollectionUtils
+import org.apache.commons.lang.ArrayUtils
 import org.apache.http.HttpResponse
 import org.apache.http.util.EntityUtils
 import org.jsoup.Jsoup
@@ -12,6 +13,7 @@ import com.happinesea.Constant
 import com.happinesea.ec.rws.cs.bean.Content
 import com.happinesea.ec.rws.cs.bean.ContentProviderConfig
 import com.happinesea.ec.rws.cs.bean.MediaResponseBean
+import com.happinesea.ec.rws.cs.bean.PostsResponseBean
 import com.happinesea.ec.rws.cs.bean.ContentProviderConfig.ContentInfo
 import com.happinesea.ec.rws.cs.bean.ContentProviderConfig.ListInfo
 import com.happinesea.ec.rws.cs.bean.form.MediaPostForm
@@ -202,11 +204,21 @@ class SinaRwsCrawler extends RwsCrawler {
 
     }
 
+
+    /**
+     * 1: host name
+     * 
+     * @param arv
+     */
     public static void main(String[] arv) {
+	if(ArrayUtils.isEmpty(arv)) {
+	    println "host name is emtpy."
+	    System.exit(status: 1)
+	}
 
 	// TMP DB登録
 	def db = Sql.newInstance(
-		'jdbc:mysql://happinesea.com:3306/news?useUnicode=true&characterEncoding=utf8',          // DB接続文字列
+		"jdbc:mysql://${arv[0]}:3306/news?useUnicode=true&characterEncoding=utf8",          // DB接続文字列
 		'news',           // ユーザ名
 		'lTBltwGSHXBckQBG',         // パスワード
 		'com.mysql.jdbc.Driver'  // JDBCドライバ
@@ -344,7 +356,7 @@ class SinaRwsCrawler extends RwsCrawler {
 		header.password = '3GrF nTA2 9JNP 51zN jzni rqCo' // 2MC445sH
 		RwsParameter<RwsItemApiSearchForm> parameter = new RwsParameter()
 		parameter.header = header
-		parameter.requestUri = 'http://test2.happinesea.com'
+		parameter.requestUri = "http://${arv[0]}"
 		parameter.path = '/wp-json/wp/v2/posts'
 		for(Object obj : targetContent) {
 		    WpPostForm form = new WpPostForm()
@@ -371,7 +383,17 @@ class SinaRwsCrawler extends RwsCrawler {
 		    parameter.requestForm = form
 		    HttpResponse response = crawler.postRestRequest(parameter)
 		    String result = EntityUtils.toString(response.entity)
-		    db.executeUpdate("update content_tmp set status = 1 where id = ${obj.id}")
+		    if(result) {
+			RwsResponseJsonParser parser = new RwsResponseJsonParser()
+			PostsResponseBean bean = parser.parse(result, PostsResponseBean)
+			if(bean.id) {
+			    db.executeUpdate("update content_tmp set status = 1 where id = ${bean.id}")
+			}else {
+
+			}
+		    }else {
+
+		    }
 		}
 	    }
 	    /**/
