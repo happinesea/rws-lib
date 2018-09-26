@@ -2,6 +2,7 @@
 package com.happinesea.ec.rws.cs
 import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.lang.ArrayUtils
+import org.apache.commons.lang.builder.ToStringBuilder
 import org.apache.http.HttpResponse
 import org.apache.http.util.EntityUtils
 import org.jsoup.Jsoup
@@ -26,13 +27,16 @@ import com.happinesea.ec.rws.lib.bean.form.rakuten.RwsItemApiSearchForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
 
 import groovy.sql.Sql
+import groovy.util.logging.Log4j2
 
+@Log4j2
 class SinaRwsCrawler extends RwsCrawler {
     static final String STATUS_PUBLISH = 'publish'
     static final String STATUS_FUTURE = 'future'
     static final String STATUS_DRAFT = 'draft'
     static final String STATUS_PEDING = 'pending'
     static final String STATUS_PRIVATE = 'private'
+    static String[] arv = null
 
     List<ContentProviderConfig> cpcs
 
@@ -149,13 +153,13 @@ class SinaRwsCrawler extends RwsCrawler {
 	 .build();
 	 final Post createdPost = client.createPost(post, PostStatus.publish);*/
 	SinaRwsCrawler crawler = new SinaRwsCrawler()
-	println crawler.putImage("http://test1.happinesea.com/wp-content/uploads/2018/08/8844548_banner3-1.jpeg");
+	println crawler.putImage("http://${SinaRwsCrawler.arv[0]}/wp-content/uploads/2018/08/8844548_banner3-1.jpeg");
 
     }
 
-    @Deprecated
     public MediaResponseBean putImage(String urlStr) {
 	try {
+	    log.info("put image: {}", urlStr)
 	    if(urlStr.startsWith("//")) {
 		urlStr = "http:${urlStr}"
 	    }
@@ -175,7 +179,7 @@ class SinaRwsCrawler extends RwsCrawler {
 	    header.userName = 'jc-writer@happinesea.com'
 	    header.password = '3GrF nTA2 9JNP 51zN jzni rqCo' // 2MC445sH
 	    parameter.header = header
-	    parameter.requestUri = 'http://test2.happinesea.com'
+	    parameter.requestUri = "http://${SinaRwsCrawler.arv[0]}"
 	    parameter.path = '/wp-json/wp/v2/media'
 	    //parameter.path = '/info.php'
 
@@ -183,12 +187,16 @@ class SinaRwsCrawler extends RwsCrawler {
 	    form.title =url.file
 	    parameter.requestForm = form
 	    HttpResponse response = postRestRequest(parameter)
+
+	    log.info("put media: {} -> {}", parameter.requestUri, form.title)
 	    String result = EntityUtils.toString(response.entity)
 	    if(result) {
 		RwsResponseJsonParser parser = new RwsResponseJsonParser()
 		MediaResponseBean bean = parser.parse(result, MediaResponseBean)
+		log.info("put media result: {}", ToStringBuilder.reflectionToString(bean))
 		return bean
 	    }else {
+		log.info("put media response nothing")
 		return null
 	    }
 	}catch(Exception e) {
@@ -210,10 +218,11 @@ class SinaRwsCrawler extends RwsCrawler {
      * 
      * @param arv
      */
-    public static void main(String[] arv) {
+    public static void main(String[] arv) throws Exception {
+	SinaRwsCrawler.arv = arv
 	if(ArrayUtils.isEmpty(arv)) {
 	    println "host name is emtpy."
-	    System.exit(status: 1)
+	    System.exit(1)
 	}
 
 	// TMP DB登録
@@ -289,7 +298,7 @@ class SinaRwsCrawler extends RwsCrawler {
 				 // 画面のURLを置き換え
 				 String p = newFile.getPath()*/
 
-				println "post img ${src}"
+				log.info( "post img ${src}")
 				MediaResponseBean p = crawler.putImage(src)
 				if(!c.featured_media) {
 				    c.featured_media = p.id
@@ -299,7 +308,7 @@ class SinaRwsCrawler extends RwsCrawler {
 				if(crawler.getHttpPath(p.source_url)) {
 				    c.body = c.body.replace(/${orgSrc}/, crawler.getHttpPath(p.source_url))
 				}else {
-				    println "${p.source_url} is empty."
+				    log.info("${p.source_url} is empty.")
 				}
 			    }catch(Exception e) {
 				e.printStackTrace()
