@@ -246,4 +246,18 @@ public class RwsCrawler {
 	HttpResponse response = httpClient.execute(httpPost)
 	return response
     }
+    public HttpResponse postStringRequest(RwsParameter parameter, String text) throws IOException, ClientProtocolException{
+	HttpClient httpClient = init(parameter)
+
+	HttpPost httpPost = new HttpPost(parameter.getRequestUri() + parameter.getPath());
+	StringEntity entity = new StringEntity(text, config.defaultEncode)
+	httpPost.setEntity(entity)
+
+	if(log.isDebugEnabled()) {
+	    log.debug("request json body({}) string ->{} ", entity.getContentLength(), parameter.getJsonString())
+	}
+
+	HttpResponse response = httpClient.execute(httpPost)
+	return response
+    }
 }

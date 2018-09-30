@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 
 import com.happinesea.Constant
+import com.happinesea.ec.rws.cs.bean.BaiduUrlResponseBean
 import com.happinesea.ec.rws.cs.bean.Content
 import com.happinesea.ec.rws.cs.bean.ContentProviderConfig
 import com.happinesea.ec.rws.cs.bean.MediaResponseBean
@@ -25,6 +26,7 @@ import com.happinesea.ec.rws.lib.bean.RwsRequestHeaderBean
 import com.happinesea.ec.rws.lib.bean.enumerated.ApiTypeEnum
 import com.happinesea.ec.rws.lib.bean.form.rakuten.RwsItemApiSearchForm
 import com.happinesea.ec.rws.lib.bean.rakuten.RwsParameter
+import com.happinesea.ec.rws.lib.util.StringUtils
 
 import groovy.sql.Sql
 import groovy.util.logging.Log4j2
@@ -36,6 +38,7 @@ class SinaRwsCrawler extends RwsCrawler {
     static final String STATUS_DRAFT = 'draft'
     static final String STATUS_PEDING = 'pending'
     static final String STATUS_PRIVATE = 'private'
+    static final int MAX_PUT_IMAGE_COUNT = 1
     static String[] arv = null
 
     List<ContentProviderConfig> cpcs
@@ -60,6 +63,7 @@ class SinaRwsCrawler extends RwsCrawler {
 	//.contentInfo.dateSelect = '.date-source span'
 	international.categoryId = 5
 	international.srcSite = 'sina'
+	international.copyright = '<br/><br/><br/><br/>来源：新浪网'
 	cpcs.add(international)
 
 	ContentProviderConfig fashion = new ContentProviderConfig()
@@ -81,6 +85,7 @@ class SinaRwsCrawler extends RwsCrawler {
 	//china.contentInfo.dateSelect = '.date-source span'
 	china.categoryId = 11
 	china.srcSite = 'sina'
+	china.copyright = '<br/><br/><br/><br/>来源：新浪网'
 	cpcs.add(china)
     }
 
@@ -260,6 +265,9 @@ class SinaRwsCrawler extends RwsCrawler {
 		    }
 
 		    c.body = ele.html()
+		    if(cpc.copyright) {
+			c.body += cpc.copyright
+		    }
 		    c.keywords = doc.selectFirst("meta[name=\"keywords\"]").attr("content")
 		    if(c.keywords) {
 			c.keywords = c.keywords.replace(" ", "")
@@ -269,7 +277,11 @@ class SinaRwsCrawler extends RwsCrawler {
 		    Elements imageElements = ele.select("img")
 		    if(imageElements != null && !imageElements.isEmpty()) {
 			RwsCrawler imgCraw = new RwsCrawler()
-			for(int i = 0; i < imageElements.size(); i++) {
+			int maxPutImageCount = imageElements.size();
+			if(MAX_PUT_IMAGE_COUNT < maxPutImageCount) {
+			    maxPutImageCount = MAX_PUT_IMAGE_COUNT
+			}
+			for(int i = 0; i < maxPutImageCount; i++) {
 
 			    String orgSrc = imageElements.get(i).attr("src")
 			    if(!(orgSrc.startsWith("//") || orgSrc.startsWith("http"))) {
@@ -367,6 +379,7 @@ class SinaRwsCrawler extends RwsCrawler {
 		parameter.header = header
 		parameter.requestUri = "http://${arv[0]}"
 		parameter.path = '/wp-json/wp/v2/posts'
+		List<PostsResponseBean> resultList = new ArrayList()
 		for(Object obj : targetContent) {
 		    WpPostForm form = new WpPostForm()
 		    form.title = obj.title
@@ -396,12 +409,48 @@ class SinaRwsCrawler extends RwsCrawler {
 			RwsResponseJsonParser parser = new RwsResponseJsonParser()
 			PostsResponseBean bean = parser.parse(result, PostsResponseBean)
 			if(bean.id) {
+			    bean.path = StringUtils.cutBefor(bean.link, arv[0])
+			    resultList.add(bean)
 			    db.executeUpdate("update content_tmp set status = 1 where id = ${bean.id}")
 			}else {
 
 			}
 		    }else {
 
+		    }
+		}
+
+		// put baidu
+		String selectSiteSql = "select site_mst_id, domain, site_group_id from wp_site_mst where deleted = 0"
+		List siteList = db.rows(selectSiteSql)
+		if(CollectionUtils.isNotEmpty(siteList)) {
+
+		    for(Object obj: siteList) {
+			//obj.domain
+
+			String token = "j0kXuxpV6qMqpZQf"
+			if(obj.domain == "baidu.tokyo" || obj.domain == "www.loveapple.cn" || obj.domain.endsWith("happinesea.com")) {
+			    token = "3Ur1JWOgtiVLQ8CG"
+			}
+
+			parameter.header = new RwsRequestHeaderBean()
+			parameter.requestUri = "http://data.zz.baidu.com"
+			parameter.path = "/update?site=${obj.domain}&token=${token}"
+
+			String body = ""
+			for(PostsResponseBean post : resultList) {
+			    body += "http://${obj.domain}${post.path}\n"
+			}
+			HttpResponse baiduUrlResult = crawler.postStringRequest(parameter, body)
+			//
+			String result = EntityUtils.toString(baiduUrlResult.entity)
+			if(result) {
+			    RwsResponseJsonParser parser = new RwsResponseJsonParser()
+			    BaiduUrlResponseBean bean = parser.parse(result, BaiduUrlResponseBean)
+			    log.info("put {} url result: {}", obj.domain, ToStringBuilder.reflectionToString(bean))
+			}else {
+			    log.info("put {} url response nothing", obj.domain)
+			}
 		    }
 		}
 	    }

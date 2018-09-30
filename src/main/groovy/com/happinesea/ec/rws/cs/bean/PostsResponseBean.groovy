@@ -6,4 +6,6 @@ class PostsResponseBean implements ApiResponseNode {
     Integer id
     String date
     String date_gmt
+    String link
+    String path
 }

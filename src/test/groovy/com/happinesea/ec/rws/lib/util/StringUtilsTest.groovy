@@ -35,4 +35,14 @@ class StringUtilsTest {
 	assertEquals 'あいう', StringUtils.changeFirstCharToLower('あいう')
 	assertEquals '1bc', StringUtils.changeFirstCharToLower('1bc')
     }
+
+    @Test
+    public void testCutBefor() {
+	assertNull StringUtils.cutBefor(null, null)
+	assertNull StringUtils.cutBefor(null, null)
+	assertEquals 'a', StringUtils.cutBefor("a", null)
+	assertEquals '/abcd', StringUtils.cutBefor("http://baidu.tokyo/abcd", "baidu.tokyo")
+	assertEquals 'http://baidu.tokyo/abcd', StringUtils.cutBefor("http://baidu.tokyo/abcd", "x")
+	assertEquals '.tokyo/abcd', StringUtils.cutBefor("http://baidu.tokyo/abcd", "baidu")
+    }
 }

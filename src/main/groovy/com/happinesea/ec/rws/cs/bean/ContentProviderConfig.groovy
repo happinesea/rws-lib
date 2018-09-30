@@ -9,6 +9,7 @@ class ContentProviderConfig {
     Integer categoryId
     Integer imgCategoryId
     String srcSite
+    String copyright
 
     static class ListInfo{
 	String targetUrl

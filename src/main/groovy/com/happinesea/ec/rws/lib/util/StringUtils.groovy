@@ -91,4 +91,16 @@ class StringUtils {
      }
      return true
      }*/
+    /**
+     * 
+     * @param target
+     * @param val
+     * @return
+     */
+    public static String cutBefor(String target, String val) {
+	if(!target || !val) {
+	    return target
+	}
+	return target.substring(target.indexOf(val) + val.length())
+    }
 }
