@@ -420,6 +420,7 @@ class SinaRwsCrawler extends RwsCrawler {
 			    bean.path = StringUtils.cutBefor(bean.link, arv[0])
 			    resultList.add(bean)
 			    db.executeUpdate("update content_tmp set status = 1 where id = ${bean.id}")
+			    log.info("success post: {}", bean.path)
 			}else {
 
 			}
