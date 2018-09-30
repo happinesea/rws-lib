@@ -39,6 +39,7 @@ class SinaRwsCrawler extends RwsCrawler {
     static final String STATUS_PEDING = 'pending'
     static final String STATUS_PRIVATE = 'private'
     static final int MAX_PUT_IMAGE_COUNT = 1
+    static final File TMP_FILE = new File('/tmp/SinaRwsCrawler')
     static String[] arv = null
 
     List<ContentProviderConfig> cpcs
@@ -224,10 +225,25 @@ class SinaRwsCrawler extends RwsCrawler {
      * @param arv
      */
     public static void main(String[] arv) throws Exception {
+	if(TMP_FILE.exists()) {
+	    log.info("{} is processing", this.getClass().getName())
+	    System.exit(0)
+	}
+
+	// create tmp
+	if(!TMP_FILE.getParentFile().isDirectory()) {
+	    TMP_FILE.getParentFile().mkdirs()
+	}
+	RandomAccessFile file = new RandomAccessFile(TMP_FILE, "rw");
+	file.setLength(0)
+	file.close()
+	TMP_FILE.deleteOnExit()
+
 	if(ArrayUtils.isEmpty(arv)) {
 	    arv = new String[1]
 	    arv[0] = "baidu.tokyo"
 	}
+
 	SinaRwsCrawler.arv = arv
 
 	if(ArrayUtils.isEmpty(arv)) {
@@ -236,7 +252,6 @@ class SinaRwsCrawler extends RwsCrawler {
 	}
 
 	log.info("start {}  -> {}", this.getClass().getName(), arv[0])
-
 
 	// TMP DB登録
 	def db = Sql.newInstance(
