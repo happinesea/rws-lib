@@ -224,11 +224,19 @@ class SinaRwsCrawler extends RwsCrawler {
      * @param arv
      */
     public static void main(String[] arv) throws Exception {
-	SinaRwsCrawler.arv = arv
 	if(ArrayUtils.isEmpty(arv)) {
-	    println "host name is emtpy."
+	    arv = new String[1]
+	    arv[0] = "baidu.tokyo"
+	}
+	SinaRwsCrawler.arv = arv
+
+	if(ArrayUtils.isEmpty(arv)) {
+	    log.error("host name is emtpy.")
 	    System.exit(1)
 	}
+
+	log.info("start {}  -> {}", this.getClass().getName(), arv[0])
+
 
 	// TMP DB登録
 	def db = Sql.newInstance(
