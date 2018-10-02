@@ -30,6 +30,8 @@ import com.happinesea.ec.rws.lib.util.StringUtils
 
 import groovy.sql.Sql
 import groovy.util.logging.Log4j2
+import groovyx.net.http.ContentType
+
 
 @Log4j2
 class SinaRwsCrawler extends RwsCrawler {
@@ -367,6 +369,7 @@ class SinaRwsCrawler extends RwsCrawler {
 		    continue
 		}
 	    }
+	    log.info("Read recode count: {}", contents.size());
 	    /**/
 	    for(Content c : contents) {
 		Map<String, String> params = new HashMap()
@@ -434,7 +437,7 @@ class SinaRwsCrawler extends RwsCrawler {
 			if(bean.id) {
 			    bean.path = StringUtils.cutBefor(bean.link, arv[0])
 			    resultList.add(bean)
-			    db.executeUpdate("update content_tmp set status = 1 where id = ${bean.id}")
+			    db.executeUpdate("update content_tmp set status = 1 where id = ${obj.id}")
 			    log.info("success post: {}", bean.path)
 			}else {
 
@@ -460,6 +463,7 @@ class SinaRwsCrawler extends RwsCrawler {
 			parameter.header = new RwsRequestHeaderBean()
 			parameter.requestUri = "http://data.zz.baidu.com"
 			parameter.path = "/update?site=${obj.domain}&token=${token}"
+			parameter.header.contentType = ContentType.TEXT
 
 			String body = ""
 			for(PostsResponseBean post : resultList) {
