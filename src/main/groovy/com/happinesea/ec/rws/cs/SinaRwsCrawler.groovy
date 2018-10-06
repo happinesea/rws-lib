@@ -462,7 +462,7 @@ class SinaRwsCrawler extends RwsCrawler {
 
 			parameter.header = new RwsRequestHeaderBean()
 			parameter.requestUri = "http://data.zz.baidu.com"
-			parameter.path = "/update?site=${obj.domain}&token=${token}"
+			parameter.path = "/urls?site=${obj.domain}&token=${token}"
 			parameter.header.contentType = ContentType.TEXT
 
 			String body = ""
