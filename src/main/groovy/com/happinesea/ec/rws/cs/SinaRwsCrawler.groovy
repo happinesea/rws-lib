@@ -73,6 +73,19 @@ class SinaRwsCrawler extends RwsCrawler {
 
 	ContentProviderConfig health = new ContentProviderConfig()
 	ContentProviderConfig finance = new ContentProviderConfig()
+	finance.listInfo = new ListInfo()
+	finance.contentInfo = new ContentInfo()
+	finance.listInfo.targetUrl = 'https://finance.sina.com.cn/'
+	finance.listInfo.recordSelect = '.m-list li'
+	finance.listInfo.titleSelect = 'a'
+	finance.listInfo.contetUrlSelect = 'href'
+	finance.contentInfo.contentSelect = new ArrayList()
+	finance.contentInfo.contentSelect.add('#article')
+	finance.contentInfo.contentSelect.add('#artibody')
+	finance.categoryId = 8
+	finance.srcSite = 'sina'
+	finance.copyright = '<br/><br/><br/><br/>来源：新浪网'
+	cpcs.add(finance)
 	ContentProviderConfig ent = new ContentProviderConfig()
 	ContentProviderConfig sports = new ContentProviderConfig()
 	ContentProviderConfig china = new ContentProviderConfig()
